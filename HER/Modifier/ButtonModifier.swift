@@ -1,0 +1,45 @@
+//
+//  ButtonModifier.swift
+//  HER
+//
+//  Created by Dustin yang on 3/22/21.
+//
+
+
+import SwiftUI
+
+struct ButtonModifier: ViewModifier {
+  func body(content: Content) -> some View {
+    content
+      .font(.headline)
+      .padding()
+      .frame(minWidth: 0, maxWidth: .infinity)
+      .background(Capsule().fill(APP_THEME_COLOR))
+      .foregroundColor(Color.white)
+  }
+}
+
+
+struct TextFieldModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content.padding()
+            .border(COLOR_LIGHT_GRAY, width: 1)
+            .padding([.top, .leading, .trailing])
+    }
+}
+
+struct SigninButtonModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content.padding().background(LinearGradient(gradient: .init(colors: [APP_THEME_COLOR,Color("Color1-2")]), startPoint: .leading, endPoint: .trailing)).cornerRadius(5).shadow(radius: 10, x: 0, y: 10).padding()
+        
+    }
+}
+
+
+struct SigninButtonModifier2: ViewModifier {
+    func body(content: Content) -> some View {
+        content.background(APP_THEME_COLOR)
+        .clipShape(Capsule())
+        
+    }
+}

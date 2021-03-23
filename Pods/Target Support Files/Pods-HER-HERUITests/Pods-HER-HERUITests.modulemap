@@ -1,0 +1,6 @@
+framework module Pods_HER_HERUITests {
+  umbrella header "Pods-HER-HERUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
