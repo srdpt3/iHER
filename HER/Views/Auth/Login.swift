@@ -87,7 +87,16 @@ struct Login: View {
         .overlay(
         
             Button(action: {
-                print("Login")
+                
+                homeData.signin(email:  homeData.email, password: homeData.password) { (User) in
+                    print("login \(homeData.email)")
+
+                } onError: { (errorMessage) in
+                    print("Error: \(errorMessage)")
+                }
+
+                
+            
             }, label: {
                 
                 Image("right")

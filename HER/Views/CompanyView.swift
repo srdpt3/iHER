@@ -11,83 +11,80 @@ import SDWebImageSwiftUI
 struct CompanyView: View {
     @EnvironmentObject var companyData: Observer
     @State var showDashBoardView : Bool = false
-    
+    @State var companyName : String = "Uber"
+
     var body: some View {
         // Navigation View...
-        
-        ScrollView(.vertical, showsIndicators: false, content: {
-            
-            VStack(spacing: 15){
-                Spacer()
-                // Search Bar...
-                HStack(spacing: 10){
+      
+            VStack {
+                ScrollView(.vertical, showsIndicators: false, content: {
                     
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(.gray)
-                    
-                    TextField("Search Company", text: $companyData.searchQuery)
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
-                }
-                .padding(.vertical,10)
-                .padding(.horizontal)
-                .background(Color.white)
-                // Shadows..
-                .shadow(color: Color.black.opacity(0.06), radius: 5, x: 5, y: 5)
-                .shadow(color: Color.black.opacity(0.06), radius: 5, x: -5, y: -5)
-            }
-            .padding()
-            
-            if let companies = companyData.fetchedCompany{
-                
-                if companies.isEmpty{
-                    // No results...
-                    Text("No Results Found")
-                        .padding(.top,20)
-                }
-                else{
-                    
-                    // Displaying results....
-                    ForEach(companies,id: \.Bgei_Score){data in
-                        
-                        CompanyRowView(company: data)
-                            .onTapGesture {
-                                
-                                
-                                withAnimation{
-                                    
-                                    self.showDashBoardView = true
-                                    
-                                }
-                                
-                            }
-                        
-                        
-                        Divider()
-                        
-                    }  .sheet(isPresented: self.$showDashBoardView){
-                        CommentView()
+                    VStack(spacing: 15){
+//                        Spacer()
+                        // Search Bar...
+                        HStack(spacing: 10){
+                            
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.gray)
+                            
+                            TextField("Search Company", text: $companyData.searchQuery)
+                                .autocapitalization(.none)
+                                .disableAutocorrection(true)
+                        }
+                        .padding(.vertical,10)
+                        .padding(.horizontal)
+                        .background(Color.white)
+                        // Shadows..
+                        .shadow(color: Color.black.opacity(0.06), radius: 5, x: 5, y: 5)
+                        .shadow(color: Color.black.opacity(0.06), radius: 5, x: -5, y: -5)
                     }
-                }
+                    .padding()
+                    
+                    if let companies = companyData.fetchedCompany{
+
+                            // Displaying results....
+                            ForEach(companies,id: \.Bgei_Score){data in
+                                
+                                CompanyRowView(company: data)
+                                    .onTapGesture {
+                                        
+                                        
+                                        withAnimation{
+                                            
+                                            self.showDashBoardView = true
+                                            
+                                        }
+                                        
+                                    }
+                                
+                                
+                                Divider()
+                                
+                            }  .sheet(isPresented: self.$showDashBoardView){
+                                CommentView(companyName: self.$companyName, show: self.$showDashBoardView)
+                            }
+                       
+                    }
+                    else{
+                        if companyData.searchQuery != ""{
+                            // Loading Screem...
+                            ProgressView()
+                                .padding(.top,20)
+                        }
+                    }
+                })
+        //        .navigationTitle("Companies")
+                .background(Color("bg").ignoresSafeArea(.all, edges: .all))
+                .padding(.vertical,-10)
+                
+                Spacer()
             }
-            else{
-                if companyData.searchQuery != ""{
-                    // Loading Screem...
-                    ProgressView()
-                        .padding(.top,20)
-                }
-            }
-        })
-        .edgesIgnoringSafeArea(.all)
-        .navigationTitle("Companies")
-        .navigationBarHidden(true)
-        .padding(.vertical, -5)
-        
-        
+      
+      
+
     }
     
 }
-
 struct CompanyView_Previews: PreviewProvider {
     static var previews: some View {
         CompanyView()
@@ -97,17 +94,19 @@ struct CompanyView_Previews: PreviewProvider {
 struct CompanyRowView: View {
     
     var company: Company
-    
+    var randomFloat = CGFloat.random(in: 0...1)
+
     var body: some View{
         
         HStack(alignment: .top,spacing: 10){
-            
+            let number = Float.random(in: 50..<100)
+
             WebImage(url: URL(string:company.logo)!)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 150, height: 150)
+                .frame(width: 140, height: 140)
                 .cornerRadius(8)
-            Spacer()
+//            Spacer()
             VStack(alignment: .leading, spacing: 8, content: {
                 
                 Text(company.Company_Name)
@@ -115,42 +114,34 @@ struct CompanyRowView: View {
                     .fontWeight(.bold)
                     .foregroundColor(.gray)
                 
-                
+
                 HStack{
-                    Text("Hard Score")
+                    Text("Data Score")
                         .font(.caption)
                         .foregroundColor(.gray)
-                        .lineLimit(4)
-                        .multilineTextAlignment(.leading)
-                    Text(String(company.Bgei_Score))
+//                        .lineLimit(4)
+                    Text(String(((company.Bgei_Score) * 100).rounded()))
                         .font(.caption)
                         .foregroundColor(Color("Color3"))
                         .lineLimit(4)
                         .multilineTextAlignment(.leading)
                 }
-                
+
                 HStack{
-                    Text("Soft Score")
+                    Text("Sentimental Score")
                         .font(.caption)
                         .foregroundColor(.gray)
-                        .lineLimit(4)
-                        .multilineTextAlignment(.leading)
-                    Text(String(company.Bgei_Score))
+//                        .lineLimit(4)
+                    Text(String(number.rounded()))
                         .font(.caption)
-                        .foregroundColor(Color("Color3"))
+                        .foregroundColor(Color("ColorPink"))
                         .lineLimit(4)
                         .multilineTextAlignment(.leading)
                 }
-                
-                
-                
-                
-                
-                
-                
+
                 Text("Website")
                     .font(.caption)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.blue)
                     .lineLimit(4)
                     .multilineTextAlignment(.leading)
                 
@@ -177,7 +168,7 @@ struct CompanyRowView: View {
                 //                            })
                 //                    }
                 //                }
-            })
+            }).padding(.leading)
             
             Spacer(minLength: 0)
         }

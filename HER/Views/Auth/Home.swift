@@ -23,11 +23,7 @@ struct Home: View {
 //                        .fontWeight(.bold)
 //                        .foregroundColor(.black)
 //                        .padding(.leading,25)
-                    Text("Measuring women \nwell being at work")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundColor(.black)
-                        .padding(.leading,25)
+      
                     
                     Spacer()
                 }
@@ -53,7 +49,29 @@ struct Home: View {
                         
                     },alignment: .bottomLeading
                 )
-                
+       
+                Text("Measuring women \nwell being at work")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundColor(.black)
+                    .padding(.leading,25)
+                    .padding(.vertical)
+                Spacer()
+                HStack{
+                    Text("iHer-Score")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color("ColorPink"))
+                        .padding(.leading,19)
+                    Spacer()
+
+                    Text("Empowered by information wecan lead cultural transformations and close \nthe gender gap. HER provides an unbiased source of information to empower women")
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.gray)
+                        .padding(.trailing,19)
+                }
+
                 Image("logo")
                     .resizable()
                     .aspectRatio(contentMode: .fit)

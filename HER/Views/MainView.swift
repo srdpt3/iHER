@@ -16,6 +16,7 @@ struct MainView: View {
     
     
     var body: some View {
+        
         subMainView()
     }
 }
@@ -24,47 +25,51 @@ struct MainView: View {
 struct subMainView : View {
     @StateObject var obs = Observer()
     @State var index = 0
-    var body: some View {
-        
-        VStack{
-            
-            ZStack{
-                
-                if self.index == 0{
-//                    print(companyData.fetchedCompany)
 
-                    CompanyView()
-                        .background(Color("bg").ignoresSafeArea(.all, edges: .all))
-                        .environmentObject(obs)
+    var body: some View {
+            VStack{
+
+                ZStack{
+                    
+                    if self.index == 0{
+                        //                    print(companyData.fetchedCompany)
+                            CompanyView()
+                                .environmentObject(obs)
+                      
+                        
+                    }
+                    
+                    else if self.index == 1{
+                        Color.blue
+                    }
+                    else if self.index == 2{
+                        Color.blue
+                        //                         .environmentObject(self.obs)
+                    }
+                    else if self.index == 3{
+                        Color.blue
+                    }
                 }
                 
-                else if self.index == 1{
-                    Color.blue
+                ZStack{
+                    Spacer()
+                    
+                    TabBar(index: self.$index)
+                        .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(Color.white), alignment: .top)
+                        .offset(y: -5)
+                        .background(Color.white.edgesIgnoringSafeArea(.bottom))
+                        .opacity(self.obs.isLoading == true ? 0 : 1)
+                        .opacity(self.obs.showTab == true  ? 0 : 1)
                 }
-                else if self.index == 2{
-                    Color.blue
-                    //                         .environmentObject(self.obs)
-                }
-                else if self.index == 3{
-                    Color.blue
-                }
-            }
-            
-            ZStack{
-                Spacer()
                 
-                TabBar(index: self.$index)
-                    .overlay(Rectangle().frame(width: nil, height: 1, alignment: .top).foregroundColor(Color.white), alignment: .top).offset(y: -5)
-                    .background(Color.white.edgesIgnoringSafeArea(.bottom))
-                    .opacity(self.obs.isLoading == true ? 0 : 1)
-                    .opacity(self.obs.showTab == true  ? 0 : 1)
-            }
-            
-            
-            
-        }.onAppear(){
-            self.obs.getCompanyList()
-        }
+                
+                
+            }.onAppear(){
+//                AuthService.logout()
+                self.obs.getCompanyList()
+            }.navigationBarHidden(true)
+            .background(Color("bg"))
+
         
         
         //                VStack(spacing: 0){

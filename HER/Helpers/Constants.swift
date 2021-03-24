@@ -151,4 +151,10 @@ class Ref {
         return FIRESTORE_COLLECTION_COMPANY.document()
     }
     
+    static var FIRESTORE_COLLECTION_SCORE = FIRESTORE_ROOT.collection("score")
+    static func FIRESTORE_COLLECTION_SCORES(name:String) -> DocumentReference {
+        return FIRESTORE_COLLECTION_COMPANY.document(name)
+        
+    }
+    
 }

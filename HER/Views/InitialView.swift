@@ -14,7 +14,7 @@ enum ActiveAlert {
 struct InitialView: View {
     
 //    @EnvironmentObject var session: SessionStore
-   @EnvironmentObject var obs : Observer
+    @EnvironmentObject var obs : Observer
     @State var noConnection : Bool = false
     @State var showSplash = true
 
@@ -35,26 +35,27 @@ struct InitialView: View {
         NavigationView{
             ZStack{
 
-               if(!LandingView.shouldAnimate){
-
+              if(!LandingView.shouldAnimate){
                     if(self.obs.isLoggedIn){
                         MainView().background(Color("bg"))
 
 //
 
                     }else{
-//                        Home()
-                        Home()
+//                        MainView().background(Color("bg"))
+
+                       Home()
                     }
 
-
-                }
+            }
 
                 LandingView()
                     .opacity(showSplash ? 1 : 0)
 
 
                     .onAppear {
+                        AuthService.logout()
+
                         self.listen()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             LandingView.shouldAnimate = false
@@ -64,10 +65,12 @@ struct InitialView: View {
                         }
                 }
             
-            }.onAppear(){
-                self.listen()
             }
         }
+
+     
+
+      
 
         
         

@@ -15,6 +15,11 @@
 		11D10077260A1DDB008E85C7 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D10076260A1DDB008E85C7 /* MainView.swift */; };
 		11D100A3260A91C2008E85C7 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D100A2260A91C2008E85C7 /* CommentView.swift */; };
 		11D100A8260A9611008E85C7 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D100A7260A9611008E85C7 /* ChartView.swift */; };
+		11D100B0260AC8D6008E85C7 /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D100AF260AC8D6008E85C7 /* Score.swift */; };
+		11D100B5260ACE62008E85C7 /* ChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D100B4260ACE62008E85C7 /* ChartViewModel.swift */; };
+		11D100BA260AD081008E85C7 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D100B9260AD081008E85C7 /* LoadingView.swift */; };
+		11D100BF260AD0C2008E85C7 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D100BE260AD0C2008E85C7 /* ScoreView.swift */; };
+		11D100D0260AFD82008E85C7 /* ChartView_Sample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D100CF260AFD82008E85C7 /* ChartView_Sample.swift */; };
 		11D1FF0926093F95008E85C7 /* HERApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D1FF0826093F95008E85C7 /* HERApp.swift */; };
 		11D1FF0D26093F98008E85C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11D1FF0C26093F98008E85C7 /* Assets.xcassets */; };
 		11D1FF1026093F98008E85C7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11D1FF0F26093F98008E85C7 /* Preview Assets.xcassets */; };
@@ -72,6 +77,11 @@
 		11D10076260A1DDB008E85C7 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		11D100A2260A91C2008E85C7 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		11D100A7260A9611008E85C7 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		11D100AF260AC8D6008E85C7 /* Score.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
+		11D100B4260ACE62008E85C7 /* ChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewModel.swift; sourceTree = "<group>"; };
+		11D100B9260AD081008E85C7 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		11D100BE260AD0C2008E85C7 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
+		11D100CF260AFD82008E85C7 /* ChartView_Sample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView_Sample.swift; sourceTree = "<group>"; };
 		11D1FF0526093F95008E85C7 /* HER.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HER.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		11D1FF0826093F95008E85C7 /* HERApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HERApp.swift; sourceTree = "<group>"; };
 		11D1FF0C26093F98008E85C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -213,6 +223,7 @@
 				11D1FF9F26098957008E85C7 /* Company.swift */,
 				11D1FFE526099313008E85C7 /* User.swift */,
 				11D1FFEA26099356008E85C7 /* UserProfile.swift */,
+				11D100AF260AC8D6008E85C7 /* Score.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -226,6 +237,8 @@
 				11D1FFA526098C8A008E85C7 /* InitialView.swift */,
 				11D10076260A1DDB008E85C7 /* MainView.swift */,
 				11D100A2260A91C2008E85C7 /* CommentView.swift */,
+				11D100B9260AD081008E85C7 /* LoadingView.swift */,
+				11D100BE260AD0C2008E85C7 /* ScoreView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -240,6 +253,7 @@
 				11D1FFF526099568008E85C7 /* Extension.swift */,
 				11D1006E260A0B67008E85C7 /* WebView.swift */,
 				11D100A7260A9611008E85C7 /* ChartView.swift */,
+				11D100CF260AFD82008E85C7 /* ChartView_Sample.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -249,6 +263,7 @@
 			children = (
 				11D1FFB226098DAF008E85C7 /* Auth */,
 				11D1FFFA26099664008E85C7 /* Observer.swift */,
+				11D100B4260ACE62008E85C7 /* ChartViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -554,6 +569,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				11D1FFC126099047008E85C7 /* Reachabilty.swift in Sources */,
+				11D100BF260AD0C2008E85C7 /* ScoreView.swift in Sources */,
+				11D100D0260AFD82008E85C7 /* ChartView_Sample.swift in Sources */,
 				11D1FFF126099447008E85C7 /* ButtonModifier.swift in Sources */,
 				11D1FFC62609912B008E85C7 /* UserViewModel.swift in Sources */,
 				11D100A8260A9611008E85C7 /* ChartView.swift in Sources */,
@@ -564,9 +581,11 @@
 				11D1FFCB26099155008E85C7 /* SignUpView.swift in Sources */,
 				11D1001926099DBA008E85C7 /* LoginViewModel.swift in Sources */,
 				11D100A3260A91C2008E85C7 /* CommentView.swift in Sources */,
+				11D100B0260AC8D6008E85C7 /* Score.swift in Sources */,
 				11D1FFDB26099283008E85C7 /* SignupViewModel.swift in Sources */,
 				11D1FFE626099313008E85C7 /* User.swift in Sources */,
 				11D1FFEB26099357008E85C7 /* UserProfile.swift in Sources */,
+				11D100B5260ACE62008E85C7 /* ChartViewModel.swift in Sources */,
 				11D1FFD026099193008E85C7 /* Keyboard.swift in Sources */,
 				11D1FF9B260986DE008E85C7 /* CompanyView.swift in Sources */,
 				11D1006F260A0B67008E85C7 /* WebView.swift in Sources */,
@@ -580,6 +599,7 @@
 				11D1FFBC26098E0C008E85C7 /* Constants.swift in Sources */,
 				11D1FFFB26099664008E85C7 /* Observer.swift in Sources */,
 				11D1000A26099CF9008E85C7 /* Home.swift in Sources */,
+				11D100BA260AD081008E85C7 /* LoadingView.swift in Sources */,
 				11D1FFE1260992C4008E85C7 /* AuthService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -738,6 +758,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"HER/Preview Content\"";
 				DEVELOPMENT_TEAM = CSE9343A58;
@@ -748,8 +769,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = frontyard.HER;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blk.her;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -761,6 +783,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"HER/Preview Content\"";
 				DEVELOPMENT_TEAM = CSE9343A58;
@@ -771,8 +794,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = frontyard.HER;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blk.her;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

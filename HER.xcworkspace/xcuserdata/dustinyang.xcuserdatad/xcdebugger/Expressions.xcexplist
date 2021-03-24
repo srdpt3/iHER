@@ -3,6 +3,9 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "-[FIRDocumentReference wrapDocumentSnapshotBlock:]::Converter::OnEvent(firebase::firestore::util::StatusOr&lt;firebase::firestore::api::DocumentSnapshot&gt;):FIRDocumentReference.mm">
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in Observer.getCompanyList():Observer.swift">
          <PersistentStrings>
             <PersistentString
@@ -10,6 +13,23 @@
             </PersistentString>
             <PersistentString
                value = "dict">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ChartViewModel.loadChartData(companyName:onSuccess:):ChartViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "document">
+            </PersistentString>
+            <PersistentString
+               value = "document.data()">
+            </PersistentString>
+            <PersistentString
+               value = "querySnapshot">
+            </PersistentString>
+            <PersistentString
+               value = "querySnapshot.documentID">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

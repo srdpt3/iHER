@@ -12,6 +12,21 @@ import Firebase
 import FirebaseStorage
 class AuthService {
     
+    static func logout(){
+        do {
+            
+         
+            try Auth.auth().signOut()
+            
+            
+            
+            
+            //            unbind()
+        } catch  {
+            print("Logout Failed")
+        }
+    }
+    
     static func signInUser(email: String, password: String, onSuccess: @escaping(_ user: User) -> Void, onError: @escaping(_ errorMessage: String) -> Void) {
         
         
