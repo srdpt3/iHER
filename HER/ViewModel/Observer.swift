@@ -32,7 +32,8 @@ class Observer : ObservableObject{
     @Published var isReloading : Bool = false
     @Published var newNotification : Bool = false
     @Published var fetchedCompany: [Company] = []
-    
+    @Published var myCompany: Company?
+
     //    @Published var activityArray = [UserNotification]()
     //    @Published var selectedUser = ActiveVote?
     
@@ -61,6 +62,10 @@ class Observer : ObservableObject{
                 
                 guard let decoderActivity = try? Company.init(fromDictionary: dict) else {return}
                 
+                if(decoderActivity.Company_Name == User.currentUser()!.company){
+                    print(User.currentUser()!.company)
+                    self.myCompany = decoderActivity
+                }
                 self.fetchedCompany.append(decoderActivity)
                 //                print(decoderActivity)
                 
@@ -69,6 +74,9 @@ class Observer : ObservableObject{
             print("company count \(self.fetchedCompany)")
         }
     }
+    
+
+    
     
     
     
@@ -79,7 +87,6 @@ class Observer : ObservableObject{
         URLCache.shared.removeAllCachedResponses()
         handle = Auth.auth().addStateDidChangeListener({ (auth, user) in
             if let user = user {
-                self.isLoggedIn = true
                 print("listenAuthenticationState \(user.uid)")
                 let firestoreUserId = Ref.FIRESTORE_DOCUMENT_USERID(userId: user.uid)
                 firestoreUserId.getDocument { (document, error) in
@@ -90,6 +97,8 @@ class Observer : ObservableObject{
                         guard let dictUser = try? decoderUser.toDictionary() else {return}
                         
                         saveUserLocally(mUserDictionary: dictUser as NSDictionary)
+                        self.isLoggedIn = true
+
                         
                         
                         //                        self.getCompanyList()

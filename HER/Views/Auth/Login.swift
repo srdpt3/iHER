@@ -10,6 +10,7 @@ import SwiftUI
 
 struct Login: View {
     @EnvironmentObject var homeData : LoginViewModel
+
     var body: some View {
         
         VStack(alignment: .leading, spacing: 18, content: {

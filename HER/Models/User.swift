@@ -17,16 +17,18 @@ struct User: Encodable, Decodable ,Identifiable{
     var username: String
     var age: String
     var gender: String
+    var company: String
     var createdDate : Double
     
     
-    init(id: String, email: String, profileImageUrl: String, username: String, age: String, gender:String, createdDate : Double) {
+    init(id: String, email: String, profileImageUrl: String, username: String, age: String, gender:String, company: String, createdDate : Double) {
         self.id = id
         self.email = email
         self.profileImageUrl = profileImageUrl
         self.username = username
         self.age = age
         self.gender = gender
+        self.company = company
         self.createdDate = createdDate
         
     }
@@ -37,9 +39,10 @@ struct User: Encodable, Decodable ,Identifiable{
         username = _dictionary["username"] as! String
         age = _dictionary["age"] as! String
         gender = _dictionary["gender"] as! String
+        company = _dictionary["company"] as! String
         createdDate = _dictionary["createdDate"] as! Double
         
-        
+    
     }
     
     

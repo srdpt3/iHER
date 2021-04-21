@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import StreamChat
 
 class LoginViewModel: ObservableObject {
 
@@ -23,7 +24,9 @@ class LoginViewModel: ObservableObject {
     
     // For Goto registration Page...
     @Published var gotoRegister = false
-    
+//    @EnvironmentObject var streamData : StreamViewModel
+    @StateObject var streamData = StreamViewModel()
+
     // MacOS Data....
     var screen: CGRect{
         #if os(iOS)
@@ -69,6 +72,7 @@ class LoginViewModel: ObservableObject {
                 URLCache.shared.removeAllCachedResponses()
             AuthService.signInUser(email: email, password: password, onSuccess: completed, onError: onError)
             print("SigninViewModel  signin ")
+//            streamData.logInUser(userId: "iHER")
         } else {
         
         }
@@ -81,8 +85,13 @@ class LoginViewModel: ObservableObject {
         do {
             
             resetCache()
-            AuthService.logout()
+           AuthService.logout()
             
+            
+            
+            
+            ChatClient.shared.connectionController().disconnect()
+
             //            unbind()
         } catch  {
             print("Logout Failed")

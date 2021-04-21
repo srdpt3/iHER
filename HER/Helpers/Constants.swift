@@ -110,6 +110,7 @@ let IMAGE_LOGO = "logo"
 let IMAGE_USER_PLACEHOLDER = "user-placeholder"
 let IMAGE_PHOTO = "plus.circle"
 
+let APIKey = "raqfsc49wmp5"
 
 
 
@@ -147,13 +148,13 @@ class Ref {
     }
     
     static var FIRESTORE_COLLECTION_COMPANY = FIRESTORE_ROOT.collection("companies")
-    static func FIRESTORE_COLLECTION_COMPANIES() -> DocumentReference {
-        return FIRESTORE_COLLECTION_COMPANY.document()
+    static func FIRESTORE_COLLECTION_MY_COMPANY(name:String) -> DocumentReference {
+        return FIRESTORE_COLLECTION_COMPANY.document(name)
     }
     
-    static var FIRESTORE_COLLECTION_SCORE = FIRESTORE_ROOT.collection("score")
+    static var FIRESTORE_COLLECTION_SCORE = FIRESTORE_ROOT.collection("score2")
     static func FIRESTORE_COLLECTION_SCORES(name:String) -> DocumentReference {
-        return FIRESTORE_COLLECTION_COMPANY.document(name)
+        return FIRESTORE_COLLECTION_SCORE.document(name)
         
     }
     

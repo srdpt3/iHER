@@ -27,13 +27,14 @@ struct Company: Encodable, Decodable {
     var Eqy_Fiscal_Yr_End: Double
     var Long_Comp_Name: String
     var Sector: String
-    
+    var desc : String
+
     var Ticker: String
     var Website: String
     var ticker: String
     var logo : String
     init(Bgei_Data_Excllnce_Score: Double, Bgei_Disclsre_Score: Double, Bgei_Equal_Pay_Score: Double, Bgei_Femle_Leadrshp_Score: Double, Bgei_Inclsve_Cultre_Score: Double, Bgei_Prowomn_Brand_Score:Double, Bgei_Score : Double,
-         Bgei_Sexl_Harssmnt_Plcy_Score: Double, Bics_Level_1_Sector_Name: String, Cntry_Of_Domicile: String, Company_Name: String, Eqy_Fiscal_Yr_End:Double, Long_Comp_Name : String, Sector: String, Ticker: String, Website: String, ticker: String, logo:String
+         Bgei_Sexl_Harssmnt_Plcy_Score: Double, Bics_Level_1_Sector_Name: String, Cntry_Of_Domicile: String, Company_Name: String, Eqy_Fiscal_Yr_End:Double, Long_Comp_Name : String, Sector: String, Ticker: String, Website: String, ticker: String, logo:String,desc:String
          
     ) {
         self.Bgei_Data_Excllnce_Score = Bgei_Data_Excllnce_Score
@@ -56,6 +57,8 @@ struct Company: Encodable, Decodable {
         self.ticker = ticker
         self.Website = Website
         self.logo = logo
+        self.desc = desc
+
         
         
     }
@@ -82,6 +85,7 @@ struct Company: Encodable, Decodable {
         Website = _dictionary["Website"] as! String
         logo = _dictionary["logo"] as! String
 
+        desc = _dictionary["desc"] as! String
 
         
     }

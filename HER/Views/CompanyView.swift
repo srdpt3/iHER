@@ -8,44 +8,120 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-struct CompanyView: View {
+
+struct CompanyView : View {
+    
     @EnvironmentObject var companyData: Observer
     @State var showDashBoardView : Bool = false
-    @State var companyName : String = "Uber"
-
-    var body: some View {
-        // Navigation View...
-      
-            VStack {
-                ScrollView(.vertical, showsIndicators: false, content: {
+    
+    @State var search = ""
+    @State var index = 0
+    @State var columns = Array(repeating: GridItem(.flexible(), spacing: 15), count: 2)
+    
+    
+    //    init(){
+    //        self.companyData.getCompanyList()
+    //    }
+    var body: some View{
+        NavigationView{
+            
+            ScrollView(.vertical, showsIndicators: false) {
+//
+                LazyVStack{
                     
-                    VStack(spacing: 15){
-//                        Spacer()
-                        // Search Bar...
-                        HStack(spacing: 10){
-                            
-                            Image(systemName: "magnifyingglass")
-                                .foregroundColor(.gray)
-                            
-                            TextField("Search Company", text: $companyData.searchQuery)
-                                .autocapitalization(.none)
-                                .disableAutocorrection(true)
-                        }
+                    //                HStack{
+                    //
+                    //                    Text("Highlighed Company")
+                    //                        .font(.callout)
+                    //                        .fontWeight(.bold)
+                    //
+                    //                    Spacer()
+                    //                }
+                    //                .padding(.horizontal)
+                    //
+                    TextField("Search", text: self.$search)
                         .padding(.vertical,10)
                         .padding(.horizontal)
-                        .background(Color.white)
-                        // Shadows..
-                        .shadow(color: Color.black.opacity(0.06), radius: 5, x: 5, y: 5)
-                        .shadow(color: Color.black.opacity(0.06), radius: 5, x: -5, y: -5)
-                    }
-                    .padding()
+                        .background(Color.black.opacity(0.07))
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+//                        .padding(.top,10)
+                    //
+                    //                // Carousel List...
+                    //
+                    //
+                    //                TabView(selection: self.$index){
+                    //
+                    //                    ForEach(2...5,id: \.self){index in
+                    //                        Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                    //                            Image("p\(index)")
+                    //                                .resizable()
+                    //                                // adding animation...
+                    //                                .frame(height: self.index == index ?  220 : 180)
+                    //                                .cornerRadius(15)
+                    //                                .padding(.horizontal)
+                    //                                // for identifying current index....
+                    //                                .tag(index)
+                    //
+                    //                        })
+                    //
+                    //                    }
+                    //                }
+                    //                .frame(height: 220)
+                    //                .padding(.top,15)
+                    //                .tabViewStyle(PageTabViewStyle())
+                    //                .animation(.easeOut)
                     
-                    if let companies = companyData.fetchedCompany{
-
-                            // Displaying results....
-                            ForEach(companies,id: \.Bgei_Score){data in
+                    // adding custom Grid....
+                    
+                    HStack{
+                        VStack(alignment: .leading, spacing: 8){
+                            Text("Companies Recommended for You")
+                                .font(.callout)
+                                .fontWeight(.bold)
+                            
+                            Text("Recommendations are based on data score and sentimetal data.")
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
+                        
+                        
+                        Spacer()
+                        
+                        Button {
+                            
+                            // reducing to row.....
+                            
+                            withAnimation(.easeOut){
                                 
-                                CompanyRowView(company: data)
+                                if self.columns.count == 2{
+                                    
+                                    self.columns.removeLast()
+                                }
+                                else{
+                                    
+                                    self.columns.append(GridItem(.flexible(), spacing: 15))
+                                }
+                            }
+                            
+                        } label: {
+                            
+                            Image(systemName: self.columns.count == 2 ? "rectangle.grid.1x2" : "square.grid.2x2")
+                                .font(.system(size: 24))
+                                .foregroundColor(.black)
+                        }
+                        
+                    }
+                    .padding(.horizontal)
+                    .padding(.top,25)
+                    
+                    LazyVGrid(columns: self.columns,spacing: 25){
+                        if let companies = companyData.fetchedCompany{
+                            ForEach(companies,id: \.Bgei_Score){company in
+                                
+                                // GridView....
+                                
+                                GridView(company: company,columns: self.$columns)
                                     .onTapGesture {
                                         
                                         
@@ -57,146 +133,288 @@ struct CompanyView: View {
                                         
                                     }
                                 
-                                
-                                Divider()
-                                
-                            }  .sheet(isPresented: self.$showDashBoardView){
-                                CommentView(companyName: self.$companyName, show: self.$showDashBoardView)
                             }
-                       
-                    }
-                    else{
-                        if companyData.searchQuery != ""{
-                            // Loading Screem...
-                            ProgressView()
-                                .padding(.top,20)
+                            
+                            
                         }
+                        
                     }
-                })
-        //        .navigationTitle("Companies")
-                .background(Color("bg").ignoresSafeArea(.all, edges: .all))
-                .padding(.vertical,-10)
-                
-                Spacer()
-            }
-      
-      
-
-    }
-    
-}
-struct CompanyView_Previews: PreviewProvider {
-    static var previews: some View {
-        CompanyView()
+                    .padding([.horizontal,.top])
+                    
+                }
+                .padding(.vertical)
+            }.navigationBarHidden(true).navigationTitle("").ignoresSafeArea()
+            
+        }
+          
+       
+  
+        //        .background(Color.black.opacity(0.03).ignoresSafeArea())
     }
 }
 
-struct CompanyRowView: View {
+struct GridView : View {
     
-    var company: Company
-    var randomFloat = CGFloat.random(in: 0...1)
-
+    @State var company: Company
+    @Binding var columns : [GridItem]
+    @Namespace var namespace
+    @State var showDashBoardView : Bool = false
+    @State var companyName : String = ""
     var body: some View{
         
-        HStack(alignment: .top,spacing: 10){
-            let number = Float.random(in: 50..<100)
-
-            WebImage(url: URL(string:company.logo)!)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 140, height: 140)
-                .cornerRadius(8)
-//            Spacer()
-            VStack(alignment: .leading, spacing: 8, content: {
+        
+        VStack{
+            
+            if self.columns.count == 2{
                 
-                Text(company.Company_Name)
-                    .font(.title3)
-                    .fontWeight(.bold)
-                    .foregroundColor(.gray)
-                
-
-                HStack{
-                    Text("Data Score")
+                VStack(spacing: 10){
+                    
+                    ZStack(alignment: Alignment(horizontal: .trailing, vertical: .top)) {
+                        
+                        WebImage(url: URL(string:company.logo)!)
+                            .resizable()
+                            //                            .aspectRatio(contentMode: .fill)
+                            .frame( height: 130)
+                            .cornerRadius(20)
+                        
+                        //                            .aspectRatio(contentMode: .fill)
+                        
+                        
+                        
+                        //                        Button {
+                        //
+                        //                        } label: {
+                        //
+                        //                            Image(systemName: "heart.fill")
+                        //                                .foregroundColor(.red)
+                        //                                .padding(.all,5)
+                        //                                .background(Color.white)
+                        //                                .clipShape(Circle())
+                        //                        }
+                        //                        .padding(.all,5)
+                        
+                    }
+                    .matchedGeometryEffect(id: "image", in: self.namespace)
+                    //                    .background(Color("bg"))
+                    
+                    
+                    Text(company.Company_Name)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color("color4"))
+                        
+                        .lineLimit(1)
+                        .matchedGeometryEffect(id: "title", in: self.namespace)
+                    
+                    
+                    Text("Website")
                         .font(.caption)
-                        .foregroundColor(.gray)
-//                        .lineLimit(4)
-                    Text(String(((company.Bgei_Score) * 100).rounded()))
-                        .font(.caption)
-                        .foregroundColor(Color("Color3"))
+                        .foregroundColor(Color("color4"))
+                        
                         .lineLimit(4)
                         .multilineTextAlignment(.leading)
-                }
-
-                HStack{
-                    Text("Sentimental Score")
-                        .font(.caption)
-                        .foregroundColor(.gray)
-//                        .lineLimit(4)
-                    Text(String(number.rounded()))
-                        .font(.caption)
-                        .foregroundColor(Color("ColorPink"))
-                        .lineLimit(4)
-                        .multilineTextAlignment(.leading)
-                }
-
-                Text("Website")
-                    .font(.caption)
-                    .foregroundColor(.blue)
-                    .lineLimit(4)
-                    .multilineTextAlignment(.leading)
-                
-                HStack{
+                    
                     
                     NavigationLink(
-                        destination: WebView(url: URL(string:company.Website)!)
-                            .navigationTitle(company.Website),
+                        destination:  CommentView(company: self.$company, show: self.$showDashBoardView)
+                            .navigationTitle("")
+                            .navigationBarHidden(true),
                         label: {
-                            Text(company.Website).font(.caption)
-                        })
+                            // Daily activity view
+                            Text("View Score")
+                                .foregroundColor(.white)
+                                .padding(.vertical,10)
+                                .padding(.horizontal,25)
+                                .background(Color("companyProfile2"))
+                                .cornerRadius(10)
+                                .matchedGeometryEffect(id: "score", in: self.namespace)
+
+                        }
+                    )
+                    
                 }
+                .padding()
+                .background(Color.white)
                 
-                // Links....
-                //                HStack(spacing: 10){
-                //
-                //                    ForEach(company.Website,id: \.self){data in
-                //
-                //                        NavigationLink(
-                //                            destination: WebView(url: extractURL(data: data))
-                //                                .navigationTitle(extractURLType(data: data)),
-                //                            label: {
-                //                                Text(extractURLType(data: data))
-                //                            })
-                //                    }
-                //                }
-            }).padding(.leading)
+                .cornerRadius(15)
+                .shadow(color: Color.black.opacity(0.4), radius: 10, x: 10, y: 10)
+                .shadow(color: Color.white.opacity(0.9), radius: 10, x: -5, y: -5)
+                //                .cornerRadius(15)
+            }
+            else{
+                
+                // Row View....
+                
+                // adding animation...
+                
+                HStack(spacing: 30){
+                    
+                    ZStack(alignment: Alignment(horizontal: .leading, vertical: .top)) {
+                        
+                        WebImage(url: URL(string:company.logo)!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            
+                            .frame(height: 150)
+                            .cornerRadius(20)
+                        
+                        
+                        //                        Image(game.image)
+                        //                            .resizable()
+                        //                            .frame(width: (UIScreen.main.bounds.width - 45) / 2,height: 250)
+                        //                            .cornerRadius(15)
+                        
+                        //                        Button {
+                        //
+                        //                        } label: {
+                        //
+                        //                            Image(systemName: "heart.fill")
+                        //                                .foregroundColor(.red)
+                        //                                .padding(.all,10)
+                        //                                .background(Color.white)
+                        //                                .clipShape(Circle())
+                        //                        }
+                        //                        .padding(.all,10)
+                        
+                    }
+                    .matchedGeometryEffect(id: "image", in: self.namespace)
+                    .padding(.vertical)
+                    
+                    VStack(alignment: .leading, spacing: 10) {
+                        
+                        Text(self.company.Company_Name)
+                            .fontWeight(.bold)
+                            .foregroundColor(Color("color4"))
+                            
+                            .matchedGeometryEffect(id: "title", in: self.namespace)
+                        HStack{
+                            Text("Data Score")
+                                .font(.caption)
+                                .foregroundColor(Color("color4"))
+                            //                        .lineLimit(4)
+                            Text(String(((self.company.Bgei_Score) * 100).rounded()))
+                                .font(.caption)
+                                
+                                .fontWeight(.bold)
+                                
+                                .foregroundColor(Color("Color3"))
+                                .lineLimit(4)
+                                .multilineTextAlignment(.leading)
+                        }
+                        
+                        HStack{
+                            Text("Sentimental Score")
+                                .font(.caption)
+                                .foregroundColor(Color("color4"))
+                            //                        .lineLimit(4)
+                            Text(String("63"))
+                                .font(.caption)
+                                .fontWeight(.bold)
+                                
+                                .foregroundColor(Color("ColorPink"))
+                                .lineLimit(4)
+                                .multilineTextAlignment(.leading)
+                        }
+                        
+                        HStack{
+                            
+                            NavigationLink(
+                                destination: WebView(url: URL(string:company.Website)!)
+                                    .navigationTitle(company.Website),
+                                
+                                label: {
+                                    Text("Company Website").font(.caption)
+                                        .foregroundColor(.white)
+                                    
+                                })
+                        }
+                        // Rating Bar...
+                        
+                        //                        HStack(spacing: 10){
+                        //
+                        //                            ForEach(1...5,id: \.self){rating in
+                        //
+                        //                                Image(systemName: "star.fill")
+                        //                                    .foregroundColor(self.game.rating >= rating ? .yellow : .gray)
+                        //                            }
+                        //
+                        //                            Spacer(minLength: 0)
+                        //                        }
+                        NavigationLink(
+                            destination:  CommentView(company: self.$company, show: self.$showDashBoardView)
+                                .navigationTitle("")
+                                .navigationBarHidden(true),
+                            label: {
+                                // Daily activity view
+                                Text("View Score")
+                                    .foregroundColor(.white)
+                                    .padding(.vertical,10)
+                                    .padding(.horizontal,15)
+                                    .background(Color("color4"))
+                                    .cornerRadius(10)
+                                    .padding(.top,5)
+                                    .matchedGeometryEffect(id: "score", in: self.namespace)
+                                
+                            }
+                        )
+                        //                        Button {
+                        //                            self.showDashBoardView = true
+                        //                            self.companyName = self.company.Company_Name
+                        //                        } label: {
+                        //
+                        //                            Text("View Score")
+                        //                                .foregroundColor(.white)
+                        //                                .padding(.vertical,10)
+                        //                                .padding(.horizontal,15)
+                        //                                .background(Color("color4"))
+                        //                                .cornerRadius(10)
+                        //                        }
+                        //                        .padding(.top,5)
+                        //                        .matchedGeometryEffect(id: "score", in: self.namespace)
+                    }     .sheet(isPresented: self.$showDashBoardView){
+                        CommentView(company: self.$company, show: self.$showDashBoardView)
+                    }
+                }
+      
+                .padding(.horizontal, 25)
+                .padding(.vertical, 5)
+                .background(Color.white)
+                
+                .cornerRadius(15)
+                .shadow(color: Color.black.opacity(0.4), radius: 10, x: 10, y: 10)
+                .shadow(color: Color.white.opacity(0.9), radius: 10, x: -5, y: -5)
             
-            Spacer(minLength: 0)
+            }
+            
         }
-        .shadow(color: Color.black.opacity(0.2), radius: 10, x: 10, y: 10)
-        .shadow(color: Color.white.opacity(0.7), radius: 10, x: -5, y: -5)
-        .padding(.horizontal)
-    }
-    
-    func extractImage(data: [String: String])->URL{
+//        .sheet(isPresented: self.$showDashBoardView){
+//
+//            CommentView(company: self.$company, show: self.$showDashBoardView)
+//        }
         
-        // combining both and forming image...
-        let path = data["path"] ?? ""
-        let ext = data["extension"] ?? ""
         
-        return URL(string: "\(path).\(ext)")!
-    }
-    
-    func extractURL(data: [String:String])->URL{
-        
-        let url = data["url"] ?? ""
-        
-        return URL(string: url)!
-    }
-    
-    func extractURLType(data: [String:String])->String{
-        
-        let type = data["type"] ?? ""
-        
-        return type.capitalized
     }
 }
+
+func extractImage(data: [String: String])->URL{
+    
+    // combining both and forming image...
+    let path = data["path"] ?? ""
+    let ext = data["extension"] ?? ""
+    
+    return URL(string: "\(path).\(ext)")!
+}
+
+func extractURL(data: [String:String])->URL{
+    
+    let url = data["url"] ?? ""
+    
+    return URL(string: url)!
+}
+
+func extractURLType(data: [String:String])->String{
+    
+    let type = data["type"] ?? ""
+    
+    return type.capitalized
+}
+

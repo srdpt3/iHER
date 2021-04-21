@@ -88,7 +88,7 @@ class AuthService {
 
             
             guard let userId = authData?.user.uid else { return }
-            let user = User.init(id: userId, email: email, profileImageUrl: "", username: username, age: age, gender: gender, createdDate:  Date().timeIntervalSince1970)
+            let user = User.init(id: userId, email: email, profileImageUrl: "", username: username, age: age, gender: gender, company: "", createdDate:  Date().timeIntervalSince1970)
                         guard let dict = try? user.toDictionary() else {return}
             
 

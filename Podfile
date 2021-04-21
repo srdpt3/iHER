@@ -18,6 +18,7 @@ pod 'Firebase/Analytics'
   pod 'GeoFire'
   pod 'AAInfographics'
   pod 'lottie-ios'
+  pod 'StreamChatUI', '~> 3.0-beta.4'
   target 'HERTests' do
     inherit! :search_paths
     # Pods for testing
