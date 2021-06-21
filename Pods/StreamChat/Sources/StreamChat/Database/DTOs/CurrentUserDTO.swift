@@ -61,12 +61,17 @@ extension CurrentUserDTO {
 }
 
 extension NSManagedObjectContext: CurrentUserDatabaseSession {
-    func saveCurrentUser<ExtraData: UserExtraData>(payload: CurrentUserPayload<ExtraData>) throws -> CurrentUserDTO {
+    func saveCurrentUser<ExtraData: ExtraDataTypes>(payload: CurrentUserPayload<ExtraData>) throws -> CurrentUserDTO {
         let dto = CurrentUserDTO.loadOrCreate(context: self)
         dto.user = try saveUser(payload: payload)
 
         let mutedUsers = try payload.mutedUsers.map { try saveUser(payload: $0.mutedUser) }
         dto.mutedUsers = Set(mutedUsers)
+
+        dto.user.channelMutes.forEach { delete($0) }
+        dto.user.channelMutes = Set(
+            try payload.mutedChannels.map { try saveChannelMute(payload: $0) }
+        )
         
         if let unreadCount = payload.unreadCount {
             try saveCurrentUserUnreadCount(count: unreadCount)
@@ -78,7 +83,7 @@ extension NSManagedObjectContext: CurrentUserDatabaseSession {
     }
     
     func saveCurrentUserUnreadCount(count: UnreadCount) throws {
-        guard let dto = currentUser() else {
+        guard let dto = currentUser else {
             throw ClientError.CurrentUserDoesNotExist()
         }
                 
@@ -87,7 +92,7 @@ extension NSManagedObjectContext: CurrentUserDatabaseSession {
     }
     
     func saveCurrentUserDevices(_ devices: [DevicePayload], clearExisting: Bool) throws {
-        guard let currentUser = currentUser() else {
+        guard let currentUser = currentUser else {
             throw ClientError.CurrentUserDoesNotExist()
         }
         
@@ -108,21 +113,52 @@ extension NSManagedObjectContext: CurrentUserDatabaseSession {
         }
     }
     
-    func currentUser() -> CurrentUserDTO? { .load(context: self) }
+    private static let currentUserKey = "io.getStream.chat.core.context.current_user_key"
+    private static let removeAllDataToken = "io.getStream.chat.core.context.remove_all_data_token"
+    
+    var currentUser: CurrentUserDTO? {
+        // we already have cached value in `userInfo` so all setup is complete
+        // so we can just return cached value
+        if let currentUser = userInfo[Self.currentUserKey] as? CurrentUserDTO {
+            return currentUser
+        }
+        
+        // we do not have cached value in `userInfo` so we try to load current user from DB
+        if let currentUser = CurrentUserDTO.load(context: self) {
+            // if we have current user we save it to `userInfo` so we do not have to load it again
+            userInfo[Self.currentUserKey] = currentUser
+            
+            // When all data is removed it should this code's responsibility to clear `userInfo`
+            userInfo[Self.removeAllDataToken] = NotificationCenter.default.addObserver(
+                forName: DatabaseContainer.WillRemoveAllDataNotification,
+                object: nil,
+                queue: nil
+            ) { [userInfo] _ in
+                userInfo[Self.currentUserKey] = nil
+            }
+            
+            return currentUser
+        }
+        
+        // we really don't have current user
+        return nil
+    }
 }
 
 extension CurrentUserDTO {
     /// Snapshots the current state of `CurrentUserDTO` and returns an immutable model object from it.
-    func asModel<ExtraData: UserExtraData>() -> _CurrentChatUser<ExtraData> { .create(fromDTO: self) }
+    func asModel<ExtraData: ExtraDataTypes>() -> _CurrentChatUser<ExtraData> { .create(fromDTO: self) }
 }
 
 extension _CurrentChatUser {
     fileprivate static func create(fromDTO dto: CurrentUserDTO) -> _CurrentChatUser {
+        let context = dto.managedObjectContext!
+
         let user = dto.user
         
-        let extraData: ExtraData
+        let extraData: ExtraData.User
         do {
-            extraData = try JSONDecoder.default.decode(ExtraData.self, from: user.extraData)
+            extraData = try JSONDecoder.default.decode(ExtraData.User.self, from: user.extraData)
         } catch {
             log.error(
                 "Failed to decode extra data for CurrentUser with id: <\(dto.user.id)>, using default value instead. "
@@ -131,9 +167,17 @@ extension _CurrentChatUser {
             extraData = .defaultValue
         }
         
-        let mutedUsers: [_ChatUser<ExtraData>] = dto.mutedUsers.map { $0.asModel() }
-        let flaggedUsers: [_ChatUser<ExtraData>] = dto.flaggedUsers.map { $0.asModel() }
+        let mutedUsers: [_ChatUser<ExtraData.User>] = dto.mutedUsers.map { $0.asModel() }
+        let flaggedUsers: [_ChatUser<ExtraData.User>] = dto.flaggedUsers.map { $0.asModel() }
         let flaggedMessagesIDs: [MessageId] = dto.flaggedMessages.map(\.id)
+
+        let fetchMutedChannels: () -> Set<_ChatChannel<ExtraData>> = {
+            Set(
+                ChannelMuteDTO
+                    .load(userId: user.id, context: context)
+                    .map { $0.channel.asModel() }
+            )
+        }
 
         return _CurrentChatUser(
             id: user.id,
@@ -155,7 +199,9 @@ extension _CurrentChatUser {
             unreadCount: UnreadCount(
                 channels: Int(dto.unreadChannelsCount),
                 messages: Int(dto.unreadMessagesCount)
-            )
+            ),
+            mutedChannels: fetchMutedChannels,
+            underlyingContext: context
         )
     }
 }

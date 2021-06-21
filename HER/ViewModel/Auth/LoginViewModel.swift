@@ -25,7 +25,7 @@ class LoginViewModel: ObservableObject {
     // For Goto registration Page...
     @Published var gotoRegister = false
 //    @EnvironmentObject var streamData : StreamViewModel
-    @StateObject var streamData = StreamViewModel()
+//    @StateObject var streamData = StreamViewModel()
 
     // MacOS Data....
     var screen: CGRect{

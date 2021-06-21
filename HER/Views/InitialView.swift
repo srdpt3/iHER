@@ -15,7 +15,7 @@ struct InitialView: View {
     
     //    @EnvironmentObject var session: SessionStore
     @EnvironmentObject var obs : Observer
-    @StateObject var streamData = StreamViewModel()
+//    @StateObject var streamData = StreamViewModel()
     @AppStorage("log_Status") var logStatus = false
     
     @State var noConnection : Bool = false
@@ -40,7 +40,7 @@ struct InitialView: View {
             
             //              if(!LandingView.shouldAnimate){&& logStatus
             if(self.obs.isLoggedIn ){
-                ContentView()
+                ContentView() 
                 
             }
             else{

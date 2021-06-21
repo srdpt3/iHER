@@ -29,14 +29,30 @@ class ChannelDTO: NSManagedObject {
     // visually truncate the channel that exists and have messages locally already. It should be safe to have this
     // only locally because once the DB is flushed and the channels are fetched fresh, the messages before the
     // `truncatedAt` date are not returned from the backend.
+    //
+    // This field is also used to implement the `clearHistory` option when hiding the channel.
+    //
     @NSManaged var truncatedAt: Date?
-    
+
+    // This field lives only locally and is not populated directly from the payload. It's populated only form the
+    // `ChannelVisibilityEventMiddleware` and it's main purpose is to control the visibility of hidden channels
+    // locally.
+    @NSManaged var hiddenAt: Date?
+
     @NSManaged var watcherCount: Int64
     @NSManaged var memberCount: Int64
     
     @NSManaged var isFrozen: Bool
     @NSManaged var cooldownDuration: Int
-    
+
+    // MARK: - Queries
+
+    // The channel list queries the channel is a part of
+    @NSManaged var queries: Set<ChannelListQueryDTO>
+    // A local flag which can be used to force refreshing the queries with the backend. This is useful for example when
+    // the members of the channel change, and we want to be sure the channel still belongs to the existing queries.
+    @NSManaged var needsRefreshQueries: Bool
+
     // MARK: - Relationships
     
     @NSManaged var createdBy: UserDTO
@@ -224,15 +240,31 @@ extension ChannelDTO {
         
         let matchingQuery = NSPredicate(format: "ANY queries.filterHash == %@", query.filter.filterHash)
         let notDeleted = NSPredicate(format: "deletedAt == nil")
-        
-        request.predicate = NSCompoundPredicate(type: .and, subpredicates: [matchingQuery, notDeleted])
+
+        // This is not 100% correct and should be ideally solved differently. This makes it impossible
+        // to query for hidden channels from the SDK. However, it's the limitation other platforms have, too,
+        // so this feels like a good-enough solution for now.
+        let notHidden = NSCompoundPredicate(orPredicateWithSubpredicates: [
+            NSPredicate(format: "hiddenAt == nil"),
+            NSCompoundPredicate(andPredicateWithSubpredicates: [
+                NSPredicate(format: "lastMessageAt != nil"),
+                NSPredicate(format: "lastMessageAt > hiddenAt")
+            ])
+        ])
+
+        request.predicate = NSCompoundPredicate(type: .and, subpredicates: [
+            matchingQuery, notDeleted, notHidden
+        ])
         return request
     }
 
     static var channelWithoutQueryFetchRequest: NSFetchRequest<ChannelDTO> {
         let request = NSFetchRequest<ChannelDTO>(entityName: ChannelDTO.entityName)
         request.sortDescriptors = [ChannelListSortingKey.defaultSortDescriptor]
-        request.predicate = NSPredicate(format: "queries.@count == 0")
+        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+            NSPredicate(format: "queries.@count == 0"),
+            NSPredicate(format: "needsRefreshQueries == YES")
+        ])
         return request
     }
 }
@@ -265,7 +297,7 @@ extension _ChatChannel {
         let reads: [_ChatChannelRead<ExtraData>] = dto.reads.map { $0.asModel() }
         
         let unreadCount: () -> ChannelUnreadCount = {
-            guard let currentUser = context.currentUser() else { return .noUnread }
+            guard let currentUser = context.currentUser else { return .noUnread }
             
             let currentUserRead = reads.first(where: { $0.user.id == currentUser.user.id })
             
@@ -312,6 +344,18 @@ extension _ChatChannel {
                 .loadLastActiveMembers(cid: cid, context: context)
                 .map { $0.asModel() }
         }
+
+        let fetchMuteDetails: () -> MuteDetails? = {
+            guard
+                let currentUser = context.currentUser,
+                let mute = ChannelMuteDTO.load(cid: cid, userId: currentUser.user.id, context: context)
+            else { return nil }
+
+            return .init(
+                createdAt: mute.createdAt,
+                updatedAt: mute.updatedAt
+            )
+        }
         
         return _ChatChannel(
             cid: cid,
@@ -338,7 +382,9 @@ extension _ChatChannel {
             extraData: extraData,
             //            invitedMembers: [],
             latestMessages: { fetchMessages() },
-            pinnedMessages: { dto.pinnedMessages.map { $0.asModel() } }
+            pinnedMessages: { dto.pinnedMessages.map { $0.asModel() } },
+            muteDetails: fetchMuteDetails,
+            underlyingContext: dto.managedObjectContext
         )
     }
 }

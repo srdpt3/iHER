@@ -4,28 +4,26 @@
 
 import Foundation
 
-public struct UserPresenceChangedEvent<ExtraData: ExtraDataTypes>: EventWithUserPayload {
+public struct UserPresenceChangedEvent: UserSpecificEvent {
     public let userId: UserId
     public let createdAt: Date?
     
     let payload: Any
     
-    init(from response: EventPayload<ExtraData>) throws {
+    init<ExtraData: ExtraDataTypes>(from response: EventPayload<ExtraData>) throws {
         userId = try response.value(at: \.user?.id)
         createdAt = response.createdAt
         payload = response
     }
 }
 
-public struct UserUpdatedEvent<ExtraData: ExtraDataTypes>: EventWithUserPayload, EventWithChannelId {
-    public let cid: ChannelId
+public struct UserUpdatedEvent: UserSpecificEvent {
     public let userId: UserId
     public let createdAt: Date?
     
     let payload: Any
     
-    init(from response: EventPayload<ExtraData>) throws {
-        cid = try response.value(at: \.cid)
+    init<ExtraData: ExtraDataTypes>(from response: EventPayload<ExtraData>) throws {
         userId = try response.value(at: \.user?.id)
         createdAt = response.createdAt
         payload = response
@@ -34,10 +32,10 @@ public struct UserUpdatedEvent<ExtraData: ExtraDataTypes>: EventWithUserPayload,
 
 // MARK: - User Watching
 
-public struct UserWatchingEvent: EventWithUserPayload, EventWithChannelId {
+public struct UserWatchingEvent: UserSpecificEvent, ChannelSpecificEvent {
     public let cid: ChannelId
     public let userId: UserId
-    public let createdAt: Date?
+    public let createdAt: Date
     public let watcherCount: Int
     public let isStarted: Bool
     
@@ -46,7 +44,7 @@ public struct UserWatchingEvent: EventWithUserPayload, EventWithChannelId {
     init<ExtraData: ExtraDataTypes>(from response: EventPayload<ExtraData>) throws {
         cid = try response.value(at: \.cid)
         userId = try response.value(at: \.user?.id)
-        createdAt = response.createdAt
+        createdAt = try response.value(at: \.createdAt)
         watcherCount = try response.value(at: \.watcherCount)
         isStarted = response.eventType == .userStartWatching
         payload = response
@@ -55,7 +53,19 @@ public struct UserWatchingEvent: EventWithUserPayload, EventWithChannelId {
 
 // MARK: - User Ban
 
-public struct UserBannedEvent: EventWithUserPayload, EventWithOwnerPayload, EventWithChannelId {
+public struct UserGloballyBannedEvent: UserSpecificEvent {
+    var userId: UserId
+    var createdAt: Date?
+    var payload: Any
+    
+    init<ExtraData: ExtraDataTypes>(from response: EventPayload<ExtraData>) throws {
+        userId = try response.value(at: \.user?.id)
+        createdAt = response.createdAt
+        payload = response
+    }
+}
+
+public struct UserBannedEvent: UserSpecificEvent, ChannelSpecificEvent {
     public let cid: ChannelId
     public let userId: UserId
     public let ownerId: UserId
@@ -76,7 +86,19 @@ public struct UserBannedEvent: EventWithUserPayload, EventWithOwnerPayload, Even
     }
 }
 
-public struct UserUnbannedEvent: EventWithUserPayload, EventWithChannelId {
+public struct UserGloballyUnbannedEvent: UserSpecificEvent {
+    var userId: UserId
+    var createdAt: Date?
+    var payload: Any
+    
+    init<ExtraData: ExtraDataTypes>(from response: EventPayload<ExtraData>) throws {
+        userId = try response.value(at: \.user?.id)
+        createdAt = response.createdAt
+        payload = response
+    }
+}
+
+public struct UserUnbannedEvent: UserSpecificEvent, ChannelSpecificEvent {
     public let cid: ChannelId
     public let userId: UserId
     public let createdAt: Date?

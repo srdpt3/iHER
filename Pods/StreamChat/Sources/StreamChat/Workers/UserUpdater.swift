@@ -72,14 +72,14 @@ class UserUpdater<ExtraData: ExtraDataTypes>: Worker {
     ///   - completion: Called when the API call is finished. Called with `Error` if the remote update fails.
     ///
     func flagUser(_ flag: Bool, with userId: UserId, completion: ((Error?) -> Void)? = nil) {
-        let endpoint: Endpoint<FlagUserPayload<ExtraData.User>> = .flagUser(flag, with: userId)
+        let endpoint: Endpoint<FlagUserPayload<ExtraData>> = .flagUser(flag, with: userId)
         apiClient.request(endpoint: endpoint) {
             switch $0 {
             case let .success(payload):
                 self.database.write({ session in
                     let userDTO = try session.saveUser(payload: payload.flaggedUser)
                     
-                    let currentUserDTO = session.currentUser()
+                    let currentUserDTO = session.currentUser
                     if flag {
                         currentUserDTO?.flaggedUsers.insert(userDTO)
                     } else {

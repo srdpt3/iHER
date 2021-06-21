@@ -16,19 +16,6 @@ open class _ChatChannelListVC<ExtraData: ExtraDataTypes>: _ViewController,
     SwipeableViewDelegate {
     /// The `ChatChannelListController` instance that provides channels data.
     public var controller: _ChatChannelListController<ExtraData>!
-    
-    /// A helper flag to find out if the VC's view is currently layouting its subviews.
-    var isLayoutingSubviews = false
-    
-    override open func viewWillLayoutSubviews() {
-        isLayoutingSubviews = true
-        super.viewWillLayoutSubviews()
-    }
-
-    override open func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        isLayoutingSubviews = false
-    }
 
     open private(set) lazy var loadingIndicator: UIActivityIndicatorView = {
         if #available(iOS 13.0, *) {
@@ -71,11 +58,15 @@ open class _ChatChannelListVC<ExtraData: ExtraDataTypes>: _ViewController,
     
     /// Reuse identifier of `collectionViewCell`
     open var collectionViewCellReuseIdentifier: String { "Cell" }
+    
+    /// We use private property for channels count so we can update it inside `performBatchUpdates` as [documented](https://developer.apple.com/documentation/uikit/uicollectionview/1618045-performbatchupdates#discussion)
+    private var channelsCount = 0
 
     override open func setUp() {
         super.setUp()
         controller.setDelegate(self)
         controller.synchronize()
+        channelsCount = controller.channels.count
         
         collectionView.register(
             uiConfig.channelList.collectionViewCell.self,
@@ -123,7 +114,7 @@ open class _ChatChannelListVC<ExtraData: ExtraDataTypes>: _ViewController,
     }
 
     open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        controller.channels.count
+        channelsCount
     }
     
     open func collectionView(
@@ -237,16 +228,16 @@ open class _ChatChannelListVC<ExtraData: ExtraDataTypes>: _ViewController,
 }
 
 extension _ChatChannelListVC: _ChatChannelListControllerDelegate {
+    public func controllerWillChangeChannels(_ controller: _ChatChannelListController<ExtraData>) {
+        channelsCount = controller.channels.count
+        collectionView.layoutIfNeeded()
+    }
+
     open func controller(
         _ controller: _ChatChannelListController<ExtraData>,
         didChangeChannels changes: [ListChange<_ChatChannel<ExtraData>>]
     ) {
-        // We can't call `performBatchUpdates` unless all views are properly laid out.
-        guard isLayoutingSubviews == false else {
-            collectionView.reloadData()
-            return
-        }
-        
+        let newChannelsCount = controller.channels.count
         var movedItems: [IndexPath] = []
         
         collectionView.performBatchUpdates(
@@ -264,6 +255,8 @@ extension _ChatChannelListVC: _ChatChannelListControllerDelegate {
                         collectionView.reloadItems(at: [index])
                     }
                 }
+                
+                channelsCount = newChannelsCount
             },
             completion: { _ in
                 // Move changes from NSFetchController also can mean an update of the content.

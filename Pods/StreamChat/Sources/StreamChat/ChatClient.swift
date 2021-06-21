@@ -99,7 +99,8 @@ public class _ChatClient<ExtraData: ExtraDataTypes> {
             ChannelTruncatedEventMiddleware<ExtraData>(),
             MemberEventMiddleware<ExtraData>(),
             UserChannelBanEventsMiddleware<ExtraData>(),
-            UserWatchingEventMiddleware<ExtraData>()
+            UserWatchingEventMiddleware<ExtraData>(),
+            ChannelVisibilityEventMiddleware<ExtraData>()
         ]
 
         center.add(middlewares: middlewares)
@@ -193,7 +194,7 @@ public class _ChatClient<ExtraData: ExtraDataTypes> {
     /// required header auth parameters to make a successful request.
     private var urlSessionConfiguration: URLSessionConfiguration {
         let config = URLSessionConfiguration.default
-        config.waitsForConnectivity = true
+        config.waitsForConnectivity = false
         config.httpAdditionalHeaders = sessionHeaders
         return config
     }
@@ -301,10 +302,10 @@ public class _ChatClient<ExtraData: ExtraDataTypes> {
 
         let context = databaseContainer.viewContext
         if Thread.isMainThread {
-            currentUserId = context.currentUser()?.user.id
+            currentUserId = context.currentUser?.user.id
         } else {
             context.performAndWait {
-                currentUserId = context.currentUser()?.user.id
+                currentUserId = context.currentUser?.user.id
             }
         }
 
@@ -386,9 +387,9 @@ extension ClientError {
         override public var localizedDescription: String { "The URL provided in ChatClientConfig is `nil`." }
     }
     
-    public class ConnectionNotSuccessfull: ClientError {
+    public class ConnectionNotSuccessful: ClientError {
         override public var localizedDescription: String {
-            "Connecting to the chat servers wasn't successfull. Please check the console log for additional info."
+            "Connecting to the chat servers wasn't successful. Please check the console log for additional info."
         }
     }
     

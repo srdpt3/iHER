@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		112068F1267EADA1004ADE19 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112068F0267EADA1004ADE19 /* Home.swift */; };
+		112068F3267EADCF004ADE19 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112068F2267EADCF004ADE19 /* BlurView.swift */; };
 		11A1481726222491002FF5C5 /* ScoreMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A1481626222491002FF5C5 /* ScoreMenuView.swift */; };
 		11A1482626222DB8002FF5C5 /* AttributeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A1482526222DB8002FF5C5 /* AttributeManager.swift */; };
 		11A1487D26224511002FF5C5 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A1487C26224511002FF5C5 /* Data.swift */; };
@@ -18,16 +20,9 @@
 		11A148A3262294A1002FF5C5 /* NewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A148A2262294A1002FF5C5 /* NewsView.swift */; };
 		11A148AC26229BF3002FF5C5 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A148AB26229BF3002FF5C5 /* News.swift */; };
 		11A148B426229E16002FF5C5 /* JasonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A148B326229E16002FF5C5 /* JasonParser.swift */; };
-		11A148B926229F67002FF5C5 /* test.json in Resources */ = {isa = PBXBuildFile; fileRef = 11A148B826229F67002FF5C5 /* test.json */; };
 		11A148BF26233206002FF5C5 /* animal.json in Resources */ = {isa = PBXBuildFile; fileRef = 11A148BE26233206002FF5C5 /* animal.json */; };
 		11A148C526233FC6002FF5C5 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 11A148C426233FC6002FF5C5 /* SwiftyJSON */; };
-		11A148D72623DA05002FF5C5 /* ChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A148D62623DA05002FF5C5 /* ChannelView.swift */; };
-		11A1490A2623DB86002FF5C5 /* CreateNewChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A149092623DB86002FF5C5 /* CreateNewChannel.swift */; };
-		11A1490F2623DB9E002FF5C5 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A1490E2623DB9E002FF5C5 /* ChatView.swift */; };
-		11A149142623DBB3002FF5C5 /* MessageRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A149132623DBB3002FF5C5 /* MessageRowView.swift */; };
-		11A149192623DBCF002FF5C5 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A149182623DBCF002FF5C5 /* ChatBubble.swift */; };
 		11A149552623DF93002FF5C5 /* ShadowModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A149542623DF93002FF5C5 /* ShadowModifier.swift */; };
-		11A149652623E0C0002FF5C5 /* StreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A149642623E0C0002FF5C5 /* StreamViewModel.swift */; };
 		11D1000A26099CF9008E85C7 /* LoginHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D1000926099CF9008E85C7 /* LoginHome.swift */; };
 		11D1000F26099D20008E85C7 /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D1000E26099D20008E85C7 /* Register.swift */; };
 		11D1001426099D2D008E85C7 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D1001326099D2D008E85C7 /* Login.swift */; };
@@ -41,8 +36,6 @@
 		11D100BA260AD081008E85C7 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D100B9260AD081008E85C7 /* LoadingView.swift */; };
 		11D100BF260AD0C2008E85C7 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D100BE260AD0C2008E85C7 /* ScoreView.swift */; };
 		11D100D0260AFD82008E85C7 /* ChartView_Sample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D100CF260AFD82008E85C7 /* ChartView_Sample.swift */; };
-		11D10128260CF459008E85C7 /* StreamChat in Frameworks */ = {isa = PBXBuildFile; productRef = 11D10127260CF459008E85C7 /* StreamChat */; };
-		11D1012A260CF459008E85C7 /* StreamChatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 11D10129260CF459008E85C7 /* StreamChatUI */; };
 		11D1013C260FBC28008E85C7 /* AAInfographics in Frameworks */ = {isa = PBXBuildFile; productRef = 11D1013B260FBC28008E85C7 /* AAInfographics */; };
 		11D1014D260FDF3A008E85C7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D1014C260FDF3A008E85C7 /* ContentView.swift */; };
 		11D1018C26110B95008E85C7 /* MyCompanyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D1018B26110B95008E85C7 /* MyCompanyView.swift */; };
@@ -102,6 +95,8 @@
 
 /* Begin PBXFileReference section */
 		0A00960EF21771EE17AABF29 /* Pods-HER-HERUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HER-HERUITests.debug.xcconfig"; path = "Target Support Files/Pods-HER-HERUITests/Pods-HER-HERUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		112068F0267EADA1004ADE19 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		112068F2267EADCF004ADE19 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		11A1481626222491002FF5C5 /* ScoreMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreMenuView.swift; sourceTree = "<group>"; };
 		11A1482526222DB8002FF5C5 /* AttributeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeManager.swift; sourceTree = "<group>"; };
 		11A1487C26224511002FF5C5 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
@@ -113,15 +108,8 @@
 		11A148A2262294A1002FF5C5 /* NewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsView.swift; sourceTree = "<group>"; };
 		11A148AB26229BF3002FF5C5 /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		11A148B326229E16002FF5C5 /* JasonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JasonParser.swift; sourceTree = "<group>"; };
-		11A148B826229F67002FF5C5 /* test.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
 		11A148BE26233206002FF5C5 /* animal.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = animal.json; sourceTree = "<group>"; };
-		11A148D62623DA05002FF5C5 /* ChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelView.swift; sourceTree = "<group>"; };
-		11A149092623DB86002FF5C5 /* CreateNewChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewChannel.swift; sourceTree = "<group>"; };
-		11A1490E2623DB9E002FF5C5 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
-		11A149132623DBB3002FF5C5 /* MessageRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRowView.swift; sourceTree = "<group>"; };
-		11A149182623DBCF002FF5C5 /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
 		11A149542623DF93002FF5C5 /* ShadowModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowModifier.swift; sourceTree = "<group>"; };
-		11A149642623E0C0002FF5C5 /* StreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamViewModel.swift; sourceTree = "<group>"; };
 		11D1000926099CF9008E85C7 /* LoginHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginHome.swift; sourceTree = "<group>"; };
 		11D1000E26099D20008E85C7 /* Register.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
 		11D1001326099D2D008E85C7 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
@@ -190,9 +178,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11D1012A260CF459008E85C7 /* StreamChatUI in Frameworks */,
 				11D1013C260FBC28008E85C7 /* AAInfographics in Frameworks */,
-				11D10128260CF459008E85C7 /* StreamChat in Frameworks */,
 				11A148C526233FC6002FF5C5 /* SwiftyJSON in Frameworks */,
 				6A710AB03CDACAF0DAAC1B43 /* Pods_HER.framework in Frameworks */,
 			);
@@ -217,6 +203,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		112E2BC0268015F80075A1D4 /* Post-Comments */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Post-Comments";
+			sourceTree = "<group>";
+		};
 		11A1482426222DA9002FF5C5 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -284,35 +277,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		11A148D42623D9E7002FF5C5 /* Channel */ = {
-			isa = PBXGroup;
-			children = (
-				11A1491D2623DBDD002FF5C5 /* ViewModel */,
-				11A148D52623D9F6002FF5C5 /* View */,
-				11A149182623DBCF002FF5C5 /* ChatBubble.swift */,
-			);
-			path = Channel;
-			sourceTree = "<group>";
-		};
-		11A148D52623D9F6002FF5C5 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				11A148D62623DA05002FF5C5 /* ChannelView.swift */,
-				11A149092623DB86002FF5C5 /* CreateNewChannel.swift */,
-				11A1490E2623DB9E002FF5C5 /* ChatView.swift */,
-				11A149132623DBB3002FF5C5 /* MessageRowView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		11A1491D2623DBDD002FF5C5 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				11A149642623E0C0002FF5C5 /* StreamViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
 		11D1019026110BBD008E85C7 /* MyCompany */ = {
 			isa = PBXGroup;
 			children = (
@@ -352,7 +316,7 @@
 		11D1FF0726093F95008E85C7 /* HER */ = {
 			isa = PBXGroup;
 			children = (
-				11A148D42623D9E7002FF5C5 /* Channel */,
+				112E2BC0268015F80075A1D4 /* Post-Comments */,
 				11D1019026110BBD008E85C7 /* MyCompany */,
 				11A148A126229494002FF5C5 /* News */,
 				11D1FFEF26099424008E85C7 /* Modifier */,
@@ -365,8 +329,8 @@
 				11D1FF0C26093F98008E85C7 /* Assets.xcassets */,
 				11D1FF1126093F98008E85C7 /* Info.plist */,
 				11D1FF0E26093F98008E85C7 /* Preview Content */,
-				11A148B826229F67002FF5C5 /* test.json */,
 				11A148BE26233206002FF5C5 /* animal.json */,
+				112068F0267EADA1004ADE19 /* Home.swift */,
 			);
 			path = HER;
 			sourceTree = "<group>";
@@ -438,6 +402,7 @@
 				11D100CF260AFD82008E85C7 /* ChartView_Sample.swift */,
 				11E4DFC42612217300485A08 /* LoadingScreen.swift */,
 				11A148B326229E16002FF5C5 /* JasonParser.swift */,
+				112068F2267EADCF004ADE19 /* BlurView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -541,8 +506,6 @@
 			);
 			name = HER;
 			packageProductDependencies = (
-				11D10127260CF459008E85C7 /* StreamChat */,
-				11D10129260CF459008E85C7 /* StreamChatUI */,
 				11D1013B260FBC28008E85C7 /* AAInfographics */,
 				11A148C426233FC6002FF5C5 /* SwiftyJSON */,
 			);
@@ -642,7 +605,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				11D1FF1026093F98008E85C7 /* Preview Assets.xcassets in Resources */,
-				11A148B926229F67002FF5C5 /* test.json in Resources */,
 				11D1FF3A26094D0A008E85C7 /* GoogleService-Info.plist in Resources */,
 				11A148BF26233206002FF5C5 /* animal.json in Resources */,
 				11D1FF0D26093F98008E85C7 /* Assets.xcassets in Resources */,
@@ -774,10 +736,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				11A149552623DF93002FF5C5 /* ShadowModifier.swift in Sources */,
+				112068F3267EADCF004ADE19 /* BlurView.swift in Sources */,
 				11D1FFC126099047008E85C7 /* Reachabilty.swift in Sources */,
 				11A1489D26226288002FF5C5 /* AttributeValueView.swift in Sources */,
 				11D100BF260AD0C2008E85C7 /* ScoreView.swift in Sources */,
-				11A148D72623DA05002FF5C5 /* ChannelView.swift in Sources */,
 				11D100D0260AFD82008E85C7 /* ChartView_Sample.swift in Sources */,
 				11D1FFF126099447008E85C7 /* ButtonModifier.swift in Sources */,
 				11D1019226110BCF008E85C7 /* CompanyProfileView.swift in Sources */,
@@ -789,12 +751,10 @@
 				11D1001926099DBA008E85C7 /* LoginViewModel.swift in Sources */,
 				11D100A3260A91C2008E85C7 /* CommentView.swift in Sources */,
 				11D100B0260AC8D6008E85C7 /* Score.swift in Sources */,
-				11A149652623E0C0002FF5C5 /* StreamViewModel.swift in Sources */,
 				11A1487D26224511002FF5C5 /* Data.swift in Sources */,
 				11D1FFE626099313008E85C7 /* User.swift in Sources */,
 				11D1FFEB26099357008E85C7 /* UserProfile.swift in Sources */,
 				11E4DFB826114D9200485A08 /* Attibutes.swift in Sources */,
-				11A1490F2623DB9E002FF5C5 /* ChatView.swift in Sources */,
 				11D100B5260ACE62008E85C7 /* ChartViewModel.swift in Sources */,
 				11D1FFD026099193008E85C7 /* Keyboard.swift in Sources */,
 				11A1489826225421002FF5C5 /* GraphItemSelectionView.swift in Sources */,
@@ -808,8 +768,6 @@
 				11A148B426229E16002FF5C5 /* JasonParser.swift in Sources */,
 				11D1FFB426098DB9008E85C7 /* SigninViewModel.swift in Sources */,
 				11E4DFB726114D9200485A08 /* ScoreData.swift in Sources */,
-				11A149192623DBCF002FF5C5 /* ChatBubble.swift in Sources */,
-				11A149142623DBB3002FF5C5 /* MessageRowView.swift in Sources */,
 				11D1FFA626098C8A008E85C7 /* InitialView.swift in Sources */,
 				11D10077260A1DDB008E85C7 /* MainView.swift in Sources */,
 				11A14890262248EE002FF5C5 /* LineGraph.swift in Sources */,
@@ -818,7 +776,6 @@
 				11D1FFF626099568008E85C7 /* Extension.swift in Sources */,
 				11E4DF9B26114C4900485A08 /* TopView.swift in Sources */,
 				11D1FFA026098957008E85C7 /* Company.swift in Sources */,
-				11A1490A2623DB86002FF5C5 /* CreateNewChannel.swift in Sources */,
 				11D1FF0926093F95008E85C7 /* HERApp.swift in Sources */,
 				11D1014D260FDF3A008E85C7 /* ContentView.swift in Sources */,
 				11A1482626222DB8002FF5C5 /* AttributeManager.swift in Sources */,
@@ -826,6 +783,7 @@
 				11D1FFBC26098E0C008E85C7 /* Constants.swift in Sources */,
 				11A1488A26224891002FF5C5 /* AtrributeGraphsView.swift in Sources */,
 				11E4DFB126114D5F00485A08 /* ActivityItem.swift in Sources */,
+				112068F1267EADA1004ADE19 /* Home.swift in Sources */,
 				11D1FFFB26099664008E85C7 /* Observer.swift in Sources */,
 				11D1000A26099CF9008E85C7 /* LoginHome.swift in Sources */,
 				11A1481726222491002FF5C5 /* ScoreMenuView.swift in Sources */,
@@ -1195,16 +1153,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 11A148C326233FC6002FF5C5 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
 			productName = SwiftyJSON;
-		};
-		11D10127260CF459008E85C7 /* StreamChat */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 11D10126260CF458008E85C7 /* XCRemoteSwiftPackageReference "stream-chat-swift" */;
-			productName = StreamChat;
-		};
-		11D10129260CF459008E85C7 /* StreamChatUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 11D10126260CF458008E85C7 /* XCRemoteSwiftPackageReference "stream-chat-swift" */;
-			productName = StreamChatUI;
 		};
 		11D1013B260FBC28008E85C7 /* AAInfographics */ = {
 			isa = XCSwiftPackageProductDependency;

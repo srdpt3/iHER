@@ -36,9 +36,13 @@ enum EventType: String, Codable {
     case channelDeleted = "channel.deleted"
     /// When a channel was hidden.
     case channelHidden = "channel.hidden"
+    /// When a channel is visible.
+    case channelVisible = "channel.visible"
     /// When a channel was truncated.
     case channelTruncated = "channel.truncated"
 
+    // MARK: Message Events
+    
     /// When a new message was added on a channel.
     case messageNew = "message.new"
     /// When a message was updated.
@@ -55,6 +59,8 @@ enum EventType: String, Codable {
     /// When a member was removed from a channel.
     case memberRemoved = "member.removed"
     
+    // MARK: Reactions
+    
     /// When a message reaction was added.
     case reactionNew = "reaction.new"
     /// When a message reaction updated.
@@ -69,19 +75,14 @@ enum EventType: String, Codable {
     case notificationMarkRead = "notification.mark_read"
     /// When the user mutes someone.
     case notificationMutesUpdated = "notification.mutes_updated"
+    /// When someone else from channel has muted someone.
+    case notificationChannelMutesUpdated = "notification.channel_mutes_updated"
     
     /// When the user accepts an invite.
     case notificationAddedToChannel = "notification.added_to_channel"
     /// When a user was removed from a channel.
     case notificationRemovedFromChannel = "notification.removed_from_channel"
-    
-    /// When the user was invited to join a channel.
-    case notificationInvited = "notification.invited"
-    /// When the user accepts an invite.
-    case notificationInviteAccepted = "notification.invite_accepted"
-    /// When the user reject an invite.
-    case notificationInviteRejected = "notification.invite_rejected"
-    
+        
     func event<ExtraData: ExtraDataTypes>(from response: EventPayload<ExtraData>) throws -> Event {
         switch self {
         case .healthCheck: return try HealthCheckEvent(from: response)
@@ -92,11 +93,12 @@ enum EventType: String, Codable {
         case .userStartTyping, .userStopTyping: return try TypingEvent(from: response)
         case .userBanned: return try UserBannedEvent(from: response)
         case .userUnbanned: return try UserUnbannedEvent(from: response)
-            
+
         case .channelUpdated: return try ChannelUpdatedEvent(from: response)
         case .channelDeleted: return try ChannelDeletedEvent(from: response)
         case .channelHidden: return try ChannelHiddenEvent(from: response)
         case .channelTruncated: return try ChannelTruncatedEvent(from: response)
+        case .channelVisible: return try ChannelVisibleEvent(from: response)
             
         case .messageNew: return try MessageNewEvent(from: response)
         case .messageUpdated: return try MessageUpdatedEvent(from: response)
@@ -112,7 +114,7 @@ enum EventType: String, Codable {
         case .reactionDeleted: return try ReactionDeletedEvent(from: response)
             
         case .notificationMessageNew: return try NotificationMessageNewEvent(from: response)
-            
+        
         case .notificationMarkRead:
             return response.channel == nil
                 ? try NotificationMarkAllReadEvent(from: response)
@@ -121,10 +123,7 @@ enum EventType: String, Codable {
         case .notificationMutesUpdated: return try NotificationMutesUpdatedEvent(from: response)
         case .notificationAddedToChannel: return try NotificationAddedToChannelEvent(from: response)
         case .notificationRemovedFromChannel: return try NotificationRemovedFromChannelEvent(from: response)
-            
-        case .notificationInvited: return try NotificationInvitedEvent(from: response)
-        case .notificationInviteAccepted: return try NotificationInviteAcceptedEvent(from: response)
-        case .notificationInviteRejected: return try NotificationInviteRejectedEvent(from: response)
+        case .notificationChannelMutesUpdated: return try NotificationChannelMutesUpdatedEvent(from: response)
         }
     }
 }

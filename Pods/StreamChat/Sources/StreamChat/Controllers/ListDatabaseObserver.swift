@@ -76,12 +76,25 @@ class ListDatabaseObserver<Item, DTO: NSManagedObject> {
     /// The current collection of items matching the provided fetch request. To receive granular updates to this collection,
     /// you can use the `onChange` callback.
     @Cached var items: LazyCachedMapCollection<Item>
-    
+
+    /// Called with the aggregated changes after the internal `NSFetchResultsController` calls `controllerWillChangeContent`
+    /// on its delegate.
+    var onWillChange: (() -> Void)? {
+        didSet {
+            changeAggregator.onWillChange = { [weak self] in
+                // Ideally, this should rather be `unowned`, however, `deinit` is not always called on the same thread as this
+                // callback which can cause a race condition when the object is already being deinited on a different thread.
+                guard let self = self else { return }
+                self.onWillChange?()
+            }
+        }
+    }
+
     /// Called with the aggregated changes after the internal `NSFetchResultsController` calls `controllerDidChangeContent`
     /// on its delegate.
     var onChange: (([ListChange<Item>]) -> Void)? {
         didSet {
-            changeAggregator.onChange = { [weak self] in
+            changeAggregator.onDidChange = { [weak self] in
                 // Ideally, this should rather be `unowned`, however, `deinit` is not always called on the same thread as this
                 // callback which can cause a race condition when the object is already being deinited on a different thread.
                 guard let self = self else { return }
@@ -135,8 +148,17 @@ class ListDatabaseObserver<Item, DTO: NSManagedObject> {
             cacheName: nil
         )
         
-        _items.computeValue = { [weak frc, itemCreator] in
-            (frc?.fetchedObjects ?? []).lazyCachedMap(itemCreator)
+        _items.computeValue = { [weak frc] in
+            var result = LazyCachedMapCollection<Item>()
+            result = (frc?.fetchedObjects ?? []).lazyCachedMap { dto in
+                // `itemCreator` returns non-optional value, so we can use implicitly uwrapped optional
+                var result: Item!
+                context.performAndWait {
+                    result = itemCreator(dto)
+                }
+                return result
+            }
+            return result
         }
 
         listenForRemoveAllDataNotifications()
@@ -156,7 +178,7 @@ class ListDatabaseObserver<Item, DTO: NSManagedObject> {
         _items.reset()
         
         // This is a workaround for the situation when someone wants to observe only the `items` array without
-        // listening to changes. We just need to make sure the `didSet` callback of `onChange` is executed at least once.
+        // listening to changes. We just need to make sure the `didSet` callback of `onDidChange` is executed at least once.
         if onChange == nil {
             onChange = nil
         }
@@ -221,15 +243,19 @@ class ListDatabaseObserver<Item, DTO: NSManagedObject> {
 }
 
 /// When this object is set as `NSFetchedResultsControllerDelegate`, it aggregates the callbacks from the fetched results
-/// controller and forwards them in the way of `[Change<Item>]`. You can set the `onChange` callback to receive these updates.
+/// controller and forwards them in the way of `[Change<Item>]`. You can set the `onDidChange` callback to receive these updates.
 class ListChangeAggregator<DTO: NSManagedObject, Item>: NSObject, NSFetchedResultsControllerDelegate {
     // TODO: Extend this to also provide `CollectionDifference` and `NSDiffableDataSourceSnapshot`
     
     /// Used for converting the `DTO`s provided by `FetchResultsController` to the resulting `Item`.
     let itemCreator: (DTO) -> Item?
-    
+
+    /// Called when the aggregator is about to change the current content. It gets called when the `FetchedResultsController`
+    /// calls `controllerWillChangeContent` on its delegate.
+    var onWillChange: (() -> Void)?
+
     /// Called with the aggregated changes after `FetchResultsController` calls controllerDidChangeContent` on its delegate.
-    var onChange: (([ListChange<Item>]) -> Void)?
+    var onDidChange: (([ListChange<Item>]) -> Void)?
     
     /// An array of changes in the current update. It gets reset every time `controllerWillChangeContent` is called, and
     /// published to the observer when `controllerDidChangeContent` is called.
@@ -248,6 +274,7 @@ class ListChangeAggregator<DTO: NSManagedObject, Item>: NSObject, NSFetchedResul
     // This should ideally be in the extensions but it's not possible to implement @objc methods in extensions of generic types.
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        onWillChange?()
         currentChanges = []
     }
     
@@ -315,7 +342,7 @@ class ListChangeAggregator<DTO: NSManagedObject, Item>: NSObject, NSFetchedResul
             return true
         }
         
-        onChange?(currentChanges)
+        onDidChange?(currentChanges)
     }
 }
 

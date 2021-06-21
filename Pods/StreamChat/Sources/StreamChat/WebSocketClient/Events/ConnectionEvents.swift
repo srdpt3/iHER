@@ -10,6 +10,7 @@ public protocol ConnectionEvent: Event {
 
 public struct HealthCheckEvent: ConnectionEvent, EventWithPayload {
     public let connectionId: String
+    
     var payload: Any
     
     init<ExtraData: ExtraDataTypes>(from eventResponse: EventPayload<ExtraData>) throws {

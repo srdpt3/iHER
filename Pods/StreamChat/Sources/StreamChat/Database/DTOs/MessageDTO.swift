@@ -219,7 +219,7 @@ extension NSManagedObjectContext: MessageDatabaseSession {
         quotedMessageId: MessageId?,
         extraData: ExtraData
     ) throws -> MessageDTO {
-        guard let currentUserDTO = currentUser() else {
+        guard let currentUserDTO = currentUser else {
             throw ClientError.CurrentUserDoesNotExist()
         }
         
@@ -397,7 +397,7 @@ extension NSManagedObjectContext: MessageDatabaseSession {
     }
 
     func pin(message: MessageDTO, pinning: MessagePinning) throws {
-        guard let currentUserDTO = currentUser() else {
+        guard let currentUserDTO = currentUser else {
             throw ClientError.CurrentUserDoesNotExist()
         }
         let pinnedDate = Date()
@@ -477,12 +477,9 @@ private extension _ChatMessage {
             extraData = .defaultValue
         }
         self.extraData = extraData
-        
-        threadParticipants = Set(dto.threadParticipants.map(\.id))
         localState = dto.localMessageState
         isFlaggedByCurrentUser = dto.flaggedBy != nil
-        quotedMessageId = dto.quotedMessage.map(\.id)
-
+        
         if dto.pinned,
            let pinnedAt = dto.pinnedAt,
            let pinnedBy = dto.pinnedBy,
@@ -496,28 +493,37 @@ private extension _ChatMessage {
             pinDetails = nil
         }
         
-        if let currentUser = context.currentUser() {
+        if let currentUser = context.currentUser {
             isSentByCurrentUser = currentUser.user.id == dto.user.id
             
             if dto.reactions.isEmpty {
-                $_currentUserReactions = { [] }
+                $_currentUserReactions = ({ [] }, nil)
             } else {
-                $_currentUserReactions = {
+                $_currentUserReactions = ({
                     Set(
                         MessageReactionDTO
                             .loadReactions(for: dto.id, authoredBy: currentUser.user.id, context: context)
                             .map { $0.asModel() }
                     )
-                }
+                }, dto.managedObjectContext)
             }
         } else {
             isSentByCurrentUser = false
-            $_currentUserReactions = { [] }
+            $_currentUserReactions = ({ [] }, nil)
         }
         
-        $_mentionedUsers = { Set(dto.mentionedUsers.map { $0.asModel() }) }
-        $_author = { dto.user.asModel() }
-        $_attachments = {
+        if dto.threadParticipants.isEmpty {
+            $_threadParticipants = ({ [] }, nil)
+        } else {
+            $_threadParticipants = (
+                { Set(dto.threadParticipants.map { $0.asModel() }) },
+                dto.managedObjectContext
+            )
+        }
+        
+        $_mentionedUsers = ({ Set(dto.mentionedUsers.map { $0.asModel() }) }, dto.managedObjectContext)
+        $_author = ({ dto.user.asModel() }, dto.managedObjectContext)
+        $_attachments = ({
             dto.attachments
                 .map { $0.asModel() }
                 .sorted {
@@ -525,29 +531,31 @@ private extension _ChatMessage {
                     let index2 = $1.id?.index ?? Int.max
                     return index1 < index2
                 }
-        }
+        }, dto.managedObjectContext)
         
         if dto.replies.isEmpty {
-            $_latestReplies = { [] }
+            $_latestReplies = ({ [] }, nil)
         } else {
-            $_latestReplies = {
+            $_latestReplies = ({
                 MessageDTO
                     .loadReplies(for: dto.id, limit: 5, context: context)
                     .map(_ChatMessage.init)
-            }
+            }, dto.managedObjectContext)
         }
         
         if dto.reactions.isEmpty {
-            $_latestReactions = { [] }
+            $_latestReactions = ({ [] }, nil)
         } else {
-            $_latestReactions = {
+            $_latestReactions = ({
                 Set(
                     MessageReactionDTO
                         .loadLatestReactions(for: dto.id, limit: 5, context: context)
                         .map { $0.asModel() }
                 )
-            }
+            }, dto.managedObjectContext)
         }
+        
+        $_quotedMessage = ({ dto.quotedMessage?.asModel() }, dto.managedObjectContext)
     }
 }
 

@@ -73,6 +73,7 @@ open class _ChatMessageListVC<ExtraData: ExtraDataTypes>: _ViewController,
     /// - Parameter cellType: The cell type to be registered.
     ///
     open func registerMessageCell(_ cellType: _СhatMessageCollectionViewCell<ExtraData>.Type) {
+        collectionView.register(cellType, forCellWithReuseIdentifier: cellType.incomingMessage0ReuseId)
         collectionView.register(cellType, forCellWithReuseIdentifier: cellType.incomingMessage2ReuseId)
         collectionView.register(cellType, forCellWithReuseIdentifier: cellType.incomingMessage3ReuseId)
         collectionView.register(cellType, forCellWithReuseIdentifier: cellType.incomingMessage6ReuseId)
@@ -83,6 +84,7 @@ open class _ChatMessageListVC<ExtraData: ExtraDataTypes>: _ViewController,
         collectionView.register(cellType, forCellWithReuseIdentifier: cellType.incomingMessage5ReuseId)
         collectionView.register(cellType, forCellWithReuseIdentifier: cellType.incomingMessage13ReuseId)
         
+        collectionView.register(cellType, forCellWithReuseIdentifier: cellType.outgoingMessage0ReuseId)
         collectionView.register(cellType, forCellWithReuseIdentifier: cellType.outgoingMessage2ReuseId)
         collectionView.register(cellType, forCellWithReuseIdentifier: cellType.outgoingMessage3ReuseId)
         collectionView.register(cellType, forCellWithReuseIdentifier: cellType.outgoingMessage6ReuseId)
@@ -119,7 +121,7 @@ open class _ChatMessageListVC<ExtraData: ExtraDataTypes>: _ViewController,
     override open func setUp() {
         super.setUp()
 
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress(_:)))
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
         longPress.minimumPressDuration = 0.33
         collectionView.addGestureRecognizer(longPress)
 
@@ -192,7 +194,7 @@ open class _ChatMessageListVC<ExtraData: ExtraDataTypes>: _ViewController,
 
     // MARK: - Actions
 
-    @objc func didLongPress(_ gesture: UILongPressGestureRecognizer) {
+    @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
         let location = gesture.location(in: collectionView)
 
         guard gesture.state == .began else { return }

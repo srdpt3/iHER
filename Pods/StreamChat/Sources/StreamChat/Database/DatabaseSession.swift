@@ -28,7 +28,7 @@ protocol CurrentUserDatabaseSession {
     /// Saves the provided payload to the DB. Return's a `CurrentUserDTO` if the save was successful. Throws an error
     /// if the save fails.
     @discardableResult
-    func saveCurrentUser<ExtraData: UserExtraData>(payload: CurrentUserPayload<ExtraData>) throws -> CurrentUserDTO
+    func saveCurrentUser<ExtraData: ExtraDataTypes>(payload: CurrentUserPayload<ExtraData>) throws -> CurrentUserDTO
 
     /// Updates the `CurrentUserDTO` with the provided unread.
     /// If there is no current user, the error will be thrown.
@@ -42,7 +42,7 @@ protocol CurrentUserDatabaseSession {
     func deleteDevice(id: DeviceId)
     
     /// Returns `CurrentUserDTO` from the DB. Returns `nil` if no `CurrentUserDTO` exists.
-    func currentUser() -> CurrentUserDTO?
+    var currentUser: CurrentUserDTO? { get }
 }
 
 extension CurrentUserDatabaseSession {
@@ -170,6 +170,22 @@ protocol ChannelReadDatabaseSession {
     func loadChannelReads(for userId: UserId) -> [ChannelReadDTO]
 }
 
+protocol ChannelMuteDatabaseSession {
+    /// Creates a new `ChannelMuteDTO` object in the database. Throws an error if the `ChannelMuteDTO` fails to be created.
+    @discardableResult
+    func saveChannelMute<ExtraData: ExtraDataTypes>(payload: MutedChannelPayload<ExtraData>) throws -> ChannelMuteDTO
+
+    /// Fetches `ChannelMuteDTO` with the given `cid` and `userId` from the DB.
+    /// Returns `nil` if no `ChannelMuteDTO` matching the `cid` and `userId`  exists.
+    func loadChannelMute(cid: ChannelId, userId: String) -> ChannelMuteDTO?
+
+    /// Fetches `ChannelMuteDTO` entities for the given `userId` from the DB.
+    func loadChannelMutes(for userId: UserId) -> [ChannelMuteDTO]
+
+    /// Fetches `ChannelMuteDTO` entities for the given `cid` from the DB.
+    func loadChannelMutes(for cid: ChannelId) -> [ChannelMuteDTO]
+}
+
 protocol MemberDatabaseSession {
     /// Creates a new `MemberDTO` object in the database with the given `payload` in the channel with `channelId`.
     @discardableResult
@@ -228,7 +244,8 @@ protocol DatabaseSession: UserDatabaseSession,
     ChannelDatabaseSession,
     MemberDatabaseSession,
     MemberListQueryDatabaseSession,
-    AttachmentDatabaseSession {}
+    AttachmentDatabaseSession,
+    ChannelMuteDatabaseSession {}
 
 extension DatabaseSession {
     @discardableResult
@@ -272,7 +289,7 @@ extension DatabaseSession {
             try saveCurrentUserUnreadCount(count: unreadCount)
         }
         
-        if let currentUser = currentUser(), let date = payload.createdAt {
+        if let currentUser = currentUser, let date = payload.createdAt {
             currentUser.lastReceivedEventDate = date
         }
         

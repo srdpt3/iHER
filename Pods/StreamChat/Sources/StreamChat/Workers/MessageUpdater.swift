@@ -13,12 +13,12 @@ class MessageUpdater<ExtraData: ExtraDataTypes>: Worker {
     ///   - messageId: The message identifier.
     ///   - completion: The completion. Will be called with an error if smth goes wrong, otherwise - will be called with `nil`.
     func getMessage(cid: ChannelId, messageId: MessageId, completion: ((Error?) -> Void)? = nil) {
-        let endpoint: Endpoint<MessagePayload<ExtraData>> = .getMessage(messageId: messageId)
+        let endpoint: Endpoint<MessagePayload<ExtraData>.Boxed> = .getMessage(messageId: messageId)
         apiClient.request(endpoint: endpoint) {
             switch $0 {
-            case let .success(message):
+            case let .success(boxed):
                 self.database.write({ session in
-                    try session.saveMessage(payload: message, for: cid)
+                    try session.saveMessage(payload: boxed.message, for: cid)
                 }, completion: { error in
                     completion?(error)
                 })
@@ -205,7 +205,7 @@ class MessageUpdater<ExtraData: ExtraDataTypes>: Worker {
                 return
             }
             
-            let endpoint: Endpoint<FlagMessagePayload<ExtraData.User>> = .flagMessage(flag, with: messageId)
+            let endpoint: Endpoint<FlagMessagePayload<ExtraData>> = .flagMessage(flag, with: messageId)
             self.apiClient.request(endpoint: endpoint) { result in
                 switch result {
                 case let .success(payload):
@@ -214,7 +214,7 @@ class MessageUpdater<ExtraData: ExtraDataTypes>: Worker {
                             throw ClientError.MessageDoesNotExist(messageId: messageId)
                         }
                         
-                        let currentUserDTO = session.currentUser()
+                        let currentUserDTO = session.currentUser
                         if flag {
                             currentUserDTO?.flaggedMessages.insert(messageDTO)
                         } else {
@@ -476,7 +476,7 @@ private extension DatabaseSession {
     /// - Throws: Either `CurrentUserDoesNotExist`/`MessageDoesNotExist`/
     /// - Returns: The message entity.
     func messageEditableByCurrentUser(_ messageId: MessageId) throws -> MessageDTO {
-        guard currentUser() != nil else {
+        guard currentUser != nil else {
             throw ClientError.CurrentUserDoesNotExist()
         }
 

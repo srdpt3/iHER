@@ -5,11 +5,13 @@
 import Foundation
 
 /// An object describing the incoming current user JSON payload.
-class CurrentUserPayload<ExtraData: UserExtraData>: UserPayload<ExtraData> {
+class CurrentUserPayload<ExtraData: ExtraDataTypes>: UserPayload<ExtraData.User> {
     /// A list of devices.
     let devices: [DevicePayload]
     /// Muted users.
-    let mutedUsers: [MutedUserPayload<ExtraData>]
+    let mutedUsers: [MutedUserPayload<ExtraData.User>]
+    /// Muted channels.
+    let mutedChannels: [MutedChannelPayload<ExtraData>]
     /// Unread channel and message counts
     let unreadCount: UnreadCount?
     
@@ -25,13 +27,15 @@ class CurrentUserPayload<ExtraData: UserExtraData>: UserPayload<ExtraData> {
         isInvisible: Bool,
         isBanned: Bool,
         teams: [TeamId] = [],
-        extraData: ExtraData,
+        extraData: ExtraData.User,
         devices: [DevicePayload] = [],
-        mutedUsers: [MutedUserPayload<ExtraData>] = [],
+        mutedUsers: [MutedUserPayload<ExtraData.User>] = [],
+        mutedChannels: [MutedChannelPayload<ExtraData>] = [],
         unreadCount: UnreadCount? = nil
     ) {
         self.devices = devices
         self.mutedUsers = mutedUsers
+        self.mutedChannels = mutedChannels
         self.unreadCount = unreadCount
         
         super.init(
@@ -53,7 +57,8 @@ class CurrentUserPayload<ExtraData: UserExtraData>: UserPayload<ExtraData> {
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: UserPayloadsCodingKeys.self)
         devices = try container.decodeIfPresent([DevicePayload].self, forKey: .devices) ?? []
-        mutedUsers = try container.decodeIfPresent([MutedUserPayload<ExtraData>].self, forKey: .mutedUsers) ?? []
+        mutedUsers = try container.decodeIfPresent([MutedUserPayload<ExtraData.User>].self, forKey: .mutedUsers) ?? []
+        mutedChannels = try container.decodeIfPresent([MutedChannelPayload<ExtraData>].self, forKey: .mutedChannels) ?? []
         unreadCount = try? UnreadCount(from: decoder)
         
         try super.init(from: decoder)
@@ -80,14 +85,14 @@ extension MutedUserPayload: Equatable {
 }
 
 /// A muted users response.
-struct MutedUsersResponse<ExtraData: UserExtraData>: Decodable {
+struct MutedUsersResponse<ExtraData: ExtraDataTypes>: Decodable {
     private enum CodingKeys: String, CodingKey {
         case mutedUser = "mute"
         case currentUser = "own_user"
     }
     
     /// A muted user.
-    public let mutedUser: MutedUserPayload<ExtraData>
+    public let mutedUser: MutedUserPayload<ExtraData.User>
     /// The current user.
     public let currentUser: CurrentUserPayload<ExtraData>
 }

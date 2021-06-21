@@ -107,7 +107,7 @@ struct MainContentView : View {
     @Binding var show : Bool
     @Binding var index : String
     @StateObject var obs = Observer()
-    @StateObject var streamData = StreamViewModel()
+//    @StateObject var streamData = StreamViewModel()
     @AppStorage("log_Status") var logStatus = false
     var body : some View{
             
@@ -161,22 +161,11 @@ struct MainContentView : View {
 
                 MyCompanyView().environmentObject(obs).opacity(self.index == "My Company" ? 1 : 0)
                 
-                NewsView().opacity(self.index == "Headline" ? 1 : 0)
+//                NewsView().opacity(self.index == "Headline" ? 1 : 0)
                 
-                ChannelView().opacity(self.index == "Channels" ? 1 : 0)
-                    .overlay(
-                        ZStack{
-                            
-                            
-                            // New Channel View....
-                            if streamData.createNewChannel{CreateNewChannel()}
-                            
-                            // Lodaing Screen...
-                            if streamData.isLoading{LoadingScreen()}
-                        }
-                    )
-                    .environmentObject(streamData)
 
+                Home().opacity(self.index == "Home" ? 1 : 0)
+                
                 Settings().opacity(self.index == "Settings" ? 1 : 0)
                 
             }
@@ -193,19 +182,6 @@ struct MainContentView : View {
 }
 
 
-struct SavedCards : View {
-    
-    var body : some View{
-        
-        GeometryReader{_ in
-            
-            VStack{
-                
-                Text("Channels")
-            }
-        }
-    }
-}
 
 struct Settings : View {
     
@@ -223,4 +199,4 @@ struct Settings : View {
 
 
 
-var data = ["Companies","My Company","Headline","Channels","Settings"]
+var data = ["Companies","My Company","Home","Settings"]

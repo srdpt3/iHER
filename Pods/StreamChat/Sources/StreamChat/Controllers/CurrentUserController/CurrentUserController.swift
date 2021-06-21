@@ -68,7 +68,7 @@ public class _CurrentChatUserController<ExtraData: ExtraDataTypes>: DataControll
     
     /// The currently logged-in user. `nil` if the connection hasn't been fully established yet, or the connection
     /// wasn't successful.
-    public var currentUser: _CurrentChatUser<ExtraData.User>? {
+    public var currentUser: _CurrentChatUser<ExtraData>? {
         startObservingIfNeeded()
         return currentUserObserver.item
     }
@@ -99,7 +99,12 @@ public class _CurrentChatUserController<ExtraData: ExtraDataTypes>: DataControll
         self.client = client
         self.environment = environment
     }
-    
+
+    /// Synchronize local data with remote. Waits for the client to connect but doesn’t initiate the connection itself.
+    /// This is to make sure the fetched local data is up-to-date, since the current user data is updated through WebSocket events.
+    ///
+    /// - Parameter completion: Called when the controller has finished fetching the local data
+    ///   and the client connection is established.
     override public func synchronize(_ completion: ((_ error: Error?) -> Void)? = nil) {
         startObservingIfNeeded()
         
@@ -107,15 +112,17 @@ public class _CurrentChatUserController<ExtraData: ExtraDataTypes>: DataControll
             callback { completion?(error) }
             return
         }
-        
-        guard let currentUserId = currentUser?.id else {
-            completion?(ClientError.CurrentUserDoesNotExist())
-            return
-        }
-        
-        currentUserUpdater.fetchDevices(currentUserId: currentUserId) { error in
-            self.state = error == nil ? .remoteDataFetched : .remoteDataFetchFailed(ClientError(with: error))
-            self.callback { completion?(error) }
+
+        // Unlike the other DataControllers, this one does not make a remote call when synchronising.
+        // But we can assume that if we wait for the connection of the WebSocket, it means the local data
+        // is in sync with the remote server, so we can set the state to remoteDataFetched.
+        client.provideConnectionId { [weak self] connectionId in
+            var error: ClientError?
+            if connectionId == nil {
+                error = ClientError.ConnectionNotSuccessful()
+            }
+            self?.state = error == nil ? .remoteDataFetched : .remoteDataFetchFailed(error!)
+            self?.callback { completion?(error) }
         }
     }
     
@@ -189,6 +196,19 @@ public extension _CurrentChatUserController {
             }
         }
     }
+
+    /// Fetches the most updated devices and syncs with the local database.
+    /// - Parameter completion: Called when the devices are synced successfully, or with error.
+    func synchronizeDevices(completion: ((Error?) -> Void)? = nil) {
+        guard let currentUserId = currentUser?.id else {
+            completion?(ClientError.CurrentUserDoesNotExist())
+            return
+        }
+
+        currentUserUpdater.fetchDevices(currentUserId: currentUserId) { error in
+            self.callback { completion?(error) }
+        }
+    }
     
     /// Registers a device to the current user.
     /// `setUser` must be called before calling this.
@@ -235,9 +255,9 @@ extension _CurrentChatUserController {
         var currentUserObserverBuilder: (
             _ context: NSManagedObjectContext,
             _ fetchRequest: NSFetchRequest<CurrentUserDTO>,
-            _ itemCreator: @escaping (CurrentUserDTO) -> _CurrentChatUser<ExtraData.User>,
+            _ itemCreator: @escaping (CurrentUserDTO) -> _CurrentChatUser<ExtraData>,
             _ fetchedResultsControllerType: NSFetchedResultsController<CurrentUserDTO>.Type
-        ) -> EntityDatabaseObserver<_CurrentChatUser<ExtraData.User>, CurrentUserDTO> = EntityDatabaseObserver.init
+        ) -> EntityDatabaseObserver<_CurrentChatUser<ExtraData>, CurrentUserDTO> = EntityDatabaseObserver.init
         
         var currentUserUpdaterBuilder = CurrentUserUpdater<ExtraData>.init
 
@@ -261,7 +281,7 @@ private extension EntityChange where Item == UnreadCount {
 }
 
 private extension _CurrentChatUserController {
-    func createUserObserver() -> EntityDatabaseObserver<_CurrentChatUser<ExtraData.User>, CurrentUserDTO> {
+    func createUserObserver() -> EntityDatabaseObserver<_CurrentChatUser<ExtraData>, CurrentUserDTO> {
         environment.currentUserObserverBuilder(
             client.databaseContainer.viewContext,
             CurrentUserDTO.defaultFetchRequest,
@@ -306,7 +326,7 @@ public protocol _CurrentChatUserControllerDelegate: AnyObject {
     /// The controller observed a change in the `CurrentUser` entity.
     func currentUserController(
         _ controller: _CurrentChatUserController<ExtraData>,
-        didChangeCurrentUser: EntityChange<_CurrentChatUser<ExtraData.User>>
+        didChangeCurrentUser: EntityChange<_CurrentChatUser<ExtraData>>
     )
 }
 
@@ -318,7 +338,7 @@ public extension _CurrentChatUserControllerDelegate {
     
     func currentUserController(
         _ controller: _CurrentChatUserController<ExtraData>,
-        didChangeCurrentUser: EntityChange<_CurrentChatUser<ExtraData.User>>
+        didChangeCurrentUser: EntityChange<_CurrentChatUser<ExtraData>>
     ) {}
 }
 
@@ -332,7 +352,7 @@ final class AnyCurrentUserControllerDelegate<ExtraData: ExtraDataTypes>: _Curren
     
     private var _controllerDidChangeCurrentUser: (
         _CurrentChatUserController<ExtraData>,
-        EntityChange<_CurrentChatUser<ExtraData.User>>
+        EntityChange<_CurrentChatUser<ExtraData>>
     ) -> Void
     
     init(
@@ -343,7 +363,7 @@ final class AnyCurrentUserControllerDelegate<ExtraData: ExtraDataTypes>: _Curren
         ) -> Void,
         controllerDidChangeCurrentUser: @escaping (
             _CurrentChatUserController<ExtraData>,
-            EntityChange<_CurrentChatUser<ExtraData.User>>
+            EntityChange<_CurrentChatUser<ExtraData>>
         ) -> Void
     ) {
         self.wrappedDelegate = wrappedDelegate
@@ -360,7 +380,7 @@ final class AnyCurrentUserControllerDelegate<ExtraData: ExtraDataTypes>: _Curren
     
     func currentUserController(
         _ controller: _CurrentChatUserController<ExtraData>,
-        didChangeCurrentUser user: EntityChange<_CurrentChatUser<ExtraData.User>>
+        didChangeCurrentUser user: EntityChange<_CurrentChatUser<ExtraData>>
     ) {
         _controllerDidChangeCurrentUser(controller, user)
     }
