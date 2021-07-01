@@ -40,7 +40,8 @@ struct InitialView: View {
             
             //              if(!LandingView.shouldAnimate){&& logStatus
             if(self.obs.isLoggedIn ){
-                ContentView() 
+                CommentDashBoardView()
+//                ContentView()
                 
             }
             else{

@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Firebase
-import StreamChat
 @main
 struct HERApp: App {
     @AppStorage("isDarkMode") var isDarkMode: Bool = true
@@ -44,25 +43,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Override point for customization after application launch.
         FirebaseApp.configure()
         UNUserNotificationCenter.current().delegate = self
-        
-        let config = ChatClientConfig(apiKeyString: "m39hdtsxmbce")
-        
-        if logStatus {
-            ChatClient.shared = ChatClient(config: config, tokenProvider: .development(userId: StoredUser))
-            
-        }else{
-            ChatClient.shared = ChatClient(config: config, tokenProvider: .anonymous)
-
-        }
+    
         
         
         return true
     }
 }
 
-extension ChatClient {
-    static var shared : ChatClient!
-    
-}
+
 
 

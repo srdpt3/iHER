@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import StreamChat
 
 class LoginViewModel: ObservableObject {
 
@@ -90,7 +89,6 @@ class LoginViewModel: ObservableObject {
             
             
             
-            ChatClient.shared.connectionController().disconnect()
 
             //            unbind()
         } catch  {
