@@ -23,6 +23,12 @@ struct CommentDashBoardView: View {
                 }
                 
                 
+                ConversationView().tabItem{
+                    Image(systemName: "envelope")
+                    Text("message")
+                }
+                
+                
             }
         }
     }
