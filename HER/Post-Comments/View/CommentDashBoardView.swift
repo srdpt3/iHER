@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CommentDashBoardView: View {
     var body: some View {
-        NavigationView {
+      
             TabView {
                 
                 FeedView().tabItem{
@@ -30,7 +30,7 @@ struct CommentDashBoardView: View {
                 
                 
             }
-        }
+        
     }
 }
 
