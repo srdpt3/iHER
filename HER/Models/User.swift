@@ -77,3 +77,9 @@ struct User: Encodable, Decodable ,Identifiable{
     
     
 }
+
+struct UserStats {
+    let followers: Int
+    let following: Int
+}
+

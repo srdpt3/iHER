@@ -11,7 +11,8 @@ struct SideMenu: View {
     
     @Binding var selectedTab: String
     @Namespace var animation
-    
+    @EnvironmentObject var homeData : LoginViewModel
+
     var body: some View {
         VStack(alignment: .leading, spacing: 15, content: {
             
@@ -82,8 +83,16 @@ struct SideMenu: View {
             // Sign Out Button...
             VStack(alignment: .leading, spacing: 6, content: {
                 
-                TabButton(image: "rectangle.righthalf.inset.fill.arrow.right", title: "Log out", selectedTab: .constant(""), animation: animation)
-                    .padding(.leading,-15)
+                
+                Button(action: {
+                    homeData.logout()
+                }, label: {
+                    Image(systemName: "rectangle.righthalf.inset.fill.arrow.right")
+                })
+                .padding(.leading,-15)
+//.padding(.leading,-15)
+//                TabButton(image: "rectangle.righthalf.inset.fill.arrow.right", title: "Log out", selectedTab: .constant(""), animation: animation)
+//                    .padding(.leading,-15)
                 
                 Text("App Version 1.2.34")
                     .font(.caption)

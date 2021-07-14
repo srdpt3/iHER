@@ -27,6 +27,12 @@
 		1150D5D4269389E0000A66A1 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1150D5D3269389DF000A66A1 /* ProfileHeaderView.swift */; };
 		1150D5D62693DE94000A66A1 /* NewPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1150D5D52693DE94000A66A1 /* NewPostView.swift */; };
 		1150D5D82693E7FA000A66A1 /* TextArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1150D5D72693E7FA000A66A1 /* TextArea.swift */; };
+		1174F823269BB45900BBBB3F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1174F822269BB45900BBBB3F /* LoginView.swift */; };
+		1174F825269BB59400BBBB3F /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1174F824269BB59400BBBB3F /* RegisterView.swift */; };
+		1174F827269BB5ED00BBBB3F /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1174F826269BB5ED00BBBB3F /* CustomTextField.swift */; };
+		1174F829269BB60F00BBBB3F /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1174F828269BB60F00BBBB3F /* LazyView.swift */; };
+		1174F82B269BB62200BBBB3F /* CustomSecureField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1174F82A269BB62200BBBB3F /* CustomSecureField.swift */; };
+		1174F82F269BDF1200BBBB3F /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1174F82E269BDF1200BBBB3F /* AuthViewModel.swift */; };
 		117880C02687F54800A05657 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117880BF2687F54800A05657 /* FeedView.swift */; };
 		117880C2268806B100A05657 /* CommentDashBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117880C1268806B100A05657 /* CommentDashBoardView.swift */; };
 		117880C42689010F00A05657 /* DashboardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117880C32689010F00A05657 /* DashboardCell.swift */; };
@@ -139,6 +145,12 @@
 		1150D5D3269389DF000A66A1 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		1150D5D52693DE94000A66A1 /* NewPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostView.swift; sourceTree = "<group>"; };
 		1150D5D72693E7FA000A66A1 /* TextArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextArea.swift; sourceTree = "<group>"; };
+		1174F822269BB45900BBBB3F /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		1174F824269BB59400BBBB3F /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		1174F826269BB5ED00BBBB3F /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		1174F828269BB60F00BBBB3F /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
+		1174F82A269BB62200BBBB3F /* CustomSecureField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureField.swift; sourceTree = "<group>"; };
+		1174F82E269BDF1200BBBB3F /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		117880BF2687F54800A05657 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FeedView.swift; path = "../../../../iOs/SwiftUI3.0/3D Carousel Slider/3D Carousel Slider/View/FeedView.swift"; sourceTree = "<group>"; };
 		117880C1268806B100A05657 /* CommentDashBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDashBoardView.swift; sourceTree = "<group>"; };
 		117880C32689010F00A05657 /* DashboardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardCell.swift; sourceTree = "<group>"; };
@@ -507,6 +519,9 @@
 				11A148B326229E16002FF5C5 /* JasonParser.swift */,
 				112068F2267EADCF004ADE19 /* BlurView.swift */,
 				1150D5D72693E7FA000A66A1 /* TextArea.swift */,
+				1174F826269BB5ED00BBBB3F /* CustomTextField.swift */,
+				1174F828269BB60F00BBBB3F /* LazyView.swift */,
+				1174F82A269BB62200BBBB3F /* CustomSecureField.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -527,6 +542,8 @@
 				11D1000926099CF9008E85C7 /* LoginHome.swift */,
 				11D1000E26099D20008E85C7 /* Register.swift */,
 				11D1001326099D2D008E85C7 /* Login.swift */,
+				1174F822269BB45900BBBB3F /* LoginView.swift */,
+				1174F824269BB59400BBBB3F /* RegisterView.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -537,6 +554,7 @@
 				11D1FFB326098DB9008E85C7 /* SigninViewModel.swift */,
 				11D1FFC52609912B008E85C7 /* UserViewModel.swift */,
 				11D1001826099DBA008E85C7 /* LoginViewModel.swift */,
+				1174F82E269BDF1200BBBB3F /* AuthViewModel.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -865,6 +883,7 @@
 				11D100A3260A91C2008E85C7 /* CommentView.swift in Sources */,
 				1150D5CE26922C7A000A66A1 /* Home.swift in Sources */,
 				11D100B0260AC8D6008E85C7 /* Score.swift in Sources */,
+				1174F82B269BB62200BBBB3F /* CustomSecureField.swift in Sources */,
 				11CE630C268D4B8800DDBE07 /* SearchBar.swift in Sources */,
 				1150D5B22690F3B0000A66A1 /* ConversationView.swift in Sources */,
 				1150D5C3269167CB000A66A1 /* NewMessageView.swift in Sources */,
@@ -877,6 +896,7 @@
 				11D1FFD026099193008E85C7 /* Keyboard.swift in Sources */,
 				11A1489826225421002FF5C5 /* GraphItemSelectionView.swift in Sources */,
 				11D1018C26110B95008E85C7 /* MyCompanyView.swift in Sources */,
+				1174F827269BB5ED00BBBB3F /* CustomTextField.swift in Sources */,
 				11E4DFCF2615764500485A08 /* CurrentScoreView.swift in Sources */,
 				1150D5C826922B54000A66A1 /* SideMenu.swift in Sources */,
 				11CE630E268D730600DDBE07 /* UserCell.swift in Sources */,
@@ -885,7 +905,9 @@
 				11A1488526224838002FF5C5 /* AtrributeGraphView.swift in Sources */,
 				11D1006F260A0B67008E85C7 /* WebView.swift in Sources */,
 				11D1001426099D2D008E85C7 /* Login.swift in Sources */,
+				1174F829269BB60F00BBBB3F /* LazyView.swift in Sources */,
 				1150D5BD26915DF2000A66A1 /* Message.swift in Sources */,
+				1174F823269BB45900BBBB3F /* LoginView.swift in Sources */,
 				11A148B426229E16002FF5C5 /* JasonParser.swift in Sources */,
 				11D1FFB426098DB9008E85C7 /* SigninViewModel.swift in Sources */,
 				11E4DFB726114D9200485A08 /* ScoreData.swift in Sources */,
@@ -916,6 +938,8 @@
 				11E4DFA026114C6500485A08 /* DashBoardView.swift in Sources */,
 				11D100BA260AD081008E85C7 /* LoadingView.swift in Sources */,
 				1150D5B42690FB15000A66A1 /* CoversationCell.swift in Sources */,
+				1174F82F269BDF1200BBBB3F /* AuthViewModel.swift in Sources */,
+				1174F825269BB59400BBBB3F /* RegisterView.swift in Sources */,
 				11D1FFE1260992C4008E85C7 /* AuthService.swift in Sources */,
 				11E4DFCA2612B30000485A08 /* AreaChartView.swift in Sources */,
 			);

@@ -46,7 +46,7 @@ struct InitialView: View {
             }
             else{
                 
-                LoginHome()
+                LoginView()
             }
             
             //           }
@@ -68,7 +68,7 @@ struct InitialView: View {
             //                }
             
         }.onAppear(){
-//           AuthService.logout()
+//          AuthService.logout()
             self.listen()
         }
         

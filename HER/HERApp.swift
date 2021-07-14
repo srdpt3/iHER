@@ -10,15 +10,21 @@ import Firebase
 @main
 struct HERApp: App {
     @AppStorage("isDarkMode") var isDarkMode: Bool = true
+    
+    init(){
+        FirebaseApp.configure()
+    }
 
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {
-            let obs = Observer()
+//            let obs = Observer()
+            
+            ContentView().environmentObject(AuthViewModel())
 
-            InitialView().environmentObject(obs)
-                .environment(\.colorScheme, isDarkMode ? .light : .light)
-                .preferredColorScheme(isDarkMode ? .light : .light)
+//            InitialView().environmentObject(obs)
+//                .environment(\.colorScheme, isDarkMode ? .light : .light)
+//                .preferredColorScheme(isDarkMode ? .light : .light)
 
         }
     }
@@ -41,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        FirebaseApp.configure()
+//        FirebaseApp.configure()
         UNUserNotificationCenter.current().delegate = self
     
         
