@@ -20,10 +20,22 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "StreamViewModel.logInUser():StreamViewModel.swift">
+         contextName = "closure #1 in closure #1 in SideMenu.body.getter:SideMenu.swift">
          <PersistentStrings>
             <PersistentString
-               value = "userName">
+               value = "viewModel.user!">
+            </PersistentString>
+            <PersistentString
+               value = "viewModel.user">
+            </PersistentString>
+            <PersistentString
+               value = "viewModel.user!.username">
+            </PersistentString>
+            <PersistentString
+               value = "self.viewModel">
+            </PersistentString>
+            <PersistentString
+               value = "homeData">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -38,6 +50,14 @@
             </PersistentString>
             <PersistentString
                value = "companyData.fetchedCompany">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "StreamViewModel.logInUser():StreamViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "userName">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

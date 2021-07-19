@@ -9,8 +9,11 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct ProfileHeaderView: View {
-    @State private var editProfilePresented = false
+    @ObservedObject var viewModel: ProfileViewModel
+    @Binding var editProfilePresented: Bool
+    
 
+    
     var body: some View {
         VStack {
             
@@ -18,11 +21,11 @@ struct ProfileHeaderView: View {
                 .resizable()
                 .scaledToFill()
                 .clipped()
-                .frame(width: 120, height: 120)
+                .frame(width: 120, height: 120) 
                 .cornerRadius(120 / 2)
                 .shadow(color: .black, radius: 6, x: 0.0, y: 0.0)
             
-            Text("Blackrock")
+            Text(viewModel.user.company)
                 .font(.system(size: 16, weight: .semibold))
                 .padding(.top, 8)
             
@@ -30,13 +33,13 @@ struct ProfileHeaderView: View {
                 .font(.subheadline)
                 .foregroundColor(.gray)
             
-            Text("sfdasdfasdfasdfasdfas")
+            Text(viewModel.user.username)
                 .font(.system(size: 14))
                 .padding(.top, 8)
             
             HStack(spacing: 40) {
                 VStack {
-                    Text("2000")
+                    Text("\(viewModel.user.stats.followers)")
                         .font(.system(size: 16)).bold()
                     
                     Text("Followers")
@@ -45,7 +48,7 @@ struct ProfileHeaderView: View {
                 }
                 
                 VStack {
-                    Text("1000")
+                    Text("\(viewModel.user.stats.following)")
                         .font(.system(size: 16)).bold()
                     
                     Text("Following")
@@ -53,15 +56,9 @@ struct ProfileHeaderView: View {
                         .foregroundColor(.gray)
                 }
             }.padding()
-            ProfileActionButtonView(isCurrentUser: false, editProfilePresented: $editProfilePresented)
-//            ProfileActionButtonView(viewModel: viewModel, editProfilePresented: $editProfilePresented)
+            ProfileActionButtonView(viewModel: viewModel, editProfilePresented: $editProfilePresented)
             Spacer()
         }
     }
 }
 
-struct ProfileHeaderView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileHeaderView()
-    }
-}

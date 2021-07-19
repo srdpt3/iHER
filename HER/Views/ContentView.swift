@@ -6,7 +6,7 @@ struct ContentView: View {
         
         Group{
             if viewModel.userSession != nil {
-                MainView()
+                MainView().environmentObject(viewModel)
 
             }else{
                 LoginView()

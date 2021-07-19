@@ -51,28 +51,27 @@ class Observer : ObservableObject{
     
     //    var status: String    { return("\(lm.status)") }
     func getCompanyList(){
-        self.fetchedCompany.removeAll()
-        Ref.FIRESTORE_COLLECTION_COMPANY.getDocuments { (snap, error) in
-            if error != nil {
-                print((error?.localizedDescription)!)
-                
-            }
-            for i in snap!.documents{
-                let dict = i.data()
-                
-                guard let decoderActivity = try? Company.init(fromDictionary: dict) else {return}
-                
-                if(decoderActivity.Company_Name == User.currentUser()!.company){
-                    print(User.currentUser()!.company)
-                    self.myCompany = decoderActivity
-                }
-                self.fetchedCompany.append(decoderActivity)
-                //                print(decoderActivity)
-                
-                
-            }
-            print("company count \(self.fetchedCompany)")
-        }
+//        self.fetchedCompany.removeAll()
+//        Ref.FIRESTORE_COLLECTION_COMPANY.getDocuments { (snap, error) in
+//            if error != nil {
+//                print((error?.localizedDescription)!)
+//
+//            }
+//            for i in snap!.documents{
+//                let dict = i.data()
+//
+//                guard let decoderActivity = try? Company.init(fromDictionary: dict) else {return}
+//
+////                if(decoderActivity.Company_Name == User.currentUser()!.company){
+////                    self.myCompany = decoderActivity
+////                }
+//                self.fetchedCompany.append(decoderActivity)
+//                //                print(decoderActivity)
+//
+//
+//            }
+//            print("company count \(self.fetchedCompany)")
+//        }
     }
     
 
@@ -80,61 +79,61 @@ class Observer : ObservableObject{
     
     
     
-    func listenAuthenticationState() {
-        resetDefaults()
-        self.fetchedCompany.removeAll()
-        
-        URLCache.shared.removeAllCachedResponses()
-        handle = Auth.auth().addStateDidChangeListener({ (auth, user) in
-            if let user = user {
-                print("listenAuthenticationState \(user.uid)")
-                let firestoreUserId = Ref.FIRESTORE_DOCUMENT_USERID(userId: user.uid)
-                firestoreUserId.getDocument { (document, error) in
-                    if let dict = document?.data() {
-                        
-                        //                        guard let decoderUser = try? User.init(fromDictionary: dict) else {return}
-                        guard let decoderUser = try? User.init(_dictionary: dict as NSDictionary) else {return}
-                        guard let dictUser = try? decoderUser.toDictionary() else {return}
-                        
-                        saveUserLocally(mUserDictionary: dictUser as NSDictionary)
-                        self.isLoggedIn = true
-
-                        
-                        
-                        //                        self.getCompanyList()
-                        
-                        //                        let batch = Ref.FIRESTORE_ROOT.batch()
-                        //
-                        //                        let userLocationRef = Ref.FIRESTORE_DOCUMENT_USER_LOCATION(userId: decoderUser.id)
-                        //                        let userProfile = UserProfile.init(id: decoderUser.id, email: decoderUser.email, profileImageUrl: decoderUser.profileImageUrl, username: decoderUser.username, age: decoderUser.age, gender: decoderUser.gender, createdDate:  Date().timeIntervalSince1970, location: "", occupation: "",  longitude: "", latitude: "", description: "")
-                        //                        guard let dict2 = try? userProfile.toDictionary() else {return}
-                        //
-                        //                        saveUserLocationLocally(mUserDictionary: dict2 as NSDictionary)
-                        //
-                        
-                        //                        batch.setData(dict2, forDocument: userLocationRef)
-                        //
-                        //                        batch.commit() { err in
-                        //                            if let err = err {
-                        //                                print("Error writing batch \(err)")
-                        //                            } else {
-                        //                                print("Batch persistMatching write succeeded.")
-                        //
-                        //                            }
-                        //                        }
-                        
-                        
-                    }
-                }
-                
-            } else {
-                print("isLoogedIn is false")
-                self.isLoggedIn = false
-                //                self.userSession = nil
-                
-            }
-        })
-    }
+//    func listenAuthenticationState() {
+//        resetDefaults()
+//        self.fetchedCompany.removeAll()
+//        
+//        URLCache.shared.removeAllCachedResponses()
+//        handle = Auth.auth().addStateDidChangeListener({ (auth, user) in
+//            if let user = user {
+//                print("listenAuthenticationState \(user.uid)")
+//                let firestoreUserId = Ref.FIRESTORE_DOCUMENT_USERID(userId: user.uid)
+//                firestoreUserId.getDocument { (document, error) in
+//                    if let dict = document?.data() {
+//                        
+//                        //                        guard let decoderUser = try? User.init(fromDictionary: dict) else {return}
+//                        guard let decoderUser = try? User.init(_dictionary: dict) else {return}
+//                        guard let dictUser = try? decoderUser.toDictionary() else {return}
+//                        
+//                        saveUserLocally(mUserDictionary: dictUser as NSDictionary)
+//                        self.isLoggedIn = true
+//
+//                        
+//                        
+//                        //                        self.getCompanyList()
+//                        
+//                        //                        let batch = Ref.FIRESTORE_ROOT.batch()
+//                        //
+//                        //                        let userLocationRef = Ref.FIRESTORE_DOCUMENT_USER_LOCATION(userId: decoderUser.id)
+//                        //                        let userProfile = UserProfile.init(id: decoderUser.id, email: decoderUser.email, profileImageUrl: decoderUser.profileImageUrl, username: decoderUser.username, age: decoderUser.age, gender: decoderUser.gender, createdDate:  Date().timeIntervalSince1970, location: "", occupation: "",  longitude: "", latitude: "", description: "")
+//                        //                        guard let dict2 = try? userProfile.toDictionary() else {return}
+//                        //
+//                        //                        saveUserLocationLocally(mUserDictionary: dict2 as NSDictionary)
+//                        //
+//                        
+//                        //                        batch.setData(dict2, forDocument: userLocationRef)
+//                        //
+//                        //                        batch.commit() { err in
+//                        //                            if let err = err {
+//                        //                                print("Error writing batch \(err)")
+//                        //                            } else {
+//                        //                                print("Batch persistMatching write succeeded.")
+//                        //
+//                        //                            }
+//                        //                        }
+//                        
+//                        
+//                    }
+//                }
+//                
+//            } else {
+//                print("isLoogedIn is false")
+//                self.isLoggedIn = false
+//                //                self.userSession = nil
+//                
+//            }
+//        })
+//    }
     
     
     func resetCache(){

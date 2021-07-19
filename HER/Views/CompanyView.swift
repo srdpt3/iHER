@@ -28,17 +28,7 @@ struct CompanyView : View {
             ScrollView(.vertical, showsIndicators: false) {
 //
                 LazyVStack{
-                    
-                    //                HStack{
-                    //
-                    //                    Text("Highlighed Company")
-                    //                        .font(.callout)
-                    //                        .fontWeight(.bold)
-                    //
-                    //                    Spacer()
-                    //                }
-                    //                .padding(.horizontal)
-                    //
+
                     TextField("Search", text: self.$search)
                         .padding(.vertical,10)
                         .padding(.horizontal)

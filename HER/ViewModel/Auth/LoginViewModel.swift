@@ -58,7 +58,7 @@ class LoginViewModel: ObservableObject {
             //            self.showLoader()
             
             print("register")
-            AuthService.signupUser(username: username, email: email, password: password, age: age, gender: gender,location: location, occupation: occupation,  longitude: longitude, latitude: latitude, description: description, onSuccess: completed, onError: onError)
+//            AuthService.signupUser(username: username, email: email, password: password, age: age, gender: gender,location: location, occupation: occupation,  longitude: longitude, latitude: latitude, description: description, onSuccess: completed, onError: onError)
         }
         
         
@@ -85,11 +85,7 @@ class LoginViewModel: ObservableObject {
             
             resetCache()
            AuthService.logout()
-            
-            
-            
-            
-
+ 
             //            unbind()
         } catch  {
             print("Logout Failed")

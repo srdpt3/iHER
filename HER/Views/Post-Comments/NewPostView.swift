@@ -11,6 +11,15 @@ import SDWebImageSwiftUI
 struct NewPostView: View {
     @Binding var isPresented: Bool
     @State var captionText: String = ""
+    
+    @ObservedObject var viewModel : UploadPostViewModel
+    
+    
+    init(isPresented : Binding<Bool>){
+        self._isPresented = isPresented
+        self.viewModel = UploadPostViewModel(isPresented: isPresented)
+    }
+    
     var body: some View {
         HStack {
             Button(action: { isPresented.toggle() }, label: {
@@ -19,7 +28,9 @@ struct NewPostView: View {
             })
             Spacer()
             
-            Button(action: { }, label: {
+            Button(action: {
+                viewModel.uploadPost(caption: captionText)
+            }, label: {
                 Text("Post")
                     .bold()
                     .padding(.horizontal)
@@ -32,12 +43,15 @@ struct NewPostView: View {
         
         HStack(alignment: .top) {
 //            KFImage(viewModel.profileImageUrl)
-            Image("p0")
-                .resizable()
-                .scaledToFill()
-                .clipped()
-                .frame(width: 64, height: 64)
-                .cornerRadius(32)
+            if let user = AuthViewModel.shared.user{
+                Image("p0")
+                    .resizable()
+                    .scaledToFill()
+                    .clipped()
+                    .frame(width: 64, height: 64)
+                    .cornerRadius(32)
+            }
+         
 //            Text("What's happening??").foregroundColor(.gray)
             TextArea("What's happening", text: $captionText)
             

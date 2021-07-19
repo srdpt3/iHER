@@ -11,8 +11,9 @@ struct SideMenu: View {
     
     @Binding var selectedTab: String
     @Namespace var animation
-    @EnvironmentObject var homeData : LoginViewModel
+    @EnvironmentObject var homeData : AuthViewModel
 
+//    @State var user : User
     var body: some View {
         VStack(alignment: .leading, spacing: 15, content: {
             
@@ -27,7 +28,7 @@ struct SideMenu: View {
             
             VStack(alignment: .leading, spacing: 6, content: {
                 
-                Text("somebody")
+                Text("asdfas")
                     .font(.title)
                     .fontWeight(.heavy)
                     .foregroundColor(.white)
@@ -60,7 +61,7 @@ struct SideMenu: View {
 //                }
                 
                 
-                TabButton(image: "house", title: "Home", selectedTab: $selectedTab, animation: animation)
+//                TabButton(image: "house", title: "Home", selectedTab: $selectedTab, animation: animation)
                 
                 TabButton(image: "clock.arrow.circlepath", title: "Dashboard", selectedTab: $selectedTab, animation: animation)
                 
@@ -85,7 +86,7 @@ struct SideMenu: View {
                 
                 
                 Button(action: {
-                    homeData.logout()
+                    homeData.signOut()
                 }, label: {
                     Image(systemName: "rectangle.righthalf.inset.fill.arrow.right")
                 })

@@ -26,7 +26,7 @@ struct InitialView: View {
         
         if(Reachabilty.HasConnection()){
             //            self.obs.isReloading = true
-            obs.listenAuthenticationState()
+//            obs.listenAuthenticationState()
             self.noConnection = false
         }else{ 
             self.noConnection = true
@@ -68,7 +68,7 @@ struct InitialView: View {
             //                }
             
         }.onAppear(){
-//          AuthService.logout()
+          AuthService.logout()
             self.listen()
         }
         

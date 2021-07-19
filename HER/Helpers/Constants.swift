@@ -88,7 +88,6 @@ let TEXT_SIGNUP_NOTE = "An account will allow you to save and access photo infor
 let TEXT_SIGNUP_PASSWORD_REQUIRED = "Password should be minimum 8 characters"
 let TERM_AGREEMENT = "I Read And Agree The Terms And Conditions"
 let TERM_AGREEMENT2 = "Agree"
-let MiMATCH_PASSWORD = "Password does not match"
 let PASSWORD_MINIMUM_LENGTH_ERROR = "Password should be minimum 8 characters"
 let ALREADY_EXIST_EMAIL = "Email is already existing \nPlease re-enter"
 
@@ -100,9 +99,7 @@ let CONFIRM_EMAIL = "Please check your email"
 
 
 //LOGIN and SIGNUP ERROR
-let MiMATCH_PASSWORD_ERROR = MiMATCH_PASSWORD + "\nPlease re-enter"
 let NO_ACCOUNT = "Account does not exist Or \nit was deleted. \nPlease check"
-
 
 
 
@@ -155,6 +152,25 @@ class Ref {
     static var FIRESTORE_COLLECTION_SCORE = FIRESTORE_ROOT.collection("score2")
     static func FIRESTORE_COLLECTION_SCORES(name:String) -> DocumentReference {
         return FIRESTORE_COLLECTION_SCORE.document(name)
+        
+    }
+    
+    static var FIRESTORE_COLLECTION_FOLLOWING = FIRESTORE_ROOT.collection("company-following")
+    static func FIRESTORE_COLLECTION_FOLLOWING(name:String) -> DocumentReference {
+        return FIRESTORE_COLLECTION_FOLLOWING.document(name)
+        
+    }
+    
+    static var FIRESTORE_COLLECTION_FOLLOWER = FIRESTORE_ROOT.collection("company-follower")
+    static func FIRESTORE_COLLECTION_FOLLOWER(name:String) -> DocumentReference {
+        return FIRESTORE_COLLECTION_FOLLOWER.document(name)
+        
+    }
+    
+    
+    static var FIRESTORE_COLLECTION_POSTS = FIRESTORE_ROOT.collection("posts")
+    static func FIRESTORE_COLLECTION_POSTS(name:String) -> DocumentReference {
+        return FIRESTORE_COLLECTION_POSTS.document(name)
         
     }
     

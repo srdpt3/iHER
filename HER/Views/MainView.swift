@@ -11,7 +11,8 @@ struct MainView: View {
     // selected Tab...
     @State var selectedTab = "Dashboard"
     @State var showMenu = false
-    
+    @EnvironmentObject var viewModel : AuthViewModel
+
     var body: some View {
        
         ZStack{

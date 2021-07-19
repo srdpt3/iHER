@@ -20,7 +20,7 @@ struct HERApp: App {
         WindowGroup {
 //            let obs = Observer()
             
-            ContentView().environmentObject(AuthViewModel())
+            ContentView().environmentObject(AuthViewModel.shared)
 
 //            InitialView().environmentObject(obs)
 //                .environment(\.colorScheme, isDarkMode ? .light : .light)

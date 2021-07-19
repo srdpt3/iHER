@@ -9,6 +9,8 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct DashboardCell: View {
+    
+    let post : Post
     var body: some View {
         
         VStack(alignment: .leading) {
@@ -25,9 +27,10 @@ struct DashboardCell: View {
                 
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
-                        Text("BlackRock")
+                        Text(post.username)
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(.black)
+                        
                         
                         Text("BlackRock")
                             .foregroundColor(.gray)
@@ -36,13 +39,16 @@ struct DashboardCell: View {
                             .foregroundColor(.gray)
                     }
                     
-                    Text("test")
+                    Text(post.caption)
                         .foregroundColor(.black)
                 }
                 
             }
             .padding(.bottom)
             .padding(.trailing)
+            
+            
+            PostActionsView(post: post)
             
             Divider()
 
@@ -54,8 +60,8 @@ struct DashboardCell: View {
     }
 }
 
-struct DashboardCell_Previews: PreviewProvider {
-    static var previews: some View {
-        DashboardCell()
-    }
-}
+//struct DashboardCell_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DashboardCell()
+//    }
+//}
