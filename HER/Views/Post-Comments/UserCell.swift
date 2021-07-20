@@ -13,7 +13,7 @@ struct UserCell: View {
     var body: some View {
         HStack(spacing: 12) {
             //            WebImage(url: URL(string:user.profileImageUrl)!)
-            Image(user.company)
+            Image("p0")
                 .resizable()
                 .scaledToFill()
                 .clipped()

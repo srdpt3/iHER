@@ -34,21 +34,25 @@ struct ProfileActionButtonView: View {
                     
                 })
                 .cornerRadius(20)
-                Button(action: { editProfilePresented.toggle() }, label: {
+                
+                NavigationLink(destination: ChatView(), label: {
                     Text("Message")
                         .frame(width: 180, height: 40)
                         .background(Color.purple)
                         .foregroundColor(.white)
-                    
                 })
                 .cornerRadius(20)
-                //                            NavigationLink(destination: ChatView(user: viewModel.user), label: {
-                //                                Text("Message")
-                //                                    .frame(width: 180, height: 40)
-                //                                    .background(Color.purple)
-                //                                    .foregroundColor(.white)
-                //                            })
-                //                            .cornerRadius(20)
+                
+                
+//                Button(action: { editProfilePresented.toggle() }, label: {
+//                    Text("Message")
+//                        .frame(width: 180, height: 40)
+//                        .background(Color.purple)
+//                        .foregroundColor(.white)
+//                    
+//                })
+//                .cornerRadius(20)
+       
             }
             .padding()
         }

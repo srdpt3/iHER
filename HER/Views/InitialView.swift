@@ -42,7 +42,6 @@ struct InitialView: View {
             if(self.obs.isLoggedIn ){
 //                CommentDashBoardView()
                 ContentView()
-                
             }
             else{
                 
@@ -71,26 +70,7 @@ struct InitialView: View {
           AuthService.logout()
             self.listen()
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        //
-        //        .onAppear(perform: listen).alert(isPresented: $noConnection) {
-        //            Alert(
-        //                title: Text(ERROR),
-        //                message: Text(NO_CONNECTION),
-        //                dismissButton: .default(Text(CONFIRM)))
-        //
-        //
-        //
-        //
-        //        }
+
     }
 }
 

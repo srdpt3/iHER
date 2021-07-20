@@ -28,7 +28,7 @@ struct SideMenu: View {
             
             VStack(alignment: .leading, spacing: 6, content: {
                 
-                Text("asdfas")
+                Text("Test")
                     .font(.title)
                     .fontWeight(.heavy)
                     .foregroundColor(.white)
@@ -43,23 +43,6 @@ struct SideMenu: View {
             
             // tab Buttons...
             VStack(alignment: .leading,spacing: 10){
-//                
-//                FeedView().tabItem{
-//                    Image(systemName: "house")
-//                    Text("Home")
-//                }
-//                
-//                SearchView().tabItem{
-//                    Image(systemName: "magnifyingglass")
-//                    Text("Search")
-//                }
-//                
-//                
-//                ConversationView().tabItem{
-//                    Image(systemName: "envelope")
-//                    Text("message")
-//                }
-                
                 
 //                TabButton(image: "house", title: "Home", selectedTab: $selectedTab, animation: animation)
                 
@@ -75,11 +58,12 @@ struct SideMenu: View {
                 
                 TabButton(image: "questionmark.circle", title: "Help", selectedTab: $selectedTab, animation: animation)
 
+
             }
             .padding(.leading,-15)
             .padding(.top,50)
             
-            Spacer()
+
             
             // Sign Out Button...
             VStack(alignment: .leading, spacing: 6, content: {
@@ -88,14 +72,29 @@ struct SideMenu: View {
                 Button(action: {
                     homeData.signOut()
                 }, label: {
-                    Image(systemName: "rectangle.righthalf.inset.fill.arrow.right")
+                    
+                    HStack(spacing : 15){
+                        
+                        Image(systemName: "rectangle.righthalf.inset.fill.arrow.right")
+                            .font(.title2)
+                            .frame(width: 30)
+                            
+                        Text(TEXT_SIGN_OUT)
+                            .fontWeight(.semibold)
+                    }  .foregroundColor(.white)
+                    .padding(.vertical,12)
+                    .padding(.horizontal,10)
+                    // Max Frame..
+                    .frame(maxWidth: getRect().width - 170, alignment: .leading)
+
+                  
                 })
                 .padding(.leading,-15)
 //.padding(.leading,-15)
 //                TabButton(image: "rectangle.righthalf.inset.fill.arrow.right", title: "Log out", selectedTab: .constant(""), animation: animation)
 //                    .padding(.leading,-15)
-                
-                Text("App Version 1.2.34")
+                 Spacer()
+                Text(APP_VERSION)
                     .font(.caption)
                     .fontWeight(.semibold)
                     .foregroundColor(.white)

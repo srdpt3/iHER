@@ -29,11 +29,16 @@ struct Home: View {
                 .onTapGesture {
                 }
             
-            SearchView()
-                .tag("Search")
-//                .onTapGesture {
-//                    print("asdfasdfas")
-//                }
+//            SearchView()
+//                .tag("Search")
+////                .onTapGesture {
+////                    print("asdfasdfas")
+////                }
+//            
+            
+            CompanyView().tag("Search")
+            
+            
             
             ConversationView()
                 .tag("Message")

@@ -62,7 +62,7 @@ struct Company: Encodable, Decodable {
         
         
     }
-    init(_dictionary: NSDictionary) {
+    init(_dictionary: [String: Any]) {
                 
         Bgei_Data_Excllnce_Score = _dictionary["Bgei_Data_Excllnce_Score"] as! Double
         Bgei_Disclsre_Score = _dictionary["Bgei_Disclsre_Score"] as! Double
@@ -76,18 +76,17 @@ struct Company: Encodable, Decodable {
         Bics_Level_1_Sector_Name = _dictionary["Bics_Level_1_Sector_Name"] as! String
         Cntry_Of_Domicile = _dictionary["Cntry_Of_Domicile"] as! String
 //        Company_Description = _dictionary["Company_Description"] as! String
-        Company_Name = _dictionary["Company_Name"] as! String
+        Company_Name = _dictionary["Company_Name"] as? String ?? ""
         Eqy_Fiscal_Yr_End = _dictionary["Eqy_Fiscal_Yr_End"] as! Double
-        Long_Comp_Name = _dictionary["Long_Comp_Name"] as! String
-        Sector = _dictionary["Sector"] as! String
-        Ticker = _dictionary["Ticker"] as! String
-        ticker = _dictionary["ticker"] as! String
-        Website = _dictionary["Website"] as! String
-        logo = _dictionary["logo"] as! String
+        Long_Comp_Name = _dictionary["Long_Comp_Name"] as? String ?? ""
+        Sector = _dictionary["Sector"] as? String ?? ""
+        Ticker = _dictionary["Ticker"] as? String ?? ""
+        ticker = _dictionary["ticker"] as? String ?? ""
+        Website = _dictionary["Website"] as? String ?? ""
+        logo = _dictionary["logo"] as? String ?? ""
 
-        desc = _dictionary["desc"] as! String
+        desc = _dictionary["desc"] as? String ?? ""
 
-        
     }
     
 }

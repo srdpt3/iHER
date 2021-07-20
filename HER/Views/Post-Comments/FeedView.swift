@@ -39,12 +39,17 @@ struct FeedView: View {
                 .clipShape(Circle())
                 .padding()
                 .fullScreenCover(isPresented: $isShowingNewTweetView) {
-                    NewPostView(isPresented: $isShowingNewTweetView)
+                    NewPostView(isPresented: $isShowingNewTweetView).onDisappear(){
+                        viewModel.fetchPosts()
+                    }
                 }
             }
             .navigationBarTitle("DashBoard")
             .navigationBarTitleDisplayMode(.inline)
 
+        }
+        .onAppear(){
+//            viewModel.fetchPosts()
         }
         
     }

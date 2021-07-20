@@ -22,14 +22,14 @@ struct UserProfileView: View {
     
     var body: some View {
         ScrollView {
-            VStack{
+            LazyVStack{
                 ProfileHeaderView(viewModel: viewModel, editProfilePresented: $editProfilePresented)
                     .padding()
 
                 FilterButtonView(selectedOption: $selectedFilter)
                     .padding()
                 
-                ForEach(viewModel.likedPosts) { post in
+                ForEach(viewModel.posts(forFilter: selectedFilter))  { post in
                     
                     
                     if selectedFilter == .replies {
@@ -42,6 +42,7 @@ struct UserProfileView: View {
                 }
 
             }
+            .animation(.spring())
             .navigationBarTitle("blackrock")
              
  

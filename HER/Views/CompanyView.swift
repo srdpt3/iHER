@@ -11,7 +11,9 @@ import SDWebImageSwiftUI
 
 struct CompanyView : View {
     
-    @EnvironmentObject var companyData: Observer
+//    @EnvironmentObject var companyData: Observer
+    @State var searchText = ""
+    @ObservedObject var viewModel  = SearchViewModel()
     @State var showDashBoardView : Bool = false
     
     @State var search = ""
@@ -28,13 +30,19 @@ struct CompanyView : View {
             ScrollView(.vertical, showsIndicators: false) {
 //
                 LazyVStack{
-
-                    TextField("Search", text: self.$search)
-                        .padding(.vertical,10)
-                        .padding(.horizontal)
-                        .background(Color.black.opacity(0.07))
-                        .cornerRadius(10)
-                        .padding(.horizontal)
+                    
+                    //                HStack{
+                    //
+                    //                    Text("Highlighed Company")
+                    //                        .font(.callout)
+                    //                        .fontWeight(.bold)
+                    //
+                    //                    Spacer()
+                    //                }
+                    //                .padding(.horizontal)
+                    //
+                    SearchBar(text: $searchText)
+                        .padding()
 //                        .padding(.top,10)
                     //
                     //                // Carousel List...
@@ -106,8 +114,9 @@ struct CompanyView : View {
                     .padding(.top,25)
                     
                     LazyVGrid(columns: self.columns,spacing: 25){
-                        if let companies = companyData.fetchedCompany{
-                            ForEach(companies,id: \.Bgei_Score){company in
+                        if let companies = viewModel.company{
+                            
+                            ForEach(searchText.isEmpty ? companies: viewModel.filteredCompanies(searchText),id: \.Bgei_Score){company in
                                 
                                 // GridView....
                                 
@@ -133,8 +142,9 @@ struct CompanyView : View {
                     
                 }
                 .padding(.vertical)
-            }.navigationBarHidden(true).navigationTitle("").ignoresSafeArea()
-            
+            }
+            .navigationBarTitle("Companies")
+            .navigationBarTitleDisplayMode(.inline)
         }
           
        
@@ -210,7 +220,7 @@ struct GridView : View {
                             .navigationBarHidden(true),
                         label: {
                             // Daily activity view
-                            Text("View Score")
+                            Text(COMPANY_DETAIL)
                                 .foregroundColor(.white)
                                 .padding(.vertical,10)
                                 .padding(.horizontal,25)

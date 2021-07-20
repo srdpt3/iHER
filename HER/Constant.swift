@@ -1,16 +1,19 @@
 //
+//  Constant.swift
+//  HER
+//
+//  Created by Dustin yang on 7/20/21.
+//
+//
 //  Constants.swift
 //  HER
 //
 //  Created by Dustin yang on 3/22/21.
 //
 
-
-
 import SwiftUI
 import Firebase
 import FirebaseStorage
-
 
 let screen = UIScreen.main.bounds
 let APP_LOGO = ""
@@ -20,7 +23,7 @@ public let SERIES_TITLE = "Score"
 
 
 // Information
-let APP_VERSION = "1.0.0"
+public let APP_VERSION = "1.0.0"
 let APP_INFO = "App information"
 let APP_CREDIT = "credit"
 
@@ -32,7 +35,6 @@ let MIN_REQUIREMENT = "iOS14"
 
 
 
-let AGE = "Gender"
 let COLOR_LIGHT_GRAY = Color(red: 0, green: 0, blue: 0, opacity: 0.15)
 let APP_THEME_COLOR = Color("Color2")
 
@@ -60,7 +62,7 @@ public let BUTTON_TITLE_FONT_SIZE = 18
 
 //public var FONT = "CookieRun Regular"
 
-public let VOTE_NUMBER = "numVote"
+public let COMPANY_DETAIL = "View More"
 public let CHART_Y_AXIS = 100
 
 
@@ -77,6 +79,8 @@ public let SEND_MESSAGE =  "Ping"
 let TEXT_NEED_AN_ACCOUNT = "Dont' have an account?"
 let TEXT_SIGN_UP = "Sign Up"
 let TEXT_SIGN_IN = "Log In"
+let TEXT_SIGN_OUT = "Log Out"
+
 let TEXT_EMAIL = "Email"
 let TEXT_USERNAME = "Nick Name"
 let TEXT_PASSWORD = "Password"
@@ -108,7 +112,6 @@ let IMAGE_USER_PLACEHOLDER = "user-placeholder"
 let IMAGE_PHOTO = "plus.circle"
 
 let APIKey = "raqfsc49wmp5"
-
 
 
 
