@@ -215,7 +215,7 @@ struct GridView : View {
                     
                     
                     NavigationLink(
-                        destination:  CommentView(company: self.$company, show: self.$showDashBoardView)
+                        destination:  CommentView(company: company)
                             .navigationTitle("")
                             .navigationBarHidden(true),
                         label: {
@@ -224,7 +224,7 @@ struct GridView : View {
                                 .foregroundColor(.white)
                                 .padding(.vertical,10)
                                 .padding(.horizontal,25)
-                                .background(Color("companyProfile2"))
+                                .background(Color("blue"))
                                 .cornerRadius(10)
                                 .matchedGeometryEffect(id: "score", in: self.namespace)
 
@@ -306,7 +306,7 @@ struct GridView : View {
                                 .font(.caption)
                                 .foregroundColor(Color("color4"))
                             //                        .lineLimit(4)
-                            Text(String("63"))
+                            Text(String("0.8"))
                                 .font(.caption)
                                 .fontWeight(.bold)
                                 
@@ -340,16 +340,17 @@ struct GridView : View {
                         //                            Spacer(minLength: 0)
                         //                        }
                         NavigationLink(
-                            destination:  CommentView(company: self.$company, show: self.$showDashBoardView)
+                            destination:
+                                CommentView(company: self.company)
                                 .navigationTitle("")
                                 .navigationBarHidden(true),
                             label: {
                                 // Daily activity view
-                                Text("View Score")
+                                Text(COMPANY_DETAIL)
                                     .foregroundColor(.white)
                                     .padding(.vertical,10)
                                     .padding(.horizontal,15)
-                                    .background(Color("color4"))
+                                    .background(Color("blue"))
                                     .cornerRadius(10)
                                     .padding(.top,5)
                                     .matchedGeometryEffect(id: "score", in: self.namespace)
@@ -370,9 +371,11 @@ struct GridView : View {
                         //                        }
                         //                        .padding(.top,5)
                         //                        .matchedGeometryEffect(id: "score", in: self.namespace)
-                    }     .sheet(isPresented: self.$showDashBoardView){
-                        CommentView(company: self.$company, show: self.$showDashBoardView)
                     }
+                    
+//                    .sheet(isPresented: self.$showDashBoardView){
+//                        CommentView(company: self.company)
+//                    }
                 }
       
                 .padding(.horizontal, 25)

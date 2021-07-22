@@ -21,7 +21,8 @@ struct DashboardCell: View {
                 //                .frame(width: 120, height: 120)
                 //                .cornerRadius(8)
                 
-                Image("p0").resizable().scaledToFill()
+                WebImage(url: URL(string:"https://companiesmarketcap.com/img/company-logos/256/UBER.png")!)
+                    .resizable().scaledToFill()
                     .clipped().frame(width: 56, height: 56)
                     .cornerRadius(56/2).padding(.leading)
                 

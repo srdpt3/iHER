@@ -34,7 +34,7 @@ struct FeedView: View {
                         .frame(width: 28, height: 28)
                         .padding()
                 })
-                .background(Color(.systemBlue))
+                .background(Color("blue"))
                 .foregroundColor(.white)
                 .clipShape(Circle())
                 .padding()

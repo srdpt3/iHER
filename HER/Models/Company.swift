@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Company: Encodable, Decodable {
+struct Company: Identifiable{
+    var id : String
     var Bgei_Data_Excllnce_Score :Double
     var Bgei_Disclsre_Score: Double
     var Bgei_Equal_Pay_Score: Double
@@ -33,10 +34,15 @@ struct Company: Encodable, Decodable {
     var Website: String
     var ticker: String
     var logo : String
-    init(Bgei_Data_Excllnce_Score: Double, Bgei_Disclsre_Score: Double, Bgei_Equal_Pay_Score: Double, Bgei_Femle_Leadrshp_Score: Double, Bgei_Inclsve_Cultre_Score: Double, Bgei_Prowomn_Brand_Score:Double, Bgei_Score : Double,
-         Bgei_Sexl_Harssmnt_Plcy_Score: Double, Bics_Level_1_Sector_Name: String, Cntry_Of_Domicile: String, Company_Name: String, Eqy_Fiscal_Yr_End:Double, Long_Comp_Name : String, Sector: String, Ticker: String, Website: String, ticker: String, logo:String,desc:String
+    var stats : companyStatus
+
+    
+    
+    init(id: String, Bgei_Data_Excllnce_Score: Double, Bgei_Disclsre_Score: Double, Bgei_Equal_Pay_Score: Double, Bgei_Femle_Leadrshp_Score: Double, Bgei_Inclsve_Cultre_Score: Double, Bgei_Prowomn_Brand_Score:Double, Bgei_Score : Double,
+         Bgei_Sexl_Harssmnt_Plcy_Score: Double, Bics_Level_1_Sector_Name: String, Cntry_Of_Domicile: String, Company_Name: String, Eqy_Fiscal_Yr_End:Double, Long_Comp_Name : String, Sector: String, Ticker: String, Website: String, ticker: String, logo:String,desc:String, stats:companyStatus
          
     ) {
+        self.id = id
         self.Bgei_Data_Excllnce_Score = Bgei_Data_Excllnce_Score
         self.Bgei_Disclsre_Score = Bgei_Disclsre_Score
         self.Bgei_Equal_Pay_Score = Bgei_Equal_Pay_Score
@@ -58,12 +64,13 @@ struct Company: Encodable, Decodable {
         self.Website = Website
         self.logo = logo
         self.desc = desc
+        self.stats = stats
 
         
         
     }
     init(_dictionary: [String: Any]) {
-                
+        id = _dictionary["id"] as? String ?? ""
         Bgei_Data_Excllnce_Score = _dictionary["Bgei_Data_Excllnce_Score"] as! Double
         Bgei_Disclsre_Score = _dictionary["Bgei_Disclsre_Score"] as! Double
         Bgei_Equal_Pay_Score = _dictionary["Bgei_Equal_Pay_Score"] as! Double
@@ -86,7 +93,15 @@ struct Company: Encodable, Decodable {
         logo = _dictionary["logo"] as? String ?? ""
 
         desc = _dictionary["desc"] as? String ?? ""
+        stats = companyStatus(followers: 0)
+
 
     }
     
 }
+
+
+struct companyStatus {
+    let followers: Int
+}
+

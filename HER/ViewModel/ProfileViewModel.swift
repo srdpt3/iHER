@@ -10,7 +10,7 @@ import Firebase
 
 class ProfileViewModel : ObservableObject {
     @Published var user : User
-     @Published var userPosts = [Post]()
+    @Published var userPosts = [Post]()
     @Published var likedPosts = [Post]()
 
     

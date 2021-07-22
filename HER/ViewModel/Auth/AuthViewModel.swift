@@ -73,7 +73,7 @@ class AuthViewModel : ObservableObject {
                     print("Error writing batch \(err)")
                 } else {
                     print("Batch persistMatching write succeeded.")
-//                    saveUserLocally(mUserDictionary: dict as NSDictionary)
+                    saveUserLocally(mUserDictionary: dict as NSDictionary)
 //                    self.fetchUser()
                     
                     

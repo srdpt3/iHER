@@ -11,6 +11,7 @@ import Firebase
 struct Post: Identifiable {
     let id: String
     let username: String
+    let companyId : String
 //    let profileImageUrl: String
 //    let fullname: String
     let caption: String
@@ -22,7 +23,8 @@ struct Post: Identifiable {
     init(dictionary: [String: Any]) {
         self.id = dictionary["id"] as? String ?? ""
         self.username = dictionary["username"] as? String ?? ""
-//        self.profileImageUrl = dictionary["profileImageUrl"] as? String ?? ""
+        self.companyId = dictionary["companyId"] as? String ?? ""
+
         self.caption = dictionary["caption"] as? String ?? ""
 //        self.fullname = dictionary["fullname"] as? String ?? ""
         self.likes = dictionary["likes"] as? Int ?? 0

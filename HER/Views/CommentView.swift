@@ -6,100 +6,73 @@
 //
 
 import SwiftUI
-import SDWebImageSwiftUI
 
 struct CommentView: View {
-    @Binding var company : Company
-    @Binding var show : Bool
+    private let company : Company
+//    @Binding var show : Bool
     @Environment(\.presentationMode) var presentation
-
+    @ObservedObject private var viewModel: CompanyViewModel
+    @State private var selectedFilter: PostFilterOptions = .post
+    @State private var editProfilePresented = false
+    init(company: Company) {
+        self.company = company
+        self.viewModel = CompanyViewModel(company: company)
+    }
     var body: some View {
         
         ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false){
-            VStack(alignment: .leading, spacing: 15) {
-                
-         
-                HStack() {
-
-                    Button(action: {
-                        presentation.wrappedValue.dismiss()
-                    }, label: {
-                        Image(systemName: "arrow.left")
-                            .font(.system(size: 20))
-//                            .padding()
-                            .foregroundColor(Color("color1"))
-                    })
-                    WebImage(url: URL(string:company.logo)!)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 120, height: 120)
-                        .cornerRadius(8)
-                    
-                    Spacer()
-                    VStack(alignment: .leading, spacing: 15){
-                        Text("Sector: \(company.Sector)")
-                            .font(.callout)
-                            .foregroundColor(Color("Color11"))
-                        Text("Ticker : \(company.Ticker)")
-                            .font(.callout)
-                            .foregroundColor(Color("Color11"))
-                        Text("Country \(company.Cntry_Of_Domicile)")
-                            .font(.callout)
-                            .foregroundColor(Color("Color11"))
-                    }
-                    
-                    
-                    //                        .lineLimit(4)
-                    
-                    //                Text("Uber")
-                    //                    .font(.title3)
-                    //                    .fontWeight(.bold)
-                    //                    .foregroundColor(.black)
-                    
-                }
-                .padding(.horizontal,5)
-                VStack{
-                    Text(company.desc)
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                }
-                .padding(.horizontal,5)
-                
-                
-                //        NavigationView{
-                
-                //                .navigationTitle("word clouds")
-            }.padding()
             
-            VStack{
-                VStack{
-                    Text("Positive Comment")
-                        .font(.title2)
-                        .foregroundColor(Color("Color11"))
-                    AreaChartView().frame(height: 300)
+            LazyVStack{
+                CompanyHeaderView(company: company, viewModel: viewModel)
+                FilterButtonView(selectedOption: $selectedFilter)
+                    .padding()
+                
+                ForEach(viewModel.posts(forFilter: selectedFilter))  { post in
                     
-                }.padding(.horizontal)
-                
-                
-                VStack{
-                    Text("Negative Comment")
-                        .font(.title2)
-                        .foregroundColor(Color("Color11"))
-                    AreaChartView().frame(height: 300)
                     
-                }.padding(.horizontal)
-                //                AreaChartView().frame(height: 300)
-                
-                ScoreView(companyName: self.company.Company_Name)
-                    .frame(width: UIScreen.main.bounds.width - 30  , height: UIScreen.main.bounds.height/CGFloat(4))
-                
-                
-                
+                    if selectedFilter == .replies {
+                        ReplyCell(post: post)
+                            .padding()
+                    } else {
+                        DashboardCell(post: post)
+                            .padding()
+                    }
+                }
             }
-            Divider()
-            CommentHomeView()
+            .animation(.spring())
+
+
+//            VStack{
+//                VStack{
+//                    Text("Positive Comment")
+//                        .font(.title2)
+//                        .foregroundColor(Color("Color11"))
+//                    AreaChartView().frame(height: 300)
+//
+//                }.padding(.horizontal)
+//
+//
+//                VStack{
+//                    Text("Negative Comment")
+//                        .font(.title2)
+//                        .foregroundColor(Color("Color11"))
+//                    AreaChartView().frame(height: 300)
+//
+//                }.padding(.horizontal)
+//                //                AreaChartView().frame(height: 300)
+//
+//                ScoreView(companyName: self.company.Company_Name)
+//                    .frame(width: UIScreen.main.bounds.width - 30  , height: UIScreen.main.bounds.height/CGFloat(4))
+//
+//
+//
+//            }
+//            Divider()
+//            CommentHomeView()
         }
-        .background(Color.white)
+        .background(Color.white).onAppear(){
+            viewModel.fetchAllCompanyPosts()
+        }
         
         
         //        }

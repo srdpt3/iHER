@@ -158,13 +158,13 @@ class Ref {
         
     }
     
-    static var FIRESTORE_COLLECTION_FOLLOWING = FIRESTORE_ROOT.collection("company-following")
+    static var FIRESTORE_COLLECTION_FOLLOWING = FIRESTORE_ROOT.collection("following")
     static func FIRESTORE_COLLECTION_FOLLOWING(name:String) -> DocumentReference {
         return FIRESTORE_COLLECTION_FOLLOWING.document(name)
         
     }
     
-    static var FIRESTORE_COLLECTION_FOLLOWER = FIRESTORE_ROOT.collection("company-follower")
+    static var FIRESTORE_COLLECTION_FOLLOWER = FIRESTORE_ROOT.collection("follower")
     static func FIRESTORE_COLLECTION_FOLLOWER(name:String) -> DocumentReference {
         return FIRESTORE_COLLECTION_FOLLOWER.document(name)
         

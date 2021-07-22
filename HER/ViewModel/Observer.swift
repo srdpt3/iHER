@@ -47,33 +47,7 @@ class Observer : ObservableObject{
     @Published var readActivity = [String]()
     
     var handle: AuthStateDidChangeListenerHandle?
-    
-    
-    //    var status: String    { return("\(lm.status)") }
-    func getCompanyList(){
-//        self.fetchedCompany.removeAll()
-//        Ref.FIRESTORE_COLLECTION_COMPANY.getDocuments { (snap, error) in
-//            if error != nil {
-//                print((error?.localizedDescription)!)
-//
-//            }
-//            for i in snap!.documents{
-//                let dict = i.data()
-//
-//                guard let decoderActivity = try? Company.init(fromDictionary: dict) else {return}
-//
-////                if(decoderActivity.Company_Name == User.currentUser()!.company){
-////                    self.myCompany = decoderActivity
-////                }
-//                self.fetchedCompany.append(decoderActivity)
-//                //                print(decoderActivity)
-//
-//
-//            }
-//            print("company count \(self.fetchedCompany)")
-//        }
-    }
-    
+
 
     
     
