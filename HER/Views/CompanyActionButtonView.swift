@@ -18,18 +18,24 @@ struct CompanyActionButtonView: View {
                 viewModel.isFollowed ? viewModel.unfollowCompany() : viewModel.followCompany()
             }, label: {
                 Text(viewModel.isFollowed ? "Following" : "Follow")
-                    .frame(width: 180, height: 40)
+                    .frame(width: 175, height: 40)
                     .background(Color("blue"))
                     .foregroundColor(.white)
                 
             })
             .cornerRadius(20)
             
-            NavigationLink(destination: ChatView(), label: {
-                Text("view Data")
-                    .frame(width: 180, height: 40)
-                    .background(Color.purple)
-                    .foregroundColor(.white)
+            NavigationLink(destination:    ScoreView(companyName: viewModel.company.Company_Name), label: {
+                
+                HStack{
+                    Image("graph").resizable().aspectRatio(contentMode: .fit)
+                        .frame(width: 175, height: 40)
+                        .background(Color.purple)
+                        .foregroundColor(.white)
+                    
+//                    Image("graph").resizable().aspectRatio(contentMode: .fit)
+                }
+
             })
             .cornerRadius(20)
             

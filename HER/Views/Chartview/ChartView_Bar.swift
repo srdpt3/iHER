@@ -70,14 +70,7 @@ struct ChartView_Bar: UIViewRepresentable {
                 .dataSorting(AADataSorting()
                     .enabled(true).matchByName(true))
                 .data(randomDataArray())
-            //            AASeriesElement()
-            //            .name("받은 투표순")
-            //            .type(.line)
-            ////            .yAxis(0)
-            ////                .dataSorting(AADataSorting()
-            ////            .enabled(true).matchByName(true))
-            //            .data([numVote[0],numVote[1],numVote[2],numVote[3],numVote[4]]).color(AAGradientColor.mysticMauve)
-            //            .data([numVote[0], numVote[1], numVote[2], numVote[3], numVote[4]])
+
         ])
         
         

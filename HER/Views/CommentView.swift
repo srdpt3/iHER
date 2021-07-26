@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct CommentView: View {
     private let company : Company
@@ -14,218 +15,458 @@ struct CommentView: View {
     @ObservedObject private var viewModel: CompanyViewModel
     @State private var selectedFilter: PostFilterOptions = .post
     @State private var editProfilePresented = false
+    @State var currentTab = "Tweets"
+    
+    // For Smooth Slide Animation...
+    @Namespace var animation
+    @State var tabBarOffset: CGFloat = 0
+    
+    @State var titleOffset: CGFloat = 0
+    @Environment(\.colorScheme) var colorScheme
+    @State var offset: CGFloat = 0
+
     init(company: Company) {
         self.company = company
         self.viewModel = CompanyViewModel(company: company)
     }
     var body: some View {
-        
-        ScrollView(/*@START_MENU_TOKEN@*/.vertical/*@END_MENU_TOKEN@*/, showsIndicators: false){
+        ScrollView(.vertical, showsIndicators: false, content: {
             
-            LazyVStack{
-                CompanyHeaderView(company: company, viewModel: viewModel)
-                FilterButtonView(selectedOption: $selectedFilter)
-                    .padding()
+            VStack(spacing: 15){
                 
-                ForEach(viewModel.posts(forFilter: selectedFilter))  { post in
+                // Header View...
+                GeometryReader{proxy -> AnyView in
                     
+                    // Sticky Header...
+                    let minY = proxy.frame(in: .global).minY
                     
-                    if selectedFilter == .replies {
-                        ReplyCell(post: post)
-                            .padding()
-                    } else {
-                        DashboardCell(post: post)
-                            .padding()
+                    DispatchQueue.main.async {
+                        
+                        self.offset = minY
                     }
+                    
+                    return AnyView(
+                    
+                        ZStack{
+
+                            // Banner...
+                            WebImage(url: URL(string:company.logo)!)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: getRect().width, height: minY > 0 ? 180 + minY : 180, alignment: .center)
+                                .cornerRadius(0)
+                            
+                            BlurView()
+                                .opacity(blurViewOpacity())
+                            
+                            // Title View...
+                            VStack(spacing: 5){
+                                
+                                Text(company.Company_Name)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                                
+                                Text("\(viewModel.userPosts.count) Post")
+                                    .foregroundColor(.white)
+                            }
+                            // to slide from bottom added extra 60..
+                            .offset(y: 120)
+                            .offset(y: titleOffset > 100 ? 0 : -getTitleTextOffset())
+                            .opacity(titleOffset < 100 ? 1 : 0)
+                        }
+                        .clipped()
+                        // Stretchy Header...
+                        .frame(height: minY > 0 ? 180 + minY : nil)
+                        .offset(y: minY > 0 ? -minY : -minY < 80 ? 0 : -minY - 80)
+                    )
                 }
+                .frame(height: 180)
+                .zIndex(1)
+                
+                // Profile Image...
+                
+                VStack{
+
+//                    
+                    // Profile Data...
+                    
+                    VStack(alignment: .leading, spacing: 8, content: {
+                        CompanyHeaderView(company: company, viewModel: viewModel)
+
+                    })
+                    .overlay(
+                    
+                        GeometryReader{proxy -> Color in
+                            
+                            let minY = proxy.frame(in: .global).minY
+                            
+                            DispatchQueue.main.async {
+                                self.titleOffset = minY
+                            }
+                            return Color.clear
+                        }
+                        .frame(width: 0, height: 0)
+                        
+                        ,alignment: .top
+                    )
+                    
+                    // Custom Segmented Menu...
+                    
+                    VStack(spacing: 0){
+                        
+//                        ScrollView(.horizontal, showsIndicators: false, content: {
+                            
+                            HStack(spacing: 10){
+                                
+                                TabButton2(title: "Post", currentTab: $currentTab, animation: animation)
+                                
+                                TabButton2(title: "Replies", currentTab: $currentTab, animation: animation)
+                                
+                                TabButton2(title: "Referral", currentTab: $currentTab, animation: animation)
+                                
+                            }
+//                        })
+                        
+                        Divider()
+                    }
+                    .padding(.top,30)
+                    .background(colorScheme == .dark ? Color.black : Color.white)
+                    .offset(y: tabBarOffset < 90 ? -tabBarOffset + 90 : 0)
+                    .overlay(
+                    
+                        GeometryReader{reader -> Color in
+                            
+                            let minY = reader.frame(in: .global).minY
+                            
+                            DispatchQueue.main.async {
+                                self.tabBarOffset = minY
+                            }
+                            
+                            return Color.clear
+                        }
+                        .frame(width: 0, height: 0)
+                        
+                        ,alignment: .top
+                    )
+                    .zIndex(1)
+                    
+                    VStack(spacing: 18){
+
+                                            ForEach(viewModel.posts(forFilter: selectedFilter))  { post in
+                        
+                        
+                                                if currentTab ==  "Replies"{
+                                                    ReplyCell(post: post)
+                                                        .padding()
+                                                } else {
+                                                    DashboardCell(post: post)
+                                                        .padding()
+                                                }
+                                            }
+                    }
+                    .padding(.top)
+                    .zIndex(0)
+                }
+                .padding(.horizontal)
+                // Moving the view back if it goes > 80...
+                .zIndex(-offset > 80 ? 0 : 1)
             }
-            .animation(.spring())
-
-
-//            VStack{
+        })
+        .ignoresSafeArea(.all, edges: .top)
+                .onAppear(){
+                    viewModel.fetchAllCompanyPosts()
+                }
+//
+//        ScrollView(.vertical, showsIndicators: false, content: {
+//            LazyVStack(spacing: 15){
+//
+//                // Header View...
+//                GeometryReader{proxy -> AnyView in
+//
+//                    // Sticky Header...
+//                    let minY = proxy.frame(in: .global).minY
+//
+//                    DispatchQueue.main.async {
+//
+//                        self.offset = minY
+//                    }
+//
+//                    return AnyView(
+//
+//                        ZStack{
+//
+//                            // Banner...
+//                            Image("p4")
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fill)
+//                                .frame(width: getRect().width, height: minY > 0 ? 180 + minY : 180, alignment: .center)
+//                                .cornerRadius(0)
+//
+//                            BlurView()
+//                                .opacity(blurViewOpacity())
+//
+//                            // Title View...
+//                            VStack(spacing: 5){
+//
+//                                Text(company.Company_Name)
+//                                    .fontWeight(.bold)
+//                                    .foregroundColor(.white)
+//
+//                                Text("2 posts")
+//                                    .foregroundColor(.white)
+//                            }
+//                            // to slide from bottom added extra 60..
+//                            .offset(y: 120)
+//                            .offset(y: titleOffset > 100 ? 0 : -getTitleTextOffset())
+//                            .opacity(titleOffset < 100 ? 1 : 0)
+//                        }
+//                        .clipped()
+//                        // Stretchy Header...
+//                        .frame(height: minY > 0 ? 180 + minY : nil)
+//                        .offset(y: minY > 0 ? -minY : -minY < 80 ? 0 : -minY - 80)
+//                    )
+//                }
+//                .frame(height: 180)
+//                .zIndex(1)
+////                VStack{
+////                    CompanyHeaderView(company: company, titleOffset: $offset, viewModel: viewModel)
+////
+////                } .padding(.horizontal)
+////                // Moving the view back if it goes > 80...
+//
 //                VStack{
-//                    Text("Positive Comment")
-//                        .font(.title2)
-//                        .foregroundColor(Color("Color11"))
-//                    AreaChartView().frame(height: 300)
+//                    // Profile Data...
+//                    HStack{
 //
-//                }.padding(.horizontal)
+//                        Image("blackrock")
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fill)
+//                            .frame(width: 75, height: 75)
+//                            .clipShape(Circle())
+//                            .padding(8)
+//                            .background(colorScheme == .dark ? Color.black : Color.white)
+//                            .clipShape(Circle())
+//                            .offset(y: offset < 0 ? getOffset() - 20 : -20)
+//                            .scaleEffect(getScale())
+//
+//                        Spacer()
+//
+//                        Button(action: {}, label: {
+//                            Text("Edit Profile")
+//                                .foregroundColor(Color("blue"))
+//                                .padding(.vertical,10)
+//                                .padding(.horizontal)
+//                                .background(
+//
+//                                    Capsule()
+//                                        .stroke(Color.blue,lineWidth: 1.5)
+//                                )
+//                        })
+//                    }
+//                    .padding(.top,-25)
+//                    .padding(.bottom,-10)
+//                    VStack(alignment: .leading, spacing: 8, content: {
+//
+//                        Text("Kavsoft")
+//                            .font(.title2)
+//                            .fontWeight(.bold)
+//                            .foregroundColor(.primary)
+//
+//                        Text("@_Kavsoft")
+//                            .foregroundColor(.gray)
+//
+//                        Text("Kavsoft is a channel where I make videos on SwiftUI Website: https://kavsoft.dev, Patreon: http://patreon.com/kavsoft")
+//
+//                        HStack(spacing: 5){
+//
+//                            Text("13")
+//                                .foregroundColor(.primary)
+//                                .fontWeight(.semibold)
+//
+//                            Text("Followers")
+//                                .foregroundColor(.gray)
+//
+//                            Text("680")
+//                                .foregroundColor(.primary)
+//                                .fontWeight(.semibold)
+//                                .padding(.leading,10)
+//
+//                            Text("Following")
+//                                .foregroundColor(.gray)
+//                        }
+//                        .padding(.top,8)
+//                    })
+//                    .overlay(
+//
+//                        GeometryReader{proxy -> Color in
+//
+//                            let minY = proxy.frame(in: .global).minY
+//
+//                            DispatchQueue.main.async {
+//                                self.titleOffset = minY
+//                            }
+//                            return Color.clear
+//                        }
+//                        .frame(width: 0, height: 0)
+//
+//                        ,alignment: .top
+//                    )
 //
 //
-//                VStack{
-//                    Text("Negative Comment")
-//                        .font(.title2)
-//                        .foregroundColor(Color("Color11"))
-//                    AreaChartView().frame(height: 300)
+//                }
+//                .padding(.horizontal)
+//                .zIndex(-offset > 80 ? 0 : 1)
 //
-//                }.padding(.horizontal)
-//                //                AreaChartView().frame(height: 300)
+//                VStack(spacing: 0){
 //
-//                ScoreView(companyName: self.company.Company_Name)
-//                    .frame(width: UIScreen.main.bounds.width - 30  , height: UIScreen.main.bounds.height/CGFloat(4))
+//                    ScrollView(.horizontal, showsIndicators: false, content: {
+////                        FilterButtonView(selectedOption: $selectedFilter)
+//                        ScrollView(.horizontal, showsIndicators: false, content: {
+//
+//                            HStack(spacing: 0){
+//
+//                                TabButton2(title: "Tweets", currentTab: $currentTab, animation: animation)
+//
+//                                TabButton2(title: "Tweets & Likes", currentTab: $currentTab, animation: animation)
+//
+//                                TabButton2(title: "Media", currentTab: $currentTab, animation: animation)
+//
+//                                TabButton2(title: "Likes", currentTab: $currentTab, animation: animation)
+//                            }
+//                        })
+//
+//                    })
+//                }
+//                .padding(.top,30)
+//                .background(colorScheme == .dark ? Color.black : Color.white)
+//                .offset(y: tabBarOffset < 90 ? -tabBarOffset + 90 : 0)
+//                .overlay(
+//
+//                    GeometryReader{reader -> Color in
+//
+//                        let minY = reader.frame(in: .global).minY
+//
+//                        DispatchQueue.main.async {
+//                            self.tabBarOffset = minY
+//                        }
+//
+//                        return Color.clear
+//                    }
+//                    .frame(width: 0, height: 0)
+//
+//                    ,alignment: .top
+//                )
+//                .zIndex(1)
+////                FilterButtonView(selectedOption: $selectedFilter)
+////                    .padding()
+////
+//                VStack(spacing: 18){
+//                    ForEach(viewModel.posts(forFilter: selectedFilter))  { post in
+//
+//
+//                        if selectedFilter == .replies {
+//                            ReplyCell(post: post)
+//                                .padding()
+//                        } else {
+//                            DashboardCell(post: post)
+//                                .padding()
+//                        }
+//                    }
+//                } .padding(.top)
+//                .zIndex(0)
 //
 //
 //
 //            }
-//            Divider()
-//            CommentHomeView()
-        }
-        .background(Color.white).onAppear(){
-            viewModel.fetchAllCompanyPosts()
-        }
+////            .animation(.spring())
+//            .padding(.horizontal)
+//            // Moving the view back if it goes > 80...
+//            .zIndex(-offset > 80 ? 0 : 1)
+////
+//
+//        })
+//        .ignoresSafeArea(.all, edges: .top)
+//        .onAppear(){
+//            viewModel.fetchAllCompanyPosts()
+//        }
+
+    }
+    func getTitleTextOffset()->CGFloat{
         
+        // some amount of progress for slide effect..
+        let progress = 20 / titleOffset
         
-        //        }
+        let offset = 60 * (progress > 0 && progress <= 1 ? progress : 1)
+        
+        return offset
+    }
+    
+    // Profile Shrinking Effect...
+    func getOffset()->CGFloat{
+        
+        let progress = (-offset / 80) * 20
+        
+        return progress <= 20 ? progress : 20
+    }
+    
+    func getScale()->CGFloat{
+        
+        let progress = -offset / 80
+        
+        let scale = 1.8 - (progress < 1.0 ? progress : 1)
+        
+        // since were scaling the view to 0.8...
+        // 1.8 - 1 = 0.8....
+        
+        return scale < 1 ? scale : 1
+    }
+    
+    func blurViewOpacity()->Double{
+        
+        let progress = -(offset + 80) / 150
+        
+        return Double(-offset > 80 ? progress : 0)
     }
 }
 
 
-
-
-
-
-
-
-struct CommentHomeView: View {
+// Tab Button...
+struct TabButton2: View {
     
-    @State var text = ""
-    @State var chips : [[ChipData]] = []
+    var title: String
+    @Binding var currentTab: String
+    var animation: Namespace.ID
     
     var body: some View{
         
-        VStack(spacing: 35){
-            
-            //
-            //            Text("Add comments")
-            //
-            //
-            //            Spacer()
-            ScrollView{
-                // Chips View...
-                LazyVStack(alignment: .leading,spacing: 10){
-                    
-                    // Since Were Using Indices So WE Need To Specify Id....
-                    ForEach(chips.indices,id: \.self){index in
-                        
-                        HStack{
-                            
-                            // some times it asks us to specify hashable in Data Model...
-                            ForEach(chips[index].indices,id: \.self){chipIndex in
-                                
-                                Text(chips[index][chipIndex].chipText)
-                                    //                                    .fontWeight(.)
-                                    //                                    .fontSize(10)
-                                    .font(.system(size: 12, weight: .semibold))
-                                    .foregroundColor(Color("color1"))
-                                    .padding(.vertical,10)
-                                    .padding(.horizontal)
-                                    .background(Capsule().stroke(Color("color1")))
-                                    .lineLimit(1)
-                                    // Main Logic......
-                                    .overlay(
-                                        
-                                        GeometryReader{reader -> Color in
-                                            
-                                            // By Using MaxX Parameter We Can Use Logic And Determine if its exceeds or not....
-                                            
-                                            let maxX = reader.frame(in: .global).maxX
-                                            
-                                            // Both Paddings  = 30+ 30 = 60
-                                            // Plus 10 For Extra....
-                                            
-                                            // Doing Action Only If The Item Exceeds...
-                                            
-                                            if maxX > UIScreen.main.bounds.width - 70 && !chips[index][chipIndex].isExceeded{
-                                                
-                                                // It is updating to each user interaction....
-                                                
-                                                DispatchQueue.main.async {
-                                                    
-                                                    // Toggling That...
-                                                    chips[index][chipIndex].isExceeded = true
-                                                    
-                                                    // Getting Last Item...
-                                                    let lastItem = chips[index][chipIndex]
-                                                    // removing Item From Current Row...
-                                                    // inserting it as new item...
-                                                    chips.append([lastItem])
-                                                    chips[index].remove(at: chipIndex)
-                                                }
-                                            }
-                                            
-                                            return Color.clear
-                                        },
-                                        alignment: .trailing
-                                    )
-                                    .clipShape(Capsule())
-                                    .onTapGesture {
-                                        // Removing Data...
-                                        chips[index].remove(at: chipIndex)
-                                        // If the Inside Array is empty removing that also...
-                                        if chips[index].isEmpty{
-                                            chips.remove(at: index)
-                                        }
-                                    }
-                            }
-                        }
-                    }
-                    
-                }
-                .padding()
+        Button(action: {
+            withAnimation{
+                currentTab = title
             }
-            .frame(width: UIScreen.main.bounds.width - 30, height: UIScreen.main.bounds.height / 6)
-            // Border...
-            .background(RoundedRectangle(cornerRadius: 15).stroke(Color("color1"),lineWidth: 1.5))
+        }, label: {
             
-            
-            
-            
-            // TextEditor....
-            
-            TextEditor(text: $text)
-                .padding()
-                // Border With Fixed Size...
-                .frame(height: 60)
-                .background(RoundedRectangle(cornerRadius: 15).stroke(Color("color1"),lineWidth: 1.5))
-            
-            // Add Button...
-            
-            Button(action: {
+            // if i use LazyStack then the text is visible fully in scrollview...
+            // may be its a bug...
+            LazyVStack(spacing: 12){
                 
-                // Adding Empty Array if there is Nothing....
-                if chips.isEmpty{
-                    chips.append([])
-                }
-                
-                // Adding Chip To Last Array....
-                chips[chips.count - 1].append(ChipData(chipText: text))
-                // Clearing Old Text In Editor
-                text = ""
-                
-            }, label: {
-                Text("Add Comment")
-                    .font(.title2)
+                Text(title)
                     .fontWeight(.semibold)
-                    .foregroundColor(.white)
-                    .padding(.vertical,10)
-                    .frame(maxWidth: .infinity)
-                    .background(Color("color1"))
-                    .cornerRadius(4)
-            })
-            // Disabling Button When Text is Empty...
-            .disabled(text == "")
-            .opacity(text == "" ? 0.45 : 1)
-        }
-        .padding()
+                    .foregroundColor(currentTab == title ? Color("blue") : .gray)
+                    .padding(.horizontal)
+                
+                if currentTab == title{
+                    
+                    Capsule()
+                        .fill(Color.blue)
+                        .frame(height: 1.2)
+                        .matchedGeometryEffect(id: "TAB", in: animation)
+                }
+                else{
+                    Capsule()
+                        .fill(Color.clear)
+                        .frame(height: 1.2)
+                }
+            }
+        })
     }
-
-}
-
-// Chip Data Model....
-
-struct ChipData: Identifiable {
-    var id = UUID().uuidString
-    var chipText : String
-    // To Stop Auto Update...
-    var isExceeded = false
 }

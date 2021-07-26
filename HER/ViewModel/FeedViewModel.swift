@@ -10,9 +10,10 @@ import Firebase
 
 class FeedViewModel : ObservableObject {
     @Published var posts = [Post]()
-    
+    var listener: ListenerRegistration!
+
     init(){
-        fetchPosts()
+        fetchPostsListener()
     }
     
     func fetchPosts(){
@@ -26,6 +27,38 @@ class FeedViewModel : ObservableObject {
             //                self.users.append(user)
             //            }
         }
+    }
+
+    
+    func fetchPostsListener() {
+        listener = Ref.FIRESTORE_COLLECTION_POSTS.addSnapshotListener({ (querySnapshot, error) in
+            guard let snapshot = querySnapshot else {
+                return
+            }
+            
+            snapshot.documentChanges.forEach { (documentChange) in
+                switch documentChange.type {
+                
+                case .added:
+                    //                    var activityArray = [Activity]()
+                    print("type: added")
+                    let dict = documentChange.document.data()
+                    guard let decoderActivity = try?  Post.init(dictionary: dict) else {return}
+                    self.posts.append(decoderActivity)
+                    
+                case .modified:
+                    print("type: modified")
+                    
+                    
+                case .removed:
+                    print("type: removed")
+                }
+ 
+            }
+
+        })
+        
+        
     }
     
 }

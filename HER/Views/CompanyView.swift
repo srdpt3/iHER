@@ -42,8 +42,8 @@ struct CompanyView : View {
                     //                .padding(.horizontal)
                     //
                     SearchBar(text: $searchText)
-                        .padding()
-//                        .padding(.top,10)
+                        .padding(.horizontal)
+                       .padding(.top,10)
                     //
                     //                // Carousel List...
                     //
@@ -200,7 +200,7 @@ struct GridView : View {
                     
                     Text(company.Company_Name)
                         .fontWeight(.bold)
-                        .foregroundColor(Color("color4"))
+                        .foregroundColor(Color("blue"))
                         
                         .lineLimit(1)
                         .matchedGeometryEffect(id: "title", in: self.namespace)
@@ -208,7 +208,7 @@ struct GridView : View {
                     
                     Text("Website")
                         .font(.caption)
-                        .foregroundColor(Color("color4"))
+                        .foregroundColor(Color("blue"))
                         
                         .lineLimit(4)
                         .multilineTextAlignment(.leading)
@@ -283,13 +283,13 @@ struct GridView : View {
                         
                         Text(self.company.Company_Name)
                             .fontWeight(.bold)
-                            .foregroundColor(Color("color4"))
+                            .foregroundColor(Color("blue"))
                             
                             .matchedGeometryEffect(id: "title", in: self.namespace)
                         HStack{
                             Text("Data Score")
                                 .font(.caption)
-                                .foregroundColor(Color("color4"))
+                                .foregroundColor(Color("blue"))
                             //                        .lineLimit(4)
                             Text(String(((self.company.Bgei_Score) * 100).rounded()))
                                 .font(.caption)
@@ -297,21 +297,21 @@ struct GridView : View {
                                 .fontWeight(.bold)
                                 
                                 .foregroundColor(Color("Color3"))
-                                .lineLimit(4)
+                                .lineLimit(2)
                                 .multilineTextAlignment(.leading)
                         }
                         
                         HStack{
                             Text("Sentimental Score")
                                 .font(.caption)
-                                .foregroundColor(Color("color4"))
+                                .foregroundColor(Color("blue"))
                             //                        .lineLimit(4)
                             Text(String("0.8"))
                                 .font(.caption)
                                 .fontWeight(.bold)
                                 
                                 .foregroundColor(Color("ColorPink"))
-                                .lineLimit(4)
+                                .lineLimit(2)
                                 .multilineTextAlignment(.leading)
                         }
                         
@@ -349,10 +349,10 @@ struct GridView : View {
                                 Text(COMPANY_DETAIL)
                                     .foregroundColor(.white)
                                     .padding(.vertical,10)
-                                    .padding(.horizontal,15)
+                                    .padding(.horizontal,25)
                                     .background(Color("blue"))
                                     .cornerRadius(10)
-                                    .padding(.top,5)
+                                   .padding(.top,-5)
                                     .matchedGeometryEffect(id: "score", in: self.namespace)
                                 
                             }

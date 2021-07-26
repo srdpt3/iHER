@@ -125,7 +125,7 @@ struct AreaChartView: UIViewRepresentable {
 
         let aaChartModel = AAChartModel()
             .chartType(.area)
-            .categories(["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"])
+            .categories(["Aug", "Sep", "Oct","Nov", "Dec","Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul"])
             .legendEnabled(true)
             .dataLabelsEnabled(false)
                         .scrollablePlotArea(AAScrollablePlotArea()
@@ -133,34 +133,34 @@ struct AreaChartView: UIViewRepresentable {
                             .scrollPositionX(1))
             .stacking(.normal)
 
-            
-            .colorsTheme([ AAGradientColor.pinkSugar,AAGradientColor.lemonDrizzle,AAGradientColor.victoriaPurple,
-                           AAGradientColor.springGreens,AAGradientColor.coastalBreeze,])
+            .colorsTheme([ AAGradientColor.coastalBreeze,AAGradientColor.lemonDrizzle])
+//            .colorsTheme([ AAGradientColor.pinkSugar,AAGradientColor.lemonDrizzle,AAGradientColor.victoriaPurple,
+//                           AAGradientColor.springGreens,AAGradientColor.coastalBreeze,])
             .animationType(.easeOutCubic)
             .animationDuration(1200)
             
             .touchEventEnabled(true)
             .series([
                 AASeriesElement()
-                    .name("benefit")
+                    .name("Sentimenal Score")
                     .data([7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 67.0, 9.6])
                     ,
                 AASeriesElement()
-                    .name("Culture")
+                    .name("Data score")
                     .data([0.2, 24, 5.7, 76.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5])
                     ,
-                AASeriesElement()
-                    .name("work life balance")
-                    .data([0.9, 0.6, 3.5, 23.4, 13.5, 17.0, 18.6, 17.9, 14.3, 10.0, 3.9, 1.0])
-                    ,
-                AASeriesElement()
-                    .name("management")
-                    .data([31.9, 4.2, 5.7, 8.5, 11.9, 90.2, 17.0, 16.6, 14.2, 45.3, 6.6, 4.8])
-                    ,
-                AASeriesElement()
-                    .name("career")
-                    .data([1.9, 10.2, 46.7, 2.5, 22.9, 10.2, 67.0, 16.6, 23.2, 12.3, 90.6, 5.8])
-                    ,
+//                AASeriesElement()
+//                    .name("work life balance")
+//                    .data([0.9, 0.6, 3.5, 23.4, 13.5, 17.0, 18.6, 17.9, 14.3, 10.0, 3.9, 1.0])
+//                    ,
+//                AASeriesElement()
+//                    .name("management")
+//                    .data([31.9, 4.2, 5.7, 8.5, 11.9, 90.2, 17.0, 16.6, 14.2, 45.3, 6.6, 4.8])
+//                    ,
+//                AASeriesElement()
+//                    .name("career")
+//                    .data([1.9, 10.2, 46.7, 2.5, 22.9, 10.2, 67.0, 16.6, 23.2, 12.3, 90.6, 5.8])
+//                    ,
                 ])
         
         aaChartModel.touchEventEnabled = true

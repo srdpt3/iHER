@@ -33,7 +33,7 @@ struct NewPostView: View {
             Spacer()
             
             Button(action: {
-                viewModel.uploadPost(caption: captionText)
+                viewModel.uploadPost(caption: captionText, sentimet: sentiment)
             }, label: {
                 Text("Post")
                     .bold()

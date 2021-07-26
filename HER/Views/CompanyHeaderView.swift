@@ -11,15 +11,14 @@ import SDWebImageSwiftUI
 struct CompanyHeaderView: View {
     var company : Company
     @ObservedObject var viewModel: CompanyViewModel
-    
     @Environment(\.presentationMode) var presentation
     
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 15) {
+        LazyVStack(alignment: .leading, spacing: 15) {
             
-            Image("logo")
-                .resizable().aspectRatio(contentMode: .fit).frame(width: 40, height: 40)
+//            Image("logo")
+//                .resizable().aspectRatio(contentMode: .fit).frame(width: 40, height: 40)
             
             HStack() {
                 
@@ -29,15 +28,15 @@ struct CompanyHeaderView: View {
                     Image(systemName: "arrow.left")
                         .font(.system(size: 20))
                         //                            .padding()
-                        .foregroundColor(Color("color1"))
+                        .foregroundColor(Color("blue"))
                 })
-                WebImage(url: URL(string:company.logo)!)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 120, height: 120)
-                    .cornerRadius(8)
-                
-                Spacer()
+//                WebImage(url: URL(string:company.logo)!)
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fit)
+//                    .frame(width: 100, height: 100)
+//                    .cornerRadius(8).padding()
+               Spacer()
+       
                 VStack(alignment: .leading, spacing: 15){
                     Text("Sector: \(company.Sector)")
                         .font(.callout)
@@ -60,6 +59,8 @@ struct CompanyHeaderView: View {
                 
             }
             .padding(.horizontal,5)
+            .padding(.top,8)
+            
             VStack{
                 Text(company.desc)
                     .font(.caption)
@@ -68,26 +69,37 @@ struct CompanyHeaderView: View {
             .padding(.horizontal,5)
             
             HStack(spacing: 40) {
-                VStack {
+                VStack(spacing: 10) {
                     
                     
                     Text("Followers")
-                        .font(.footnote)
-                        .foregroundColor(.gray)
+                        .font(.body)
+                        .foregroundColor(Color("blue"))
                     Text("\(viewModel.company.stats.followers)")
-                        .font(.system(size: 16)).bold()
+                        .font(.system(size: 22)).bold()
                 }
                 
-                VStack {
+                VStack(spacing: 10) {
                     
                     Text("Sentimental Score")
-                        .font(.footnote)
-                        .foregroundColor(.gray)
-                    Text("0.8")
-                        .font(.system(size: 16)).bold()
+                        .font(.body)
+                        .foregroundColor(Color("blue"))
+                    Text(viewModel.sentiment.score)
+                        .font(.system(size: 22)).bold()
                     
                 }
-            }.padding(.horizontal).padding(.bottom)
+//                VStack(spacing: 10) {
+//                    
+//                    Text("Data Score")
+//                        .font(.body)
+//                        .foregroundColor(Color("blue"))
+//                    Text("80")
+//                        .font(.system(size: 22)).bold()
+//                    
+//                }
+                
+                
+            }  .padding(.horizontal,5)
             
             
         }.padding(.horizontal)

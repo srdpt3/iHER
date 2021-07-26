@@ -177,4 +177,10 @@ class Ref {
         
     }
     
+    static var FIRESTORE_COLLECTION_SENTIMENT = FIRESTORE_ROOT.collection("sentiment")
+    static func FIRESTORE_COLLECTION_SENTIMENT(name:String) -> DocumentReference {
+        return FIRESTORE_COLLECTION_SENTIMENT.document(name)
+        
+    }
+    
 }

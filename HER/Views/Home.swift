@@ -15,7 +15,7 @@ struct Home: View {
     // Hiding Tab Bar...
     init(selectedTab: Binding<String>) {
         self._selectedTab = selectedTab
-//        self._showMenu = false
+        //        self._showMenu = false
         UITabBar.appearance().isHidden = true
     }
     var body: some View {
@@ -29,32 +29,23 @@ struct Home: View {
                 .onTapGesture {
                 }
             
-//            SearchView()
-//                .tag("Search")
-////                .onTapGesture {
-////                    print("asdfasdfas")
-////                }
-//            
-            
+            //
             CompanyView().tag("Search")
-            
             
             
             ConversationView()
                 .tag("Message")
-                .onTapGesture {
-                    print("asdfasdfas")
-                }
             
-//            
-//            Settings()
-//                .tag("Settings")
-//            
-//            Help()
-//                .tag("Help")
-//            
-//            Notifications()
-//                .tag("Notifications")
+            
+            //
+            SettingView()
+                .tag("Settings")
+            //
+            //            Help()
+            //                .tag("Help")
+            //
+            //            Notifications()
+            //                .tag("Notifications")
         }
     }
 }
@@ -65,4 +56,9 @@ struct Home_Previews: PreviewProvider {
     }
 }
 
-
+struct SettingView: View {
+    var body: some View {
+        Text("Setting View")
+    }
+    
+}
