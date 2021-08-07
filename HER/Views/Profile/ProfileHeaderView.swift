@@ -17,7 +17,7 @@ struct ProfileHeaderView: View {
     var body: some View {
         VStack {
             
-            Image("p0")
+            Image("profile")
                 .resizable()
                 .scaledToFill()
                 .clipped()

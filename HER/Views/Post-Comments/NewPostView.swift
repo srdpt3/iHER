@@ -28,7 +28,8 @@ struct NewPostView: View {
         HStack {
             Button(action: { isPresented.toggle() }, label: {
                 Text("Cancel")
-                    .foregroundColor(.blue)
+                    .foregroundColor(Color("blue"))
+
             })
             Spacer()
             

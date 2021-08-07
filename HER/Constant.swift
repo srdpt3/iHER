@@ -183,4 +183,10 @@ class Ref {
         
     }
     
+    static var FIRESTORE_COLLECTION_MESSAGES = FIRESTORE_ROOT.collection("messages")
+    static func FIRESTORE_COLLECTION_MESSAGES(name:String) -> DocumentReference {
+        return FIRESTORE_COLLECTION_MESSAGES.document(name)
+        
+    }
+    
 }

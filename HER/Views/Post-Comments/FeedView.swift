@@ -18,11 +18,20 @@ struct FeedView: View {
             ZStack(alignment: .bottomTrailing) {
                 ScrollView {
                     LazyVStack {
-                        ForEach(viewModel.posts) { post in
-                            NavigationLink(destination: PostDetailView(post: post)) {
-                                DashboardCell(post: post)
+                        ForEach(Array(viewModel.posts.enumerated()), id: \.1.id) { (index, post) in
+                            NavigationLink(destination: PostDetailView(post: post)
+                                            .navigationTitle("")
+                                            .navigationBarHidden(true)) {
+                                if(index == viewModel.posts.count - 1){
+                                    DashboardCell(post: post, index: 1)
+                                }else{
+                                    DashboardCell(post: post, index: 0)
+
+                                }
+
                             }
                         }
+
                     }.padding()
                 }
                 

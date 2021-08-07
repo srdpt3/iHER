@@ -31,7 +31,7 @@ class FeedViewModel : ObservableObject {
 
     
     func fetchPostsListener() {
-        listener = Ref.FIRESTORE_COLLECTION_POSTS.addSnapshotListener({ (querySnapshot, error) in
+        listener = Ref.FIRESTORE_COLLECTION_POSTS.order(by: "timestamp", descending: false).addSnapshotListener({ (querySnapshot, error) in
             guard let snapshot = querySnapshot else {
                 return
             }
@@ -44,7 +44,8 @@ class FeedViewModel : ObservableObject {
                     print("type: added")
                     let dict = documentChange.document.data()
                     guard let decoderActivity = try?  Post.init(dictionary: dict) else {return}
-                    self.posts.append(decoderActivity)
+                    self.posts.insert(decoderActivity, at: 0)
+//                    self.posts.append(decoderActivity)
                     
                 case .modified:
                     print("type: modified")

@@ -3,18 +3,20 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "closure #1 in SearchViewModel.fetchCompany():SearchViewModel.swift">
+         contextName = "closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in FeedView.body.getter:FeedView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "snap!.documents">
-            </PersistentString>
-            <PersistentString
-               value = "self.company">
+               value = "viewModel.posts.count">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in ScoreView.body.getter:ScoreView.swift">
+         contextName = "StreamViewModel.logInUser(userId:):StreamViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "userName">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "closure #2 in closure #1 in closure #1 in MyCompanyView.body.getter:MyCompanyView.swift">
@@ -39,31 +41,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in closure #1 in MyCompanyView.body.getter:MyCompanyView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "companyData.myCompany">
-            </PersistentString>
-            <PersistentString
-               value = "companyData">
-            </PersistentString>
-            <PersistentString
-               value = "companyData.fetchedCompany">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in AuthViewModel.registerUser(email:password:username:fullname:):AuthViewModel.swift">
-      </ContextState>
-      <ContextState
-         contextName = "StreamViewModel.logInUser():StreamViewModel.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "userName">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "closure #1 in ChartViewModel.loadChartData(companyName:onSuccess:):ChartViewModel.swift">
          <PersistentStrings>
             <PersistentString
@@ -81,15 +58,15 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "StreamViewModel.logInUser(userId:):StreamViewModel.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "userName">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "-[FIRDocumentReference wrapDocumentSnapshotBlock:]::Converter::OnEvent(firebase::firestore::util::StatusOr&lt;firebase::firestore::api::DocumentSnapshot&gt;):FIRDocumentReference.mm">
       </ContextState>
       <ContextState
-         contextName = "-[FIRDocumentReference wrapDocumentSnapshotBlock:]::Converter::OnEvent(firebase::firestore::util::StatusOr&lt;firebase::firestore::api::DocumentSnapshot&gt;):FIRDocumentReference.mm">
+         contextName = "closure #1 in DashboardCell.body.getter:DashboardCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "index">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "closure #1 in Observer.getCompanyList():Observer.swift">
@@ -99,6 +76,70 @@
             </PersistentString>
             <PersistentString
                value = "dict">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #6 in closure #1 in PostActionsView.body.getter:PostActionsView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.viewModel.user ">
+            </PersistentString>
+            <PersistentString
+               value = "post.uid">
+            </PersistentString>
+            <PersistentString
+               value = "viewModel.user">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in SearchViewModel.fetchCompany():SearchViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "snap!.documents">
+            </PersistentString>
+            <PersistentString
+               value = "self.company">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in PostActionViewModel.getUser(id:):PostActionViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "snap?.data()">
+            </PersistentString>
+            <PersistentString
+               value = "User(_dictionary: data)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in AuthViewModel.registerUser(email:password:username:fullname:):AuthViewModel.swift">
+      </ContextState>
+      <ContextState
+         contextName = "StreamViewModel.logInUser():StreamViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "userName">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ScoreView.body.getter:ScoreView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in MyCompanyView.body.getter:MyCompanyView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "companyData.myCompany">
+            </PersistentString>
+            <PersistentString
+               value = "companyData">
+            </PersistentString>
+            <PersistentString
+               value = "companyData.fetchedCompany">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

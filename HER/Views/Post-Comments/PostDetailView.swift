@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct PostDetailView: View {
     let post: Post
@@ -14,12 +15,12 @@ struct PostDetailView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 //                KFImage(URL(string: tweet.profileImageUrl))
-                Image("p0")
+                AnimatedImage(url: URL(string:"https://companiesmarketcap.com/img/company-logos/256/UBER.png")!)
                     .resizable()
-                    .scaledToFill()
-                    .clipped()
-                    .frame(width: 56, height: 56)
-                    .cornerRadius(28)
+                    .scaledToFit()
+                  
+                    .frame(width: 80, height: 80)
+                    .cornerRadius(40)
                 
                 VStack(alignment: .leading, spacing: 4) {
                     Text("BlackRock")
@@ -45,7 +46,7 @@ struct PostDetailView: View {
                     Text("0")
                         .font(.system(size: 14, weight: .semibold))
                     
-                    Text("Re Post")
+                    Text("Views")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
                 }
@@ -63,7 +64,7 @@ struct PostDetailView: View {
             Divider()
             
             PostActionsView(post: post)
-
+            
             
             Spacer()
         }.padding()

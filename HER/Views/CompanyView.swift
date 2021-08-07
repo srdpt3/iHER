@@ -11,7 +11,7 @@ import SDWebImageSwiftUI
 
 struct CompanyView : View {
     
-//    @EnvironmentObject var companyData: Observer
+    //    @EnvironmentObject var companyData: Observer
     @State var searchText = ""
     @ObservedObject var viewModel  = SearchViewModel()
     @State var showDashBoardView : Bool = false
@@ -28,7 +28,7 @@ struct CompanyView : View {
         NavigationView{
             
             ScrollView(.vertical, showsIndicators: false) {
-//
+                //
                 LazyVStack{
                     
                     //                HStack{
@@ -43,7 +43,7 @@ struct CompanyView : View {
                     //
                     SearchBar(text: $searchText)
                         .padding(.horizontal)
-                       .padding(.top,10)
+                        .padding(.top,10)
                     //
                     //                // Carousel List...
                     //
@@ -146,9 +146,9 @@ struct CompanyView : View {
             .navigationBarTitle("Companies")
             .navigationBarTitleDisplayMode(.inline)
         }
-          
-       
-  
+        
+        
+        
         //        .background(Color.black.opacity(0.03).ignoresSafeArea())
     }
 }
@@ -227,7 +227,7 @@ struct GridView : View {
                                 .background(Color("blue"))
                                 .cornerRadius(10)
                                 .matchedGeometryEffect(id: "score", in: self.namespace)
-
+                            
                         }
                     )
                     
@@ -352,7 +352,7 @@ struct GridView : View {
                                     .padding(.horizontal,25)
                                     .background(Color("blue"))
                                     .cornerRadius(10)
-                                   .padding(.top,-5)
+                                    .padding(.top,-5)
                                     .matchedGeometryEffect(id: "score", in: self.namespace)
                                 
                             }
@@ -373,11 +373,11 @@ struct GridView : View {
                         //                        .matchedGeometryEffect(id: "score", in: self.namespace)
                     }
                     
-//                    .sheet(isPresented: self.$showDashBoardView){
-//                        CommentView(company: self.company)
-//                    }
+                    //                    .sheet(isPresented: self.$showDashBoardView){
+                    //                        CommentView(company: self.company)
+                    //                    }
                 }
-      
+                
                 .padding(.horizontal, 25)
                 .padding(.vertical, 5)
                 .background(Color.white)
@@ -385,14 +385,14 @@ struct GridView : View {
                 .cornerRadius(15)
                 .shadow(color: Color.black.opacity(0.4), radius: 10, x: 10, y: 10)
                 .shadow(color: Color.white.opacity(0.9), radius: 10, x: -5, y: -5)
-            
+                
             }
             
         }
-//        .sheet(isPresented: self.$showDashBoardView){
-//
-//            CommentView(company: self.$company, show: self.$showDashBoardView)
-//        }
+        //        .sheet(isPresented: self.$showDashBoardView){
+        //
+        //            CommentView(company: self.$company, show: self.$showDashBoardView)
+        //        }
         
         
     }

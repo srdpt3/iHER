@@ -14,21 +14,21 @@ struct ConversationView: View {
         NavigationView{
             ZStack(alignment: .bottomTrailing) {
                 
-                NavigationLink(destination: ChatView(),
-                               isActive: $showChat,
-                               label: {
-                                
-                               }
-                )
+//                NavigationLink(destination: ChatView(),
+//                               isActive: $showChat,
+//                               label: {
+//
+//                               }
+//                )
                 ScrollView {
                     VStack{
                         ForEach(0..<5){ _ in
-                            
-                            NavigationLink(destination: ChatView(),
-                                           label: {
-                                            ConversationCell()
-                                           }
-                            )
+//                             ConversationCell()
+//                            NavigationLink(destination: ChatView(user: <#T##User#>),
+//                                           label: {
+//                                            ConversationCell()
+//                                           }
+//                            )
                         }
                     }.padding()
                     

@@ -28,10 +28,14 @@ struct CompanyActionButtonView: View {
             NavigationLink(destination:    ScoreView(companyName: viewModel.company.Company_Name), label: {
                 
                 HStack{
-                    Image("graph").resizable().aspectRatio(contentMode: .fit)
+                    Text("View More")
                         .frame(width: 175, height: 40)
-                        .background(Color.purple)
-                        .foregroundColor(.white)
+                                            .background(Color.purple)
+                                            .foregroundColor(.white)
+//                    Image("graph").resizable().aspectRatio(contentMode: .fit)
+//                        .frame(width: 175, height: 40)
+//                        .background(Color.purple)
+//                        .foregroundColor(.white)
                     
 //                    Image("graph").resizable().aspectRatio(contentMode: .fit)
                 }

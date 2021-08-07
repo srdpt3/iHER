@@ -35,7 +35,7 @@ struct ProfileActionButtonView: View {
                 })
                 .cornerRadius(20)
                 
-                NavigationLink(destination: ChatView(), label: {
+                NavigationLink(destination: ChatView(user: viewModel.user), label: {
                     Text("Message")
                         .frame(width: 180, height: 40)
                         .background(Color.purple)

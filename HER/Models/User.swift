@@ -22,6 +22,7 @@ struct User: Identifiable{
     var isFollowed = false
     var stats : UserStats
 
+ 
     
     init(id: String, email: String, profileImageUrl: String, username: String, age: String, company: String, createdDate : Double, stats: UserStats) {
         self.id = id

@@ -22,7 +22,7 @@ struct Post: Identifiable {
         
     init(dictionary: [String: Any]) {
         self.id = dictionary["id"] as? String ?? ""
-        self.username = dictionary["username"] as? String ?? ""
+        self.username = dictionary["usernmae"] as? String ?? ""
         self.companyId = dictionary["companyId"] as? String ?? ""
 
         self.caption = dictionary["caption"] as? String ?? ""

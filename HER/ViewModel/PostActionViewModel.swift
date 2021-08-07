@@ -11,6 +11,7 @@ import Firebase
 class PostActionViewModel : ObservableObject {
     let post : Post
     @Published var didLike = false
+    @Published var user : User?
     init(post : Post){
         self.post = post
         checkIfUserLikedPost()
@@ -30,7 +31,7 @@ class PostActionViewModel : ObservableObject {
                 }
             }
         }
-
+        
     }
     
     
@@ -58,6 +59,17 @@ class PostActionViewModel : ObservableObject {
         }
         
     }
+    
+    func getUser(id:String) {
+        let userLikesRef = Ref.FIRESTORE_DOCUMENT_USERID(userId: id).getDocument { snap, _ in
+            guard let data = snap?.data() else {return}
+            self.user = User(_dictionary: data)
+            
+        }
+        
+    }
+    
+
     
 }
 
