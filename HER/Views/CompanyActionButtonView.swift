@@ -23,7 +23,7 @@ struct CompanyActionButtonView: View {
                     .foregroundColor(.white)
                 
             })
-            .cornerRadius(20)
+            .cornerRadius(20).padding(.leading)
             
             NavigationLink(destination:    ScoreView(companyName: viewModel.company.Company_Name), label: {
                 
@@ -41,7 +41,7 @@ struct CompanyActionButtonView: View {
                 }
 
             })
-            .cornerRadius(20)
+            .cornerRadius(20).padding(.trailing)
             
             
             //                Button(action: { editProfilePresented.toggle() }, label: {
@@ -54,7 +54,7 @@ struct CompanyActionButtonView: View {
             //                .cornerRadius(20)
             
         }
-        .padding()
+        .padding(.horizontal)
         
         
         //        if User.currentUser().user.isCurrentUser {

@@ -18,7 +18,7 @@ class ProfileViewModel : ObservableObject {
         self.user = user
         checkIfUserIsFollowed()
         fetchUserPosts()
-        fetchLikedPosts()
+//        fetchLikedPosts()
         fetchUserStats()
     }
     
@@ -27,7 +27,7 @@ class ProfileViewModel : ObservableObject {
     func posts(forFilter filter : PostFilterOptions) -> [Post] {
         switch filter {
         case .post: return userPosts
-        case .likes: return  likedPosts
+//        case .likes: return  likedPosts
         case .replies: return userPosts
         }
         

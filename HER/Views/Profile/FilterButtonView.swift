@@ -10,13 +10,13 @@ import SwiftUI
 enum PostFilterOptions: Int, CaseIterable {
     case post
     case replies
-    case likes
+//    case likes
     
     var title: String {
         switch self {
         case .post: return "Post"
         case .replies: return "Post & Replies"
-        case .likes: return "Likes"
+//        case .likes: return "Likes"
         }
     }
 }
@@ -55,8 +55,8 @@ struct FilterButtonView: View {
     }
 }
 
-struct FilterButtonView_Previews: PreviewProvider {
-    static var previews: some View {
-        FilterButtonView(selectedOption: .constant(.likes))
-    }
-}
+//struct FilterButtonView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        FilterButtonView(selectedOption: .constant(.likes))
+//    }
+//}

@@ -80,11 +80,11 @@ struct DashboardCell: View {
                 }
                 
             }
-            .padding(.top)
-            .padding(.bottom)
+            .padding(.top,5)
+            .padding(.bottom,5)
             .padding(.horizontal)
 //            .padding(.trailing)
-            Divider() .frame(width: UIScreen.main.bounds.width)//
+            Divider() .frame(width: UIScreen.main.bounds.width)
             
             
             

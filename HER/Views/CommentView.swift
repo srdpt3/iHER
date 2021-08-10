@@ -15,7 +15,7 @@ struct CommentView: View {
     @ObservedObject private var viewModel: CompanyViewModel
     @State private var selectedFilter: PostFilterOptions = .post
     @State private var editProfilePresented = false
-    @State var currentTab = "Tweets"
+    @State var currentTab = "Post"
     
     // For Smooth Slide Animation...
     @Namespace var animation
@@ -94,21 +94,21 @@ struct CommentView: View {
                     
                     VStack(alignment: .leading, spacing: 8, content: {
                         CompanyHeaderView(company: company, viewModel: viewModel)
-                        
+
                     })
                     .overlay(
-                        
+
                         GeometryReader{proxy -> Color in
-                            
+
                             let minY = proxy.frame(in: .global).minY
-                            
+
                             DispatchQueue.main.async {
                                 self.titleOffset = minY
                             }
                             return Color.clear
                         }
                         .frame(width: 0, height: 0)
-                        
+
                         ,alignment: .top
                     )
                     
@@ -116,7 +116,7 @@ struct CommentView: View {
                     
                     VStack(spacing: 0){
                         
-                        //                        ScrollView(.horizontal, showsIndicators: false, content: {
+//                                              ScrollView(.horizontal, showsIndicators: false, content: {
                         
                         HStack(spacing: 10){
                             
@@ -127,11 +127,11 @@ struct CommentView: View {
                             TabButton2(title: "Referral", currentTab: $currentTab, animation: animation)
                             
                         }
-                        //                        })
+//                                            })
                         
-                        Divider()
+                       Divider()
                     }
-                    .padding(.top,20)
+                    .padding(.top,30)
                     .background(colorScheme == .dark ? Color.black : Color.white)
                     .offset(y: tabBarOffset < 90 ? -tabBarOffset + 90 : 0)
                     .overlay(
@@ -153,19 +153,18 @@ struct CommentView: View {
                     .zIndex(1)
                     
                     VStack(spacing: 18){
-                        
                         ForEach(viewModel.posts(forFilter: selectedFilter))  { post in
-                            
+                          
                             if currentTab ==  "Replies"{
                                 ReplyCell(post: post)
-                                //                                    .padding()
+                                    .padding()
                             } else {
                                 DashboardCell(post: post)
-                                //                                    .padding()
+                                    .padding()
                             }
                         }
                     }
-                    //                    .padding(.top)
+                    .padding(.top)
                     .zIndex(0)
                 }
                 .padding(.horizontal)

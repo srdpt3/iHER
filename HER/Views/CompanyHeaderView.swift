@@ -36,18 +36,10 @@ struct CompanyHeaderView: View {
 //                    .frame(width: 100, height: 100)
 //                    .cornerRadius(8).padding()
                Spacer()
-       
-                VStack(alignment: .leading, spacing: 15){
-                    Text("Sector: \(company.Sector)")
-                        .font(.callout)
-                        .foregroundColor(Color("Color11"))
-                    Text("Ticker : \(company.Ticker)")
-                        .font(.callout)
-                        .foregroundColor(Color("Color11"))
-                    Text("Country \(company.Cntry_Of_Domicile)")
-                        .font(.callout)
-                        .foregroundColor(Color("Color11"))
-                }
+                Text(company.desc)
+                    .font(.caption)
+                    .foregroundColor(.gray)
+
                 
                 
                 //                        .lineLimit(4)
@@ -58,15 +50,21 @@ struct CompanyHeaderView: View {
                 //                    .foregroundColor(.black)
                 
             }
-            .padding(.horizontal,5)
-            .padding(.top,8)
+            .padding(.horizontal)
+//            .padding(.top,8)
             
-            VStack{
-                Text(company.desc)
-                    .font(.caption)
-                    .foregroundColor(.gray)
+            VStack(alignment: .leading, spacing: 15){
+                Text("Sector: \(company.Sector)")
+                    .font(.callout)
+                    .foregroundColor(Color("Color11"))
+                Text("Ticker : \(company.Ticker)")
+                    .font(.callout)
+                    .foregroundColor(Color("Color11"))
+                Text("Country \(company.Cntry_Of_Domicile)")
+                    .font(.callout)
+                    .foregroundColor(Color("Color11"))
             }
-            .padding(.horizontal,5)
+            .padding(.horizontal)
             
             HStack(spacing: 40) {
                 VStack(spacing: 10) {
@@ -99,12 +97,11 @@ struct CompanyHeaderView: View {
 //                }
                 
                 
-            }  .padding(.horizontal,5)
+            } .padding(.horizontal)
             
             
         }.padding(.horizontal)
         CompanyActionButtonView(viewModel: viewModel)
-        Spacer()
         
     }
 }
